@@ -1,5 +1,8 @@
 /node_modules
 
+# dist
+dist
+
 # Logs
 logs
 *.log
