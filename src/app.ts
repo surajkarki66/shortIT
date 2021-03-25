@@ -3,6 +3,7 @@ import express from 'express';
 import { Application } from 'express';
 
 import logger from './utils/logger';
+import apiErrorHandler from './errors/apiErrorHandler';
 
 class App {
 	private app: Application;
@@ -29,6 +30,7 @@ class App {
 		// Normal Routes
 
 		// Error Handler Route
+		this.app.use(apiErrorHandler);
 	}
 
 	public listen(): void {
