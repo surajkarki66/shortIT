@@ -25,6 +25,7 @@ const apiErrorHandler = (
 		...serverResponse,
 		statusCode: 500,
 	};
+
 	return writeServerResponse(res, serverResponse);
 };
 

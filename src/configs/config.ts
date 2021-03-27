@@ -15,12 +15,17 @@ const MONGO_USERNAME = process.env.MONGO_USERNAME;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 const MONGO_HOST = process.env.MONGO_HOST;
 
+const NODE_ENV = process.env.NODE_ENV;
+const CLIENT_URL = process.env.CLIENT_URL;
+const SESSION_SECRET = process.env.SESSION_SECRET_KEY;
+const DATABASE = process.env.database;
+
 const MONGO = {
 	host: MONGO_HOST,
 	password: MONGO_PASSWORD,
 	username: MONGO_USERNAME,
 	options: MONGO_OPTIONS,
-	url: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}`,
+	url: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${DATABASE}`,
 };
 
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'localhost';
@@ -31,10 +36,7 @@ const SERVER = {
 	port: SERVER_PORT,
 };
 
-const NODE_ENV = process.env.NODE_ENV;
-const CLIENT_URL = process.env.CLIENT_URL;
-
-const DATABASE = process.env.database;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const config = {
 	mongo: MONGO,
@@ -42,6 +44,7 @@ const config = {
 	env: NODE_ENV,
 	url: CLIENT_URL,
 	db: DATABASE,
+	jwtSecret: JWT_SECRET,
 };
 
 export default config;
