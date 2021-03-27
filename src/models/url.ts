@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { IUrlDocument, IUrlModel } from './../interfaces/url';
+import { IUrlModel, IUrl } from './../interfaces/url';
 
-const urlSchema: Schema = new Schema({
+const urlSchema = new Schema<IUrl>({
+	userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
 	urlCode: { type: String, require: true },
 	longUrl: { type: String, require: true },
 	shortUrl: { type: String, require: true },
@@ -10,6 +11,6 @@ const urlSchema: Schema = new Schema({
 	datesAccessed: Array,
 });
 
-const UrlModel: IUrlModel = mongoose.model<IUrlDocument, IUrlModel>('Url', urlSchema);
+const UrlModel: IUrlModel = mongoose.model<IUrl, IUrlModel>('Url', urlSchema);
 
 export default UrlModel;

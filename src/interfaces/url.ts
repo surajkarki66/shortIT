@@ -1,6 +1,7 @@
-import { Document, Model } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 export interface IUrlDocument extends Document {
+	userId: mongoose.Schema.Types.ObjectId;
 	urlCode: string;
 	longUrl: string;
 	shortUrl: string;
@@ -8,6 +9,12 @@ export interface IUrlDocument extends Document {
 	datesAccessed?: any[];
 }
 
-export interface IUrlModel extends Model<IUrlDocument> {
-	// TODO: Static methods here
+export interface IUrl extends IUrlDocument {
+	/*@ Info: Instance Methods
+	 */
+}
+
+export interface IUrlModel extends Model<IUrl> {
+	/*@ Info: Static Methods
+	 */
 }
