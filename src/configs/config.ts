@@ -5,10 +5,10 @@ dotenv.config();
 const MONGO_OPTIONS = {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
-	socketTimeoutMS: 30000,
+	useCreateIndex: true,
 	keepAlive: true,
-	poolSize: 50,
-	retryWrites: false,
+	socketTimeoutMS: 3000,
+	connectTimeoutMS: 3000,
 };
 
 const MONGO_USERNAME = process.env.MONGO_USERNAME;
@@ -17,7 +17,6 @@ const MONGO_HOST = process.env.MONGO_HOST;
 
 const NODE_ENV = process.env.NODE_ENV;
 const CLIENT_URL = process.env.CLIENT_URL;
-const SESSION_SECRET = process.env.SESSION_SECRET_KEY;
 const DATABASE = process.env.database;
 
 const MONGO = {
