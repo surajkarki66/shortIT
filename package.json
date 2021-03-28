@@ -4,7 +4,7 @@
   "description": "This is a web application that takes long url and convert them to short and tiny url.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/server.ts",
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node --files' src/server.ts",
     "start": "node dist/server.js",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "lint": "eslint . --ext .ts"

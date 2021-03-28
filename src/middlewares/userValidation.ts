@@ -1,4 +1,37 @@
 import { body, ValidationChain } from 'express-validator';
+import { Request, Response, NextFunction } from 'express';
+
+import ApiError from '../errors/apiError';
+import config from '../configs/config';
+import { verifyToken } from '../helpers/jwtHelper';
+
+interface TokenPayload {
+	_id: string;
+	iat: number;
+	exp: number;
+}
+const checkAuth = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
+	if (req.headers['authorization']) {
+		const authorization = req.headers['authorization'].split(' ');
+		if (authorization[0] !== 'Bearer') {
+			next(ApiError.unauthorized('Authentication failed.'));
+			return;
+		} else {
+			try {
+				const response = await verifyToken(authorization[1], String(config.jwtSecret));
+				const { _id } = (response as unknown) as TokenPayload;
+				req.user = { id: _id };
+				return next();
+			} catch (error) {
+				next(ApiError.forbidden(`Token is not verified: ${error}`));
+				return;
+			}
+		}
+	} else {
+		next(ApiError.unauthorized('Authentication failed'));
+		return;
+	}
+};
 
 const validateUser = (method: string): ValidationChain[] => {
 	switch (method) {
@@ -47,4 +80,4 @@ const validateUser = (method: string): ValidationChain[] => {
 	}
 };
 
-export default validateUser;
+export { checkAuth, validateUser };

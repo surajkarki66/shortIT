@@ -6,7 +6,7 @@ import User from '../models/user';
 import writeServerResponse from '../helpers/response';
 import ApiError from '../errors/apiError';
 import errorFormatter from '../helpers/errorFormatter';
-import { signToken, verifyToken } from '../helpers/jwtHelper';
+import { signToken } from '../helpers/jwtHelper';
 
 const signUp: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -80,4 +80,12 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 	}
 };
 
-export default { signUp, login };
+const me: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		console.log(req.user);
+	} catch (error) {
+		next(ApiError.internal(`Something went wrong: ${error.message}`));
+		return;
+	}
+};
+export default { signUp, login, me };
