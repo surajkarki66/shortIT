@@ -1,8 +1,7 @@
-import mongoose, { Document, Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 
 export interface IUrlDocument extends Document {
-	userId: mongoose.Schema.Types.ObjectId;
-	urlCode: string;
+	code: string;
 	longUrl: string;
 	shortUrl: string;
 	dateCreated: string;
@@ -17,4 +16,6 @@ export interface IUrl extends IUrlDocument {
 export interface IUrlModel extends Model<IUrl> {
 	/*@ Info: Static Methods
 	 */
+	findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
+	findByCode: (code: string) => Promise<IUrlDocument>;
 }

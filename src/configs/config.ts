@@ -36,6 +36,7 @@ const SERVER = {
 };
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const BASE_URL = process.env.BASE_URL;
 
 const config = {
 	mongo: MONGO,
@@ -44,6 +45,7 @@ const config = {
 	url: CLIENT_URL,
 	db: DATABASE,
 	jwtSecret: JWT_SECRET,
+	baseUrl: BASE_URL,
 };
 
 export default config;
