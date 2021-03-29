@@ -11,7 +11,7 @@ import errorFormatter from '../helpers/errorFormatter';
 import { IUrlDocument } from '../interfaces/url';
 
 export default class UserController {
-	public async generateUrl(
+	public async generateShortUrl(
 		req: Request,
 		res: Response,
 		next: NextFunction,

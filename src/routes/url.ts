@@ -17,7 +17,7 @@ export default class UrlRoutes {
 			'/generateUrl',
 			checkAuth,
 			validateUrl('generateUrl'),
-			this.urlController.generateUrl,
+			this.urlController.generateShortUrl,
 		);
 	}
 }

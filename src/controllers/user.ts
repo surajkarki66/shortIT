@@ -21,25 +21,30 @@ export default class UserController {
 				next(ApiError.badRequest(msg[0]));
 				return;
 			}
+
 			const userFromBody: IUserDocument = req.body;
 			const { email } = userFromBody;
 
-			const isEmail = await User.findByEmail(email);
-			if (isEmail) {
+			let user = await User.findByEmail(email);
+			if (user) {
 				next(ApiError.badRequest('Email already taken.'));
 				return;
 			}
-			const user = new User(userFromBody);
+			user = new User(userFromBody);
 
-			const result = await user.save();
-			if (result) {
-				const serverResponse = {
-					result: result,
-					statusCode: 201,
-					contentType: 'application/json',
-				};
-				return writeServerResponse(res, serverResponse);
-			}
+			await user.save();
+
+			const result: { status: string; data: IUserDocument } = {
+				status: 'success',
+				data: user,
+			};
+			const serverResponse = {
+				result: result,
+				statusCode: 201,
+				contentType: 'application/json',
+			};
+
+			return writeServerResponse(res, serverResponse);
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;
