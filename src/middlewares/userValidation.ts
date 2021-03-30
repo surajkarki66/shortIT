@@ -9,6 +9,7 @@ interface TokenPayload {
 	_id: string;
 	iat: number;
 	exp: number;
+	error: string;
 }
 const checkAuth = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
 	if (req.headers['authorization']) {
@@ -19,9 +20,13 @@ const checkAuth = async (req: Request, _res: Response, next: NextFunction): Prom
 		} else {
 			try {
 				const response = await verifyToken(authorization[1], String(config.jwtSecret));
-				const { _id } = (response as unknown) as TokenPayload;
-				req.user = { id: _id };
-				return next();
+				const { _id, error } = (response as unknown) as TokenPayload;
+				if (_id) {
+					req.user = { id: _id };
+					return next();
+				}
+				next(ApiError.forbidden(error));
+				return;
 			} catch (error) {
 				next(ApiError.forbidden(`Token is not verified: ${error}`));
 				return;

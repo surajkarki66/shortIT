@@ -54,11 +54,10 @@ export default class UserController {
 					if (!checkCode) {
 						const shortUrl = `${BASE_URL}/${code}`;
 						url = new Url({
-							id,
+							userId: id,
 							longUrl,
 							shortUrl,
 							code,
-							date: new Date(),
 						});
 						await url.save();
 						result = { status: 'success', data: url };
@@ -73,13 +72,12 @@ export default class UserController {
 						return;
 					}
 				} else {
-					const shortUrl = `${BASE_URL}/${urlCode} `;
+					const shortUrl = `${BASE_URL}/${urlCode}`;
 					url = new Url({
-						id,
+						userId: id,
 						longUrl,
 						shortUrl,
-						urlCode,
-						date: new Date(),
+						code: urlCode,
 					});
 					await url.save();
 					result = { status: 'success', data: url };
@@ -94,6 +92,25 @@ export default class UserController {
 				next(ApiError.badRequest('The URL you are trying to shorten is invalid'));
 				return;
 			}
+		} catch (error) {
+			next(ApiError.internal(`Something went wrong: ${error.message}`));
+			return;
+		}
+	}
+	public async goToUrl(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	): Promise<void | Response<any, Record<string, any>>> {
+		try {
+			const updateObject = { accessedDates: new Date() };
+			const url = await Url.findByCode(req.params.code);
+			if (url) {
+				await Url.updateById(url._id, updateObject);
+
+				return res.redirect(url.longUrl);
+			}
+			return res.send('Link is expired');
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;

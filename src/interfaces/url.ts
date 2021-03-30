@@ -1,16 +1,20 @@
-import { Document, Model } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 export interface IUrlDocument extends Document {
-	code: string;
+	userId: mongoose.Schema.Types.ObjectId;
 	longUrl: string;
 	shortUrl: string;
-	dateCreated: string;
-	datesAccessed?: any[];
+	code: string;
+	createdAt: Date;
+	updatedAt: Date;
+	expire_at: Date;
+	accessedDates?: Date[];
 }
 
 export interface IUrl extends IUrlDocument {
 	/*@ Info: Instance Methods
 	 */
+	dummy?: () => void;
 }
 
 export interface IUrlModel extends Model<IUrl> {
@@ -18,4 +22,5 @@ export interface IUrlModel extends Model<IUrl> {
 	 */
 	findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
 	findByCode: (code: string) => Promise<IUrlDocument>;
+	updateById: (id: string, data: any) => Promise<IUrlDocument>;
 }
