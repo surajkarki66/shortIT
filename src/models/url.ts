@@ -12,6 +12,7 @@ const urlSchema = new Schema<IUrl>(
 			type: Date,
 			default: new Date().setDate(new Date().getDate() + 1),
 		},
+		isExpire: { type: Boolean, default: false },
 		accessedDates: Array,
 	},
 	{ timestamps: true },

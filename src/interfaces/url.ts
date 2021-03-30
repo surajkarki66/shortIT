@@ -7,7 +7,8 @@ export interface IUrlDocument extends Document {
 	code: string;
 	createdAt: Date;
 	updatedAt: Date;
-	expire_at: Date;
+	expireAt: Date;
+	isExpire: boolean;
 	accessedDates?: Date[];
 }
 

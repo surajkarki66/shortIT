@@ -105,12 +105,18 @@ export default class UserController {
 		try {
 			const updateObject = { accessedDates: new Date() };
 			const url = await Url.findByCode(req.params.code);
+			const { expireAt } = url;
 			if (url) {
+				const currentDate = new Date();
+				if (currentDate >= expireAt) {
+					await Url.updateById(url._id, { isExpire: true });
+					return res.send('Link is expired');
+				}
 				await Url.updateById(url._id, updateObject);
-
 				return res.redirect(url.longUrl);
 			}
-			return res.send('Link is expired');
+			next(ApiError.notFound('Url is not found'));
+			return;
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;
