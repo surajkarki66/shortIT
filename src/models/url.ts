@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { IUrlModel, IUrl, IUrlDocument } from './../interfaces/url';
+import { IUrlModel, IUrl } from './../interfaces/url';
 
 const urlSchema = new Schema<IUrl>(
 	{
@@ -12,7 +12,6 @@ const urlSchema = new Schema<IUrl>(
 			type: Date,
 			default: new Date().setDate(new Date().getDate() + 1),
 		},
-		isExpire: { type: Boolean, default: false },
 		accessedDates: Array,
 	},
 	{ timestamps: true },
@@ -26,10 +25,12 @@ urlSchema.static('findByCode', async function (code: string) {
 	return await this.findOne({ code });
 });
 
-urlSchema.static('updateById', async function (id: mongoose.Schema.Types.ObjectId, data: any) {
-	const { accessedDates } = data;
-	return await this.updateOne({ _id: id }, accessedDates ? { $push: { accessedDates } } : data);
-});
+urlSchema.static(
+	'updateAccessedDatesById',
+	async function (id: mongoose.Schema.Types.ObjectId, data: any) {
+		return await this.updateOne({ _id: id }, { $push: data });
+	},
+);
 
 const UrlModel: IUrlModel = mongoose.model<IUrl, IUrlModel>('Url', urlSchema);
 

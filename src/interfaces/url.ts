@@ -8,7 +8,6 @@ export interface IUrlDocument extends Document {
 	createdAt: Date;
 	updatedAt: Date;
 	expireAt: Date;
-	isExpire: boolean;
 	accessedDates?: Date[];
 }
 
@@ -23,5 +22,5 @@ export interface IUrlModel extends Model<IUrl> {
 	 */
 	findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
 	findByCode: (code: string) => Promise<IUrlDocument>;
-	updateById: (id: mongoose.Schema.Types.ObjectId, data: any) => Promise<IUrlDocument>;
+	updateAccessedDatesById: (id: mongoose.Schema.Types.ObjectId, data: any) => Promise<void>;
 }

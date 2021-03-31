@@ -26,7 +26,7 @@ export default class UserController {
 			const urlBody: IUrlDocument = req.body;
 			const BASE_URL = String(config.baseUrl);
 
-			const { longUrl, code } = urlBody;
+			const { longUrl } = urlBody;
 			const { id } = req.user;
 
 			if (!validUrl.isUri(BASE_URL)) {
@@ -34,9 +34,8 @@ export default class UserController {
 				return;
 			}
 
-			const urlCode = nanoid(6);
-
 			if (validUrl.isUri(longUrl)) {
+				const urlCode = nanoid(6);
 				let url = await Url.findByLongUrl(longUrl);
 				let result: { status: string; data: IUrlDocument };
 
@@ -48,29 +47,6 @@ export default class UserController {
 						contentType: 'application/json',
 					};
 					return writeServerResponse(res, serverResponse);
-				}
-				if (code) {
-					const checkCode = await Url.findByCode(code);
-					if (!checkCode) {
-						const shortUrl = `${BASE_URL}/${code}`;
-						url = new Url({
-							userId: id,
-							longUrl,
-							shortUrl,
-							code,
-						});
-						await url.save();
-						result = { status: 'success', data: url };
-						const serverResponse = {
-							result: result,
-							statusCode: 201,
-							contentType: 'application/json',
-						};
-						return writeServerResponse(res, serverResponse);
-					} else {
-						next(ApiError.conflict('Sorry URL already exists'));
-						return;
-					}
 				} else {
 					const shortUrl = `${BASE_URL}/${urlCode}`;
 					url = new Url({
@@ -103,25 +79,14 @@ export default class UserController {
 		next: NextFunction,
 	): Promise<void | Response<any, Record<string, any>>> {
 		try {
-			let updateObject: { isExpire?: boolean; accessedDates?: Date };
 			const url = await Url.findByCode(req.params.code);
 			if (url) {
-				updateObject = { accessedDates: new Date() };
-				const { expireAt, isExpire } = url;
-				const currentDate = new Date();
-				if (currentDate >= expireAt && !isExpire) {
-					updateObject = { isExpire: true };
-					await Url.updateById(url._id, updateObject);
-					return res.send('Link is expired');
-				}
-				if (isExpire) {
-					return res.send('Link is expired');
-				}
-				await Url.updateById(url._id, updateObject);
+				const { _id } = url;
+				const updateObject = { accessedDates: new Date() };
+				await Url.updateAccessedDatesById(_id, updateObject);
 				return res.redirect(url.longUrl);
 			}
-			next(ApiError.notFound('Url is not found'));
-			return;
+			return res.send('Link is expired.');
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;
