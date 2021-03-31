@@ -1,7 +1,9 @@
+import { Types } from 'mongoose';
 import { validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, response } from 'express';
 
 import User from '../models/user';
+import Url from '../models/url';
 import ApiError from '../errors/apiError';
 import writeServerResponse from '../helpers/response';
 import errorFormatter from '../helpers/errorFormatter';
@@ -76,7 +78,7 @@ export default class UserController {
 				const result = { status: 'success', data: { accessToken: accessToken } };
 				const serverResponse = {
 					result: result,
-					statusCode: 201,
+					statusCode: 200,
 					contentType: 'application/json',
 				};
 				res.cookie('AccessToken', accessToken, {
@@ -99,7 +101,20 @@ export default class UserController {
 		next: NextFunction,
 	): Promise<Response<any, Record<string, any>> | undefined> {
 		try {
-			console.log(req.user);
+			const { id } = req.user;
+			const userId = Types.ObjectId(id);
+			const user = await User.findMe(userId);
+			if (user[0]) {
+				const result = { status: 'success', data: user[0] };
+				const serverResponse = {
+					result: result,
+					statusCode: 200,
+					contentType: 'application/json',
+				};
+				return writeServerResponse(res, serverResponse);
+			}
+			next(ApiError.notFound('User not found'));
+			return;
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;

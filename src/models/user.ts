@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 import { IUser, IUserModel } from '../interfaces/user';
 
@@ -49,6 +49,25 @@ userSchema.method('comparePassword', async function (password: string) {
 
 userSchema.static('findByEmail', async function (email: string) {
 	return await this.findOne({ email });
+});
+
+userSchema.static('findMe', async function (id: Types.ObjectId) {
+	const pipeline = [
+		{
+			$match: {
+				_id: id,
+			},
+		},
+		{
+			$lookup: {
+				from: 'urls',
+				localField: '_id',
+				foreignField: 'userId',
+				as: 'urls',
+			},
+		},
+	];
+	return await this.aggregate(pipeline);
 });
 
 const User: IUserModel = model<IUser, IUserModel>('User', userSchema);

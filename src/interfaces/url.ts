@@ -1,7 +1,8 @@
-import mongoose, { Document, Model } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 
 export interface IUrlDocument extends Document {
-	userId: mongoose.Schema.Types.ObjectId;
+	_id: Schema.Types.ObjectId;
+	userId: Schema.Types.ObjectId;
 	longUrl: string;
 	shortUrl: string;
 	code: string;
@@ -22,5 +23,5 @@ export interface IUrlModel extends Model<IUrl> {
 	 */
 	findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
 	findByCode: (code: string) => Promise<IUrlDocument>;
-	updateAccessedDatesById: (id: mongoose.Schema.Types.ObjectId, data: any) => Promise<void>;
+	updateAccessedDatesById: (id: Schema.Types.ObjectId, data: any) => Promise<void>;
 }
