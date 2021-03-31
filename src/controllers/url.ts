@@ -103,13 +103,18 @@ export default class UserController {
 		next: NextFunction,
 	): Promise<void | Response<any, Record<string, any>>> {
 		try {
-			const updateObject = { accessedDates: new Date() };
+			let updateObject: { isExpire?: boolean; accessedDates?: Date };
 			const url = await Url.findByCode(req.params.code);
-			const { expireAt } = url;
 			if (url) {
+				updateObject = { accessedDates: new Date() };
+				const { expireAt, isExpire } = url;
 				const currentDate = new Date();
-				if (currentDate >= expireAt) {
-					await Url.updateById(url._id, { isExpire: true });
+				if (currentDate >= expireAt && !isExpire) {
+					updateObject = { isExpire: true };
+					await Url.updateById(url._id, updateObject);
+					return res.send('Link is expired');
+				}
+				if (isExpire) {
 					return res.send('Link is expired');
 				}
 				await Url.updateById(url._id, updateObject);

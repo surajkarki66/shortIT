@@ -23,5 +23,5 @@ export interface IUrlModel extends Model<IUrl> {
 	 */
 	findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
 	findByCode: (code: string) => Promise<IUrlDocument>;
-	updateById: (id: string, data: any) => Promise<IUrlDocument>;
+	updateById: (id: mongoose.Schema.Types.ObjectId, data: any) => Promise<IUrlDocument>;
 }

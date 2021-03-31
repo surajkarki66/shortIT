@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { IUrlModel, IUrl } from './../interfaces/url';
+import { IUrlModel, IUrl, IUrlDocument } from './../interfaces/url';
 
 const urlSchema = new Schema<IUrl>(
 	{
@@ -26,13 +26,9 @@ urlSchema.static('findByCode', async function (code: string) {
 	return await this.findOne({ code });
 });
 
-urlSchema.static('updateById', async function (id: string, data: any) {
-	return await this.updateOne(
-		{ _id: id },
-		{
-			$push: data,
-		},
-	);
+urlSchema.static('updateById', async function (id: mongoose.Schema.Types.ObjectId, data: any) {
+	const { accessedDates } = data;
+	return await this.updateOne({ _id: id }, accessedDates ? { $push: { accessedDates } } : data);
 });
 
 const UrlModel: IUrlModel = mongoose.model<IUrl, IUrlModel>('Url', urlSchema);
