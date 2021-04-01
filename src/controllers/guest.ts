@@ -2,16 +2,15 @@ import { nanoid } from 'nanoid';
 import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
-import Url from '../models/url';
 import GuestUrl from '../models/guest';
 import ApiError from '../errors/apiError';
 import config from '../configs/config';
-import validateUrl from '../helpers/validateUrl';
 import writeServerResponse from '../helpers/response';
+import validateUrl from '../helpers/validateUrl';
 import errorFormatter from '../helpers/errorFormatter';
-import { IUrlDocument } from '../interfaces/url';
+import { IGuestUrlDocument } from '../interfaces/guest';
 
-export default class UrlController {
+export default class GuestUrlController {
 	public async generateShortUrl(
 		req: Request,
 		res: Response,
@@ -24,19 +23,18 @@ export default class UrlController {
 				next(ApiError.badRequest(msg[0]));
 				return;
 			}
-			const urlBody: IUrlDocument = req.body;
+			const urlBody: IGuestUrlDocument = req.body;
 			const BASE_URL = String(config.baseUrl);
 
 			const { longUrl } = urlBody;
-			const { id } = req.user;
 
 			await validateUrl(BASE_URL);
 
 			const address = await validateUrl(longUrl);
 			if (address) {
-				const urlCode = nanoid(6);
-				let url = await Url.findByLongUrl(longUrl);
-				let result: { status: string; data: IUrlDocument };
+				const urlCode = nanoid(7);
+				let url = await GuestUrl.findByLongUrl(longUrl);
+				let result: { status: string; data: IGuestUrlDocument };
 
 				if (url) {
 					result = { status: 'success', data: url };
@@ -48,8 +46,7 @@ export default class UrlController {
 					return writeServerResponse(res, serverResponse);
 				} else {
 					const shortUrl = `${BASE_URL}/${urlCode}`;
-					url = new Url({
-						userId: id,
+					url = new GuestUrl({
 						longUrl,
 						shortUrl,
 						code: urlCode,
@@ -72,37 +69,6 @@ export default class UrlController {
 				next(ApiError.badRequest('The given link is invalid'));
 				return;
 			}
-			next(ApiError.internal(`Something went wrong: ${error.message}`));
-			return;
-		}
-	}
-	public async goToUrl(
-		req: Request,
-		res: Response,
-		next: NextFunction,
-	): Promise<void | Response<any, Record<string, any>>> {
-		try {
-			const errors = validationResult(req).formatWith(errorFormatter);
-			if (!errors.isEmpty()) {
-				return res.send('Oops, this link is Invalid');
-			}
-			const { code } = req.params;
-			const url = Url.findByCode(code);
-			const guestUrl = GuestUrl.findByCode(code);
-			const result = await Promise.all([url, guestUrl]);
-			if (result[0]) {
-				const { _id, longUrl } = result[0];
-				const updateObject = { accessedDates: new Date() };
-				await Url.updateAccessedDatesById(_id, updateObject);
-				return res.redirect(longUrl);
-			}
-			if (result[1]) {
-				const { longUrl } = result[1];
-				return res.redirect(longUrl);
-			} else {
-				return res.send('Oops, this link is invalid');
-			}
-		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
 			return;
 		}

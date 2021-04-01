@@ -28,7 +28,6 @@
     "morgan-json": "^1.1.0",
     "nanoid": "^3.1.22",
     "passport-local": "^1.0.0",
-    "valid-url": "^1.0.9",
     "winston": "^3.3.3"
   },
   "devDependencies": {
