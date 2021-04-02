@@ -10,9 +10,9 @@ import connectDB from "./utils/db";
 import httpLogger from "./utils/httpLogger";
 import config from "./configs/config";
 import apiErrorHandler from "./errors/apiErrorHandler";
-import UserRoutes from "./routes/user";
-import UrlRoutes from "./routes/url";
-import IndexRoutes from "./routes/index";
+import UserRoutes from "./routes/user.route";
+import UrlRoutes from "./routes/url.route";
+import CommonRoutes from "./routes/common.route";
 import logger from "./utils/logger";
 
 class Server {
@@ -31,7 +31,7 @@ class Server {
     // General routes
     this.app.use("/api/users", new UserRoutes().router);
     this.app.use("/api/url", new UrlRoutes().router);
-    this.app.use(new IndexRoutes().router);
+    this.app.use(new CommonRoutes().router);
 
     // Error handler route
     this.app.use(apiErrorHandler);

@@ -1,10 +1,8 @@
-import path from "path";
 import { nanoid } from "nanoid";
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
 import Url from "../models/url";
-import GuestUrl from "../models/guest";
 import ApiError from "../errors/apiError";
 import config from "../configs/config";
 import validateUrl from "../helpers/validateUrl";
@@ -76,44 +74,5 @@ const generateShortUrl: RequestHandler = async (
     return;
   }
 };
-const goToUrl: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const errors = validationResult(req).formatWith(errorFormatter);
-    const options = {
-      root: path.join(__dirname, "../../public"),
-      dotfiles: "deny",
-      headers: {
-        "x-timestamp": Date.now(),
-        "x-sent": true,
-      },
-    };
-    if (!errors.isEmpty()) {
-      return res.sendFile("invalid.html", options);
-    }
-    const { code } = req.params;
-    const url = Url.findByCode(code);
-    const guestUrl = GuestUrl.findByCode(code);
-    const result = await Promise.all([url, guestUrl]);
-    if (result[0]) {
-      const { _id, longUrl } = result[0];
-      const updateObject = { accessedDates: new Date() };
-      await Url.updateAccessedDatesById(_id, updateObject);
-      return res.redirect(longUrl);
-    }
-    if (result[1]) {
-      const { longUrl } = result[1];
-      return res.redirect(longUrl);
-    } else {
-      return res.sendFile("invalid.html", options);
-    }
-  } catch (error) {
-    next(ApiError.internal(`Something went wrong: ${error.message}`));
-    return;
-  }
-};
 
-export default { generateShortUrl, goToUrl };
+export default { generateShortUrl };

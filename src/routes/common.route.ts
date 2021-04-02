@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import urlValidation from "../middlewares/urlValidation";
-import UrlController from "../controllers/url";
+import CommonController from "../controllers/common.controller";
 
 export default class IndexRoutes {
   router: Router;
@@ -14,7 +14,7 @@ export default class IndexRoutes {
     this.router.get(
       "/:code",
       urlValidation("checkCode"),
-      UrlController.goToUrl
+      CommonController.goToUrl
     );
   }
 }

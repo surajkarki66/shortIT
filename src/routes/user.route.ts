@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import userValidation from "../middlewares/userValidation";
-import UserController from "../controllers/user";
+import UserController from "../controllers/user.controller";
 import checkAuth from "../middlewares/authValidation";
 
 export default class UserRoutes {

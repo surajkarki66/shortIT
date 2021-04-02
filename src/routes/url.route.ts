@@ -2,8 +2,8 @@ import { Router } from "express";
 
 import urlValidation from "../middlewares/urlValidation";
 import checkAuth from "../middlewares/authValidation";
-import UrlController from "../controllers/url";
-import GuestUrlController from "../controllers/guest";
+import UrlController from "../controllers/url.controller";
+import GuestUrlController from "../controllers/guest.controller";
 
 export default class UrlRoutes {
   router: Router;
