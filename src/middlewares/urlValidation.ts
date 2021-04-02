@@ -1,6 +1,6 @@
 import { body, ValidationChain, param } from "express-validator";
 
-function validateUrl(method: string): ValidationChain[] {
+export default function urlValidation(method: string): ValidationChain[] {
   switch (method) {
     case "generateUrl": {
       return [
@@ -37,5 +37,3 @@ function validateUrl(method: string): ValidationChain[] {
       return [];
   }
 }
-
-export { validateUrl };

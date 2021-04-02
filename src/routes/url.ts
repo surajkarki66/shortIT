@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { validateUrl } from "../middlewares/urlValidation";
-import { checkAuth } from "../middlewares/userValidation";
+import urlValidation from "../middlewares/urlValidation";
+import checkAuth from "../middlewares/authValidation";
 import UrlController from "../controllers/url";
 import GuestUrlController from "../controllers/guest";
 
@@ -16,12 +16,12 @@ export default class UrlRoutes {
     this.router.post(
       "/generateUrl",
       checkAuth,
-      validateUrl("generateUrl"),
+      urlValidation("generateUrl"),
       UrlController.generateShortUrl
     );
     this.router.post(
       "/generateGuestUrl",
-      validateUrl("generateGuestUrl"),
+      urlValidation("generateUrl"),
       GuestUrlController.generateShortUrl
     );
   }

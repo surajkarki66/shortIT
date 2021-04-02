@@ -1,7 +1,8 @@
 import { Router } from "express";
 
-import { validateUser, checkAuth } from "../middlewares/userValidation";
+import userValidation from "../middlewares/userValidation";
 import UserController from "../controllers/user";
+import checkAuth from "../middlewares/authValidation";
 
 export default class UserRoutes {
   router: Router;
@@ -13,10 +14,10 @@ export default class UserRoutes {
   public routes(): void {
     this.router.post(
       "/register",
-      validateUser("signup"),
+      userValidation("signup"),
       UserController.signup
     );
-    this.router.post("/login", validateUser("login"), UserController.login);
+    this.router.post("/login", userValidation("login"), UserController.login);
     this.router.get("/me", checkAuth, UserController.me);
   }
 }
