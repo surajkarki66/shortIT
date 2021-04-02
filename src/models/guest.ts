@@ -1,24 +1,27 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
-import { IGuestUrlModel, IGuestUrl } from './../interfaces/guest';
+import { IGuestUrlModel, IGuestUrl } from "./../interfaces/guest";
 
 const guestUrlSchema = new Schema<IGuestUrl>(
-	{
-		longUrl: { type: String, required: true },
-		shortUrl: { type: String, required: true },
-		code: { type: String, required: true },
-	},
-	{ timestamps: true },
+  {
+    longUrl: { type: String, required: true },
+    shortUrl: { type: String, required: true },
+    code: { type: String, required: true },
+  },
+  { timestamps: true }
 );
 
-guestUrlSchema.static('findByLongUrl', async function (longUrl: string) {
-	return await this.findOne({ longUrl });
+guestUrlSchema.static("findByLongUrl", async function (longUrl: string) {
+  return await this.findOne({ longUrl });
 });
 
-guestUrlSchema.static('findByCode', async function (code: string) {
-	return await this.findOne({ code });
+guestUrlSchema.static("findByCode", async function (code: string) {
+  return await this.findOne({ code });
 });
 
-const GuestUrlModel: IGuestUrlModel = model<IGuestUrl, IGuestUrlModel>('GuestUrl', guestUrlSchema);
+const GuestUrlModel: IGuestUrlModel = model<IGuestUrl, IGuestUrlModel>(
+  "GuestUrl",
+  guestUrlSchema
+);
 
 export default GuestUrlModel;
