@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { IResponseData } from "../interfaces/IResponseData";
+import { IResponseData } from "./types/IResponseData";
 
 function writeServerResponse(
   res: Response,

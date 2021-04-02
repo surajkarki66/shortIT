@@ -7,7 +7,7 @@ import writeServerResponse from "../helpers/response";
 import errorFormatter from "../helpers/errorFormatter";
 import { signToken } from "../helpers/jwtHelper";
 import { IUserDocument } from "../interfaces/user";
-import ILogin from "../interfaces/ILogin";
+import ILogin from "./types/ILogin";
 
 const signup: RequestHandler = async (
   req: Request,
