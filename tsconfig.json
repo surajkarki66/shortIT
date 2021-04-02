@@ -74,5 +74,5 @@
   "exclude": [
     "node_modules"
   ],
-  "files":["src/types.d.ts", "./src/helpers/IResponseData.ts", "./src/helpers/IResponseData.ts"]
+  "files":["src/types.d.ts"]
 }
