@@ -1,4 +1,3 @@
-import path from 'path';
 import express from 'express';
 import hpp from 'hpp';
 import morgan from 'morgan';
@@ -28,7 +27,6 @@ class Server {
 
 	public routes(): void {
 		// Static route
-		this.app.use('/uploads', express.static(path.join(__dirname + '/../public/uploads')));
 
 		// General routes
 		this.app.use('/api/users', new UserRoutes().router);

@@ -1,3 +1,4 @@
+import path from 'path';
 import { nanoid } from 'nanoid';
 import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
@@ -83,8 +84,16 @@ export default class UrlController {
 	): Promise<void | Response<any, Record<string, any>>> {
 		try {
 			const errors = validationResult(req).formatWith(errorFormatter);
+			const options = {
+				root: path.join(__dirname, '../../public'),
+				dotfiles: 'deny',
+				headers: {
+					'x-timestamp': Date.now(),
+					'x-sent': true,
+				},
+			};
 			if (!errors.isEmpty()) {
-				return res.send('Oops, this link is Invalid');
+				return res.sendFile('invalid.html', options);
 			}
 			const { code } = req.params;
 			const url = Url.findByCode(code);
@@ -100,7 +109,7 @@ export default class UrlController {
 				const { longUrl } = result[1];
 				return res.redirect(longUrl);
 			} else {
-				return res.send('Oops, this link is invalid');
+				return res.sendFile('invalid.html', options);
 			}
 		} catch (error) {
 			next(ApiError.internal(`Something went wrong: ${error.message}`));
