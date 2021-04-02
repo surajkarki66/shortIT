@@ -15,6 +15,7 @@
   "private": false,
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bootstrap": "^4.6.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -28,6 +29,7 @@
     "morgan-json": "^1.1.0",
     "nanoid": "^3.1.22",
     "passport-local": "^1.0.0",
+    "react-bootstrap": "^1.5.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
