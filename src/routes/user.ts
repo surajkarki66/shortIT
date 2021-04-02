@@ -5,7 +5,6 @@ import UserController from "../controllers/user";
 
 export default class UserRoutes {
   router: Router;
-  private userController: UserController = new UserController();
 
   constructor() {
     this.router = Router();
@@ -15,13 +14,9 @@ export default class UserRoutes {
     this.router.post(
       "/register",
       validateUser("signup"),
-      this.userController.signup
+      UserController.signup
     );
-    this.router.post(
-      "/login",
-      validateUser("login"),
-      this.userController.login
-    );
-    this.router.get("/me", checkAuth, this.userController.me);
+    this.router.post("/login", validateUser("login"), UserController.login);
+    this.router.get("/me", checkAuth, UserController.me);
   }
 }

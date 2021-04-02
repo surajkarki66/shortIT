@@ -1,6 +1,6 @@
 import { body, ValidationChain, param } from "express-validator";
 
-const validateUrl = (method: string): ValidationChain[] => {
+function validateUrl(method: string): ValidationChain[] {
   switch (method) {
     case "generateUrl": {
       return [
@@ -36,6 +36,6 @@ const validateUrl = (method: string): ValidationChain[] => {
     default:
       return [];
   }
-};
+}
 
 export { validateUrl };

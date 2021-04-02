@@ -1,9 +1,9 @@
-import { Document, Model, Types } from "mongoose";
+import { Document, Model, Schema } from "mongoose";
 
 export interface IUserDocument extends Document {
   /*@ Info: Schema
    */
-  _id: string;
+  _id: Schema.Types.ObjectId;
   firstName: string;
   lastName: string;
   email: string;
@@ -20,5 +20,5 @@ export interface IUserModel extends Model<IUser> {
   /*@ Info: Static Methods
    */
   findByEmail: (email: string) => Promise<IUserDocument>;
-  findMe: (id: Types.ObjectId) => Promise<IUserDocument[]>;
+  findMe: (id: string) => Promise<IUserDocument[]>;
 }

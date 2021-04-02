@@ -1,7 +1,7 @@
 import { ValidationError } from "express-validator";
 
-const errorFormatter = ({ msg }: ValidationError): string => {
+function errorFormatter({ msg }: ValidationError) {
   return `${msg}`;
-};
+}
 
 export default errorFormatter;

@@ -51,11 +51,12 @@ userSchema.static("findByEmail", async function (email: string) {
   return await this.findOne({ email });
 });
 
-userSchema.static("findMe", async function (id: Types.ObjectId) {
+userSchema.static("findMe", async function (id: string) {
+  const userId = Types.ObjectId(id);
   const pipeline = [
     {
       $match: {
-        _id: id,
+        _id: userId,
       },
     },
     {

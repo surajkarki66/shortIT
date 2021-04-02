@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 import { IUrlModel, IUrl } from "./../interfaces/url";
 
@@ -17,9 +17,13 @@ const urlSchema = new Schema<IUrl>(
   { timestamps: true }
 );
 
-urlSchema.static("findByLongUrl", async function (longUrl: string) {
-  return await this.findOne({ longUrl });
-});
+urlSchema.static(
+  "findByLongUrlAndUserId",
+  async function (longUrl: string, id: string) {
+    const userId = Types.ObjectId(id);
+    return await this.findOne({ longUrl, userId });
+  }
+);
 
 urlSchema.static("findByCode", async function (code: string) {
   return await this.findOne({ code });

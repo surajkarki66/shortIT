@@ -1,5 +1,5 @@
 import { body, ValidationChain } from "express-validator";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
 import ApiError from "../errors/apiError";
 import config from "../configs/config";
@@ -11,7 +11,7 @@ interface TokenPayload {
   exp: number;
   error: string;
 }
-const checkAuth = async (
+const checkAuth: RequestHandler = async (
   req: Request,
   _res: Response,
   next: NextFunction
@@ -23,10 +23,10 @@ const checkAuth = async (
       return;
     } else {
       try {
-        const response = await verifyToken(
-          authorization[1],
-          String(config.jwtSecret)
-        );
+        const response = await verifyToken({
+          token: authorization[1],
+          secretKey: String(config.jwtSecret),
+        });
         const { _id, error } = (response as unknown) as TokenPayload;
         if (_id) {
           req.user = { id: _id };

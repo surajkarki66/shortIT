@@ -7,7 +7,6 @@ import GuestUrlController from "../controllers/guest";
 
 export default class UrlRoutes {
   router: Router;
-  private urlController: UrlController = new UrlController();
 
   constructor() {
     this.router = Router();
@@ -18,7 +17,7 @@ export default class UrlRoutes {
       "/generateUrl",
       checkAuth,
       validateUrl("generateUrl"),
-      this.urlController.generateShortUrl
+      UrlController.generateShortUrl
     );
     this.router.post(
       "/generateGuestUrl",

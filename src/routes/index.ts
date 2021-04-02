@@ -5,17 +5,12 @@ import UrlController from "../controllers/url";
 
 export default class IndexRoutes {
   router: Router;
-  private urlController: UrlController = new UrlController();
 
   constructor() {
     this.router = Router();
     this.routes();
   }
   public routes(): void {
-    this.router.get(
-      "/:code",
-      validateUrl("checkCode"),
-      this.urlController.goToUrl
-    );
+    this.router.get("/:code", validateUrl("checkCode"), UrlController.goToUrl);
   }
 }

@@ -35,7 +35,7 @@ const generateShortUrl: RequestHandler = async (
     const address = await validateUrl(longUrl);
     if (address) {
       const urlCode = nanoid(6);
-      let url = await Url.findByLongUrl(longUrl);
+      let url = await Url.findByLongUrlAndUserId(longUrl, id);
       let result: { status: string; data: IUrlDocument };
 
       if (url) {

@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
@@ -8,7 +7,7 @@ import writeServerResponse from "../helpers/response";
 import errorFormatter from "../helpers/errorFormatter";
 import { signToken } from "../helpers/jwtHelper";
 import { IUserDocument } from "../interfaces/user";
-import ILogin from "../interfaces/login";
+import ILogin from "../interfaces/ILogin";
 
 const signup: RequestHandler = async (
   req: Request,
@@ -97,15 +96,10 @@ const login: RequestHandler = async (
     return;
   }
 };
-const me: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const me = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.user;
-    const userId = Types.ObjectId(id);
-    const user = await User.findMe(userId);
+    const user = await User.findMe(id);
     if (user[0]) {
       const result = { status: "success", data: user[0] };
       const serverResponse = {

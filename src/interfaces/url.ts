@@ -21,7 +21,10 @@ export interface IUrl extends IUrlDocument {
 export interface IUrlModel extends Model<IUrl> {
   /*@ Info: Static Methods
    */
-  findByLongUrl: (longUrl: string) => Promise<IUrlDocument>;
+  findByLongUrlAndUserId: (
+    longUrl: string,
+    userId: string
+  ) => Promise<IUrlDocument>;
   findByCode: (code: string) => Promise<IUrlDocument>;
   updateAccessedDatesById: (
     id: Schema.Types.ObjectId,
