@@ -18,6 +18,11 @@ export interface IUrl extends IUrlDocument {
   dummy?: () => void;
 }
 
+export interface IUrlDaoResponse {
+  status: string;
+  data: { message: string };
+  statusCode: number;
+}
 export interface IUrlModel extends Model<IUrl> {
   /*@ Info: Static Methods
    */
@@ -29,5 +34,6 @@ export interface IUrlModel extends Model<IUrl> {
   updateAccessedDatesById: (
     id: Schema.Types.ObjectId,
     data: any
-  ) => Promise<void>;
+  ) => Promise<any>;
+  deleteById: (id: string) => Promise<IUrlDaoResponse>;
 }

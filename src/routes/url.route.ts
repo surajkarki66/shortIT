@@ -24,5 +24,11 @@ export default class UrlRoutes {
       urlValidation("generateUrl"),
       GuestUrlController.generateShortUrl
     );
+    this.router.delete(
+      "/deleteUrl/:urlId",
+      checkAuth,
+      urlValidation("deleteUrl"),
+      UrlController.deleteUrl
+    );
   }
 }

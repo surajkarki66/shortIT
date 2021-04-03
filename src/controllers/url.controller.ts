@@ -75,4 +75,31 @@ const generateShortUrl: RequestHandler = async (
   }
 };
 
-export default { generateShortUrl };
+const deleteUrl: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { urlId } = req.params;
+    const { status, data, statusCode } = await Url.deleteById(urlId);
+    if (status === "success") {
+      const result = {
+        status: "success",
+        data: data,
+      };
+      const serverResponse = {
+        result: result,
+        statusCode: statusCode,
+        contentType: "application/json",
+      };
+      return writeServerResponse(res, serverResponse);
+    }
+    next(ApiError.notFound(data.message));
+    return;
+  } catch (error) {
+    next(ApiError.internal(`Something went wrong: ${error.message}`));
+    return;
+  }
+};
+export default { generateShortUrl, deleteUrl };

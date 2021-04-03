@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
-import { IUrlModel, IUrl } from "./../interfaces/url";
+import { IUrlModel, IUrl, IUrlDaoResponse } from "./../interfaces/url";
 
 const urlSchema = new Schema<IUrl>(
   {
@@ -32,6 +32,32 @@ urlSchema.static(
     return await this.updateOne({ _id: id }, { $push: data });
   }
 );
+
+urlSchema.static("deleteById", async function (id: string) {
+  return new Promise((resolve, reject) => {
+    const urlId = Types.ObjectId(id);
+    this.deleteOne({ _id: urlId })
+      .then((res: any) => {
+        const { deletedCount } = res;
+        let result: IUrlDaoResponse;
+        if (deletedCount === 1) {
+          result = {
+            status: "success",
+            data: { message: "Url is deleted successfully" },
+            statusCode: 200,
+          };
+          resolve(result);
+        }
+        result = {
+          status: "failed",
+          data: { message: "Url is not found" },
+          statusCode: 404,
+        };
+        resolve(result);
+      })
+      .catch((error: any) => reject(error));
+  });
+});
 
 const UrlModel: IUrlModel = model<IUrl, IUrlModel>("Url", urlSchema);
 

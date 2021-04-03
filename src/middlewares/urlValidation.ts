@@ -31,6 +31,14 @@ export default function urlValidation(method: string): ValidationChain[] {
           .withMessage("Code must be between 6 to 7 digits"),
       ];
     }
+    case "deleteUrl": {
+      return [
+        param("urlId", "urlId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("urlId must be objectId"),
+      ];
+    }
 
     default:
       return [];
