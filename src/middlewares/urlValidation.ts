@@ -8,7 +8,6 @@ export default function urlValidation(method: string): ValidationChain[] {
           .notEmpty()
           .isString()
           .withMessage("Long url must be string."),
-        body("code").optional().isString().withMessage("Code must be string."),
       ];
     }
     case "generateGuestUrl": {

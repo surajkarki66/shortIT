@@ -4,14 +4,11 @@ import { IUrlModel, IUrl } from "./../interfaces/url";
 
 const urlSchema = new Schema<IUrl>(
   {
+    title: { type: String, min: 2, max: 255 },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     longUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },
-    code: { type: String, min: 6, max: 6 },
-    expireAt: {
-      type: Date,
-      default: new Date().setDate(new Date().getDate() + 1),
-    },
+    code: { type: String, required: true, min: 6, max: 6 },
     accessedDates: Array,
   },
   { timestamps: true }

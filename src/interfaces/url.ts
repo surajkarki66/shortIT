@@ -2,13 +2,13 @@ import { Document, Model, Schema } from "mongoose";
 
 export interface IUrlDocument extends Document {
   _id: Schema.Types.ObjectId;
+  title: string;
   userId: Schema.Types.ObjectId;
   longUrl: string;
   shortUrl: string;
   code: string;
   createdAt: Date;
   updatedAt: Date;
-  expireAt: Date;
   accessedDates?: Date[];
 }
 
