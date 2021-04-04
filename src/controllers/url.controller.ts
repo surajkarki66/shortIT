@@ -66,10 +66,52 @@ const generateShortUrl: RequestHandler = async (
     return;
   } catch (error) {
     const { code } = error;
-    if (code === "ENOTFOUND") {
-      next(ApiError.badRequest("The given link is invalid"));
+    if (code === "ENOTFOUND" || "ERR_INVALID_URL") {
+      next(
+        ApiError.badRequest(
+          "The given link is currently not working or invalid"
+        )
+      );
       return;
     }
+    next(ApiError.internal(`Something went wrong: ${error.message}`));
+    return;
+  }
+};
+const updateUrl: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      const msg = errors.array();
+      next(ApiError.badRequest(msg[0]));
+      return;
+    }
+    const { urlId } = req.params;
+    const { title }: IUrlDocument = req.body;
+    const updateObject = { title };
+    const { status, data, statusCode } = await Url.updateById(
+      urlId,
+      updateObject
+    );
+    if (status === "success") {
+      const result = {
+        status: "success",
+        data: data,
+      };
+      const serverResponse = {
+        result: result,
+        statusCode: statusCode,
+        contentType: "application/json",
+      };
+      return writeServerResponse(res, serverResponse);
+    }
+    next(ApiError.notFound(data.message));
+    return;
+  } catch (error) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -81,6 +123,12 @@ const deleteUrl: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
+    const errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+      const msg = errors.array();
+      next(ApiError.badRequest(msg[0]));
+      return;
+    }
     const { urlId } = req.params;
     const { status, data, statusCode } = await Url.deleteById(urlId);
     if (status === "success") {
@@ -102,4 +150,4 @@ const deleteUrl: RequestHandler = async (
     return;
   }
 };
-export default { generateShortUrl, deleteUrl };
+export default { generateShortUrl, updateUrl, deleteUrl };

@@ -31,6 +31,23 @@ export default function urlValidation(method: string): ValidationChain[] {
           .withMessage("Code must be between 6 to 7 digits"),
       ];
     }
+    case "updateUrl": {
+      return [
+        param("urlId", "urlId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("urlId must be objectId"),
+        body("title", "Title is required")
+          .notEmpty()
+          .isString()
+          .withMessage("urlId must be string")
+          .isLength({
+            min: 2,
+            max: 250,
+          })
+          .withMessage("Title must be between 2 to 250 characters long"),
+      ];
+    }
     case "deleteUrl": {
       return [
         param("urlId", "urlId is required")

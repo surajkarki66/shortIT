@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Schema, model, Types } from "mongoose";
 
-import { IUser, IUserModel } from "../interfaces/user";
+import { IUser, IUserDocument, IUserModel } from "../interfaces/user";
 
 export const userSchema = new Schema<IUser>(
   {
@@ -47,11 +47,16 @@ userSchema.method("comparePassword", async function (password: string) {
   return await bcrypt.compare(password, this.password);
 });
 
-userSchema.static("findByEmail", async function (email: string) {
-  return await this.findOne({ email });
-});
+userSchema.static(
+  "findByEmail",
+  async function (email: string): Promise<IUserDocument> {
+    return await this.findOne({ email });
+  }
+);
 
-userSchema.static("findMe", async function (id: string) {
+userSchema.static("findMe", async function (id: string): Promise<
+  IUserDocument[]
+> {
   const userId = Types.ObjectId(id);
   const pipeline = [
     {

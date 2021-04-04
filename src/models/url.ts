@@ -1,6 +1,11 @@
 import { Schema, model, Types } from "mongoose";
 
-import { IUrlModel, IUrl, IUrlDaoResponse } from "./../interfaces/url";
+import {
+  IUrlModel,
+  IUrl,
+  IUrlDaoResponse,
+  IUrlDocument,
+} from "./../interfaces/url";
 
 const urlSchema = new Schema<IUrl>(
   {
@@ -16,15 +21,18 @@ const urlSchema = new Schema<IUrl>(
 
 urlSchema.static(
   "findByLongUrlAndUserId",
-  async function (longUrl: string, id: string) {
+  async function (longUrl: string, id: string): Promise<IUrlDocument> {
     const userId = Types.ObjectId(id);
     return await this.findOne({ longUrl, userId });
   }
 );
 
-urlSchema.static("findByCode", async function (code: string) {
-  return await this.findOne({ code });
-});
+urlSchema.static(
+  "findByCode",
+  async function (code: string): Promise<IUrlDocument> {
+    return await this.findOne({ code });
+  }
+);
 
 urlSchema.static(
   "updateAccessedDatesById",
@@ -33,31 +41,67 @@ urlSchema.static(
   }
 );
 
-urlSchema.static("deleteById", async function (id: string) {
-  return new Promise((resolve, reject) => {
-    const urlId = Types.ObjectId(id);
-    this.deleteOne({ _id: urlId })
-      .then((res: any) => {
-        const { deletedCount } = res;
-        let result: IUrlDaoResponse;
-        if (deletedCount === 1) {
+urlSchema.static(
+  "deleteById",
+  async function (id: string): Promise<IUrlDaoResponse> {
+    return new Promise((resolve, reject) => {
+      const urlId = Types.ObjectId(id);
+      this.deleteOne({ _id: urlId })
+        .then((res: any) => {
+          const { deletedCount } = res;
+          let result: IUrlDaoResponse;
+          if (deletedCount === 1) {
+            result = {
+              status: "success",
+              data: { message: "Url is deleted successfully" },
+              statusCode: 200,
+            };
+            resolve(result);
+          }
           result = {
-            status: "success",
-            data: { message: "Url is deleted successfully" },
-            statusCode: 200,
+            status: "failed",
+            data: { message: "Url is not found" },
+            statusCode: 404,
           };
           resolve(result);
-        }
-        result = {
-          status: "failed",
-          data: { message: "Url is not found" },
-          statusCode: 404,
-        };
-        resolve(result);
-      })
-      .catch((error: any) => reject(error));
-  });
-});
+        })
+        .catch((error: any) => reject(error));
+    });
+  }
+);
+
+urlSchema.static(
+  "updateById",
+  async function (id: string, data: any): Promise<IUrlDaoResponse> {
+    return new Promise((resolve, reject) => {
+      const urlId = Types.ObjectId(id);
+      this.updateOne({ _id: urlId }, { $set: data })
+        .then((res: any) => {
+          {
+            const { nModified } = res;
+            let result: IUrlDaoResponse;
+            if (nModified === 1) {
+              result = {
+                status: "success",
+                data: { message: "Url is updated successfully" },
+                statusCode: 200,
+              };
+              resolve(result);
+            }
+            result = {
+              status: "failed",
+              data: { message: "Url is not found" },
+              statusCode: 404,
+            };
+            resolve(result);
+          }
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
+    });
+  }
+);
 
 const UrlModel: IUrlModel = model<IUrl, IUrlModel>("Url", urlSchema);
 

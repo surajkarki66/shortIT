@@ -1,21 +1,19 @@
 import { Document, Model, Schema } from "mongoose";
 
 export interface IUrlDocument extends Document {
-  _id: Schema.Types.ObjectId;
+  readonly _id: Schema.Types.ObjectId;
   title: string;
-  userId: Schema.Types.ObjectId;
+  readonly userId: Schema.Types.ObjectId;
   longUrl: string;
   shortUrl: string;
   code: string;
-  createdAt: Date;
-  updatedAt: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
   accessedDates?: Date[];
 }
 
 export interface IUrl extends IUrlDocument {
-  /*@ Info: Instance Methods
-   */
-  dummy?: () => void;
+  instanceMethod?: () => void;
 }
 
 export interface IUrlDaoResponse {
@@ -23,9 +21,8 @@ export interface IUrlDaoResponse {
   data: { message: string };
   statusCode: number;
 }
+
 export interface IUrlModel extends Model<IUrl> {
-  /*@ Info: Static Methods
-   */
   findByLongUrlAndUserId: (
     longUrl: string,
     userId: string
@@ -35,5 +32,6 @@ export interface IUrlModel extends Model<IUrl> {
     id: Schema.Types.ObjectId,
     data: any
   ) => Promise<any>;
+  updateById: (id: string, data: any) => Promise<IUrlDaoResponse>;
   deleteById: (id: string) => Promise<IUrlDaoResponse>;
 }

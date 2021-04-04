@@ -64,8 +64,12 @@ const generateShortUrl: RequestHandler = async (
     return;
   } catch (error) {
     const { code } = error;
-    if (code === "ENOTFOUND") {
-      next(ApiError.badRequest("The given link is invalid"));
+    if (code === "ENOTFOUND" || "ERR_INVALID_URL") {
+      next(
+        ApiError.badRequest(
+          "The given link is currently not working or invalid"
+        )
+      );
       return;
     }
     next(ApiError.internal(`Something went wrong: ${error.message}`));
