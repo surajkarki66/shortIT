@@ -7,7 +7,8 @@
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node --files' src/app.ts",
     "start": "node dist/app.js",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
-    "tslint": "tslint -c tslint.json -p tsconfig.json"
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "snyk test"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
@@ -25,7 +26,7 @@
     "helmet": "^4.4.1",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.2",
+    "mongoose": "5.12.3",
     "morgan-json": "^1.1.0",
     "nanoid": "^3.1.22",
     "passport-local": "^1.0.0",
@@ -49,6 +50,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
+    "snyk": "^1.522.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   }
