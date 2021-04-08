@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import userValidation from "../middlewares/userValidation";
+import userValidation from "../middlewares/validations/userValidation";
 import UserController from "../controllers/user.controller";
-import checkAuth from "../middlewares/authValidation";
+import authValidation from "../middlewares/validations/authValidation";
 
 export default class UserRoutes {
   router: Router;
@@ -18,6 +18,11 @@ export default class UserRoutes {
       UserController.signup
     );
     this.router.post("/login", userValidation("login"), UserController.login);
-    this.router.get("/me", checkAuth, UserController.me);
+    this.router.get(
+      "/me",
+      authValidation.checkAuth,
+      authValidation.checkRole(["user"]),
+      UserController.me
+    );
   }
 }

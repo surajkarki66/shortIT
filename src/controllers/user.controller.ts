@@ -7,7 +7,11 @@ import writeServerResponse from "../helpers/response";
 import errorFormatter from "../helpers/errorFormatter";
 import { signToken } from "../helpers/jwtHelper";
 import { IUserDocument } from "../interfaces/user";
-import ILogin from "./types/ILogin";
+
+interface ILogin {
+  email: string;
+  password: string;
+}
 
 const signup: RequestHandler = async (
   req: Request,
@@ -71,7 +75,7 @@ const login: RequestHandler = async (
     }
     const newUser = new User(user);
     if (await newUser.comparePassword(password)) {
-      const payload = { _id: newUser._id };
+      const payload = { _id: newUser._id, role: newUser.role };
       const accessToken = signToken(payload, "1h");
       const result = {
         status: "success",

@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import urlValidation from "../middlewares/urlValidation";
-import checkAuth from "../middlewares/authValidation";
+import urlValidation from "../middlewares/validations/urlValidation";
+import authValidation from "../middlewares/validations/authValidation";
 import UrlController from "../controllers/url.controller";
 import GuestUrlController from "../controllers/guest.controller";
 
@@ -15,7 +15,7 @@ export default class UrlRoutes {
   public routes(): void {
     this.router.post(
       "/generateUrl",
-      checkAuth,
+      authValidation.checkAuth,
       urlValidation("generateUrl"),
       UrlController.generateShortUrl
     );
@@ -26,13 +26,13 @@ export default class UrlRoutes {
     );
     this.router.patch(
       "/updateUrl/:urlId",
-      checkAuth,
+      authValidation.checkAuth,
       urlValidation("updateUrl"),
       UrlController.updateUrl
     );
     this.router.delete(
       "/deleteUrl/:urlId",
-      checkAuth,
+      authValidation.checkAuth,
       urlValidation("deleteUrl"),
       UrlController.deleteUrl
     );

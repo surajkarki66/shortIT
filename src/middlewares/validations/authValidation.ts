@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
-import ApiError from "../errors/apiError";
-import config from "../configs/config";
-import { verifyToken } from "../helpers/jwtHelper";
+import ApiError from "../../errors/apiError";
+import config from "../../configs/config";
+import { ROLE } from "./../../interfaces/user";
+import { verifyToken } from "../../helpers/jwtHelper";
 
 interface TokenPayload {
   _id: string;
+  role: ROLE;
   iat: number;
   exp: number;
   error: string;
@@ -27,9 +29,9 @@ const checkAuth: RequestHandler = async (
           token: authorization[1],
           secretKey: String(config.jwtSecret),
         });
-        const { _id, error } = (response as unknown) as TokenPayload;
+        const { _id, error, role } = (response as unknown) as TokenPayload;
         if (_id) {
-          req.user = { id: _id };
+          req.user = { id: _id, role };
           return next();
         }
         next(ApiError.forbidden(error));
@@ -45,4 +47,16 @@ const checkAuth: RequestHandler = async (
   }
 };
 
-export default checkAuth;
+const checkRole = (roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { role } = req.user;
+    if (roles.includes(role)) {
+      next();
+    } else {
+      next(ApiError.unauthorized(`${role} is not allowed`));
+      return;
+    }
+  };
+};
+
+export default { checkAuth, checkRole };

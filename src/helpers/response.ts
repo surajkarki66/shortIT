@@ -1,5 +1,10 @@
 import { Response } from "express";
-import { IResponseData } from "./types/IResponseData";
+
+export interface IResponseData {
+  result: any;
+  statusCode: number;
+  contentType: string;
+}
 
 function writeServerResponse(
   res: Response,

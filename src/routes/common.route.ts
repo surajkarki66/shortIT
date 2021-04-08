@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import urlValidation from "../middlewares/urlValidation";
+import urlValidation from "../middlewares/validations/urlValidation";
 import CommonController from "../controllers/common.controller";
 
 export default class IndexRoutes {

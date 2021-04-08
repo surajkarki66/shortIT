@@ -1,10 +1,11 @@
+import { ROLE } from "./../interfaces/user";
 import { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 
 import config from "../configs/config";
 
 function signToken(
-  payload: { _id: Schema.Types.ObjectId },
+  payload: { _id: Schema.Types.ObjectId; role: ROLE },
   expiresIn: string
 ): string {
   const secret = String(config.jwtSecret);
