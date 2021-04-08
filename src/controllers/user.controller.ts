@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
 import User from "../models/User";
+import Url from "../models/Url";
 import ApiError from "../errors/apiError";
 import writeServerResponse from "../helpers/response";
 import errorFormatter from "../helpers/errorFormatter";
@@ -491,6 +492,7 @@ const changeUserDetails: RequestHandler = async (
       userId,
       updateObject
     );
+
     if (success) {
       const result = {
         status: "success",
@@ -511,6 +513,44 @@ const changeUserDetails: RequestHandler = async (
     return;
   }
 };
+const deleteUser: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { password }: { password: string } = req.body;
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+    if (user) {
+      const newUser = new User(user);
+
+      if (!(await newUser.comparePassword(password))) {
+        next(ApiError.unauthorized("Make sure your password is correct."));
+        return;
+      }
+      const deleteUser = User.deleteById(userId);
+      const deleteUrl = Url.deleteByUserId(userId);
+      await Promise.all([deleteUser, deleteUrl]);
+      const result = {
+        status: "success",
+        data: { message: "User is deleted successfully" },
+      };
+      const serverResponse = {
+        result: result,
+        statusCode: 200,
+        contentType: "application/json",
+      };
+      return writeServerResponse(res, serverResponse);
+    }
+    next(ApiError.notFound("User doesn't exist."));
+    return;
+  } catch (e) {
+    next(ApiError.internal(`Something went wrong: ${e.message}`));
+    return;
+  }
+};
 export default {
   signup,
   login,
@@ -522,4 +562,5 @@ export default {
   changeEmail,
   changePassword,
   changeUserDetails,
+  deleteUser,
 };

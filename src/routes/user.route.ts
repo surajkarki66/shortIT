@@ -33,11 +33,11 @@ export default class UserRoutes {
     );
     this.router.post(
       "/verifyEmail",
-      userValidation("verifyEmail"),
-      showDataValidationError,
       authenticate,
       permit(["user"]),
       onlyOwnerCanDoThis,
+      userValidation("verifyEmail"),
+      showDataValidationError,
       UserController.verifyEmail
     );
     this.router.post(
@@ -47,30 +47,39 @@ export default class UserRoutes {
     );
     this.router.post(
       "/changeEmail/:userId",
-      userValidation("changeEmail"),
-      showDataValidationError,
       authenticate,
       permit(["user"]),
       onlyOwnerCanDoThis,
+      userValidation("changeEmail"),
+      showDataValidationError,
       UserController.changeEmail
     );
     this.router.post(
       "/changePassword/:userId",
-      userValidation("changePassword"),
-      showDataValidationError,
       authenticate,
       permit(["user"]),
       onlyOwnerCanDoThis,
+      userValidation("changePassword"),
+      showDataValidationError,
       UserController.changePassword
     );
     this.router.post(
       "/changeUserDetails/:userId",
-      userValidation("changeUserDetails"),
-      showDataValidationError,
       authenticate,
       permit(["user"]),
       onlyOwnerCanDoThis,
+      userValidation("changeUserDetails"),
+      showDataValidationError,
       UserController.changeUserDetails
+    );
+    this.router.delete(
+      "/deleteUser/:userId",
+      authenticate,
+      permit(["user"]),
+      onlyOwnerCanDoThis,
+      userValidation("deleteUser"),
+      showDataValidationError,
+      UserController.deleteUser
     );
   }
 }

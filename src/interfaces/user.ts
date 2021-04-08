@@ -37,4 +37,5 @@ export interface IUserModel extends Model<IUser> {
   findMe: (id: string) => Promise<IUserDocument[]>;
   updateById: (id: string, data: any) => Promise<IUserDaoResponse>;
   manualHashPassword: (password: string) => Promise<string>;
+  deleteById: (id: string) => Promise<IUserDaoResponse>;
 }

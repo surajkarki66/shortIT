@@ -103,6 +103,9 @@ urlSchema.static(
   }
 );
 
+urlSchema.static("deleteByUserId", async function (userId: string) {
+  return await this.deleteMany({ userId: Types.ObjectId(userId) });
+});
 const UrlModel: IUrlModel = model<IUrl, IUrlModel>("Url", urlSchema);
 
 export default UrlModel;

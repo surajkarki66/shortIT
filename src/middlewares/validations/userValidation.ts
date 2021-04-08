@@ -1,4 +1,4 @@
-import { body, param, ValidationChain } from "express-validator";
+import { body, param, ValidationChain, checkSchema } from "express-validator";
 
 export default function userValidation(method: string): ValidationChain[] {
   switch (method) {
@@ -65,8 +65,8 @@ export default function userValidation(method: string): ValidationChain[] {
           .withMessage("Password must be greater than 6 "),
         body("token", "Token is required")
           .notEmpty()
-          .isString()
-          .withMessage("Token must be string"),
+          .isJWT()
+          .withMessage("Token must be valid"),
       ];
     }
     case "verifyEmail": {
@@ -81,8 +81,8 @@ export default function userValidation(method: string): ValidationChain[] {
       return [
         body("token", "Token is required")
           .notEmpty()
-          .isString()
-          .withMessage("Token must be string"),
+          .isJWT()
+          .withMessage("Token must be valid"),
       ];
     }
     case "changeEmail": {
@@ -139,6 +139,21 @@ export default function userValidation(method: string): ValidationChain[] {
             max: 32,
           })
           .withMessage("Last Name must be between 3 to 32 characters"),
+      ];
+    }
+    case "deleteUser": {
+      return [
+        param("userId", "UserId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("UserId must be objectId"),
+
+        body("password", "Password is required")
+          .notEmpty()
+          .isString()
+          .withMessage("Password must be string")
+          .isLength({ min: 6, max: 255 })
+          .withMessage("Password must be greater than 6 characters"),
       ];
     }
     default:

@@ -131,6 +131,35 @@ userSchema.static(
     });
   }
 );
+
+userSchema.static(
+  "deleteById",
+  async function (id: string): Promise<IUserDaoResponse> {
+    return new Promise((resolve, reject) => {
+      const userId = Types.ObjectId(id);
+      this.deleteOne({ _id: userId })
+        .then((res: any) => {
+          const { deletedCount } = res;
+          let result: IUserDaoResponse;
+          if (deletedCount === 1) {
+            result = {
+              success: true,
+              data: { message: "User is deleted successfully" },
+              statusCode: 200,
+            };
+            resolve(result);
+          }
+          result = {
+            success: false,
+            data: { message: "User is not found" },
+            statusCode: 404,
+          };
+          resolve(result);
+        })
+        .catch((error: any) => reject(error));
+    });
+  }
+);
 const User: IUserModel = model<IUser, IUserModel>("User", userSchema);
 
 export default User;

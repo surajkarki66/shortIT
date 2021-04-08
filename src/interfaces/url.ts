@@ -34,4 +34,5 @@ export interface IUrlModel extends Model<IUrl> {
   ) => Promise<any>;
   updateById: (id: string, data: any) => Promise<IUrlDaoResponse>;
   deleteById: (id: string) => Promise<IUrlDaoResponse>;
+  deleteByUserId: (userId: string) => Promise<void>;
 }
