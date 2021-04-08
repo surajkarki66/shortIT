@@ -52,14 +52,14 @@ urlSchema.static(
           let result: IUrlDaoResponse;
           if (deletedCount === 1) {
             result = {
-              status: "success",
+              success: true,
               data: { message: "Url is deleted successfully" },
               statusCode: 200,
             };
             resolve(result);
           }
           result = {
-            status: "failed",
+            success: false,
             data: { message: "Url is not found" },
             statusCode: 404,
           };
@@ -82,14 +82,14 @@ urlSchema.static(
             let result: IUrlDaoResponse;
             if (nModified === 1) {
               result = {
-                status: "success",
+                success: true,
                 data: { message: "Url is updated successfully" },
                 statusCode: 200,
               };
               resolve(result);
             }
             result = {
-              status: "failed",
+              success: false,
               data: { message: "Url is not found" },
               statusCode: 404,
             };

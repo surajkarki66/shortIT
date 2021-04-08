@@ -93,11 +93,11 @@ const updateUrl: RequestHandler = async (
     const { urlId } = req.params;
     const { title }: IUrlDocument = req.body;
     const updateObject = { title };
-    const { status, data, statusCode } = await Url.updateById(
+    const { success, data, statusCode } = await Url.updateById(
       urlId,
       updateObject
     );
-    if (status === "success") {
+    if (success) {
       const result = {
         status: "success",
         data: data,
@@ -130,8 +130,8 @@ const deleteUrl: RequestHandler = async (
       return;
     }
     const { urlId } = req.params;
-    const { status, data, statusCode } = await Url.deleteById(urlId);
-    if (status === "success") {
+    const { success, data, statusCode } = await Url.deleteById(urlId);
+    if (success) {
       const result = {
         status: "success",
         data: data,

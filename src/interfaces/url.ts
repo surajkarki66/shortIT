@@ -17,7 +17,7 @@ export interface IUrl extends IUrlDocument {
 }
 
 export interface IUrlDaoResponse {
-  status: string;
+  success: boolean;
   data: { message: string };
   statusCode: number;
 }

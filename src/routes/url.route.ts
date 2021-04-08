@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { authenticate, permit } from "../middlewares/auth";
+import { onlyActiveUserCanDoThis } from "../middlewares/permissions/userPermissions";
 import { onlyOwnerCanDoThis } from "../middlewares/permissions/urlPermissions";
 import urlValidation from "../middlewares/validations/urlValidation";
 import UrlController from "../controllers/url.controller";
@@ -18,6 +19,7 @@ export default class UrlRoutes {
       "/generateUrl",
       authenticate,
       permit(["user"]),
+      onlyActiveUserCanDoThis,
       urlValidation("generateUrl"),
       UrlController.generateShortUrl
     );
