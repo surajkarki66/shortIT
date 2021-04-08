@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import userValidation from "../middlewares/validations/userValidation";
 import UserController from "../controllers/user.controller";
-import authValidation from "../middlewares/validations/authValidation";
+import { authenticate, permit } from "../middlewares/auth";
 
 export default class UserRoutes {
   router: Router;
@@ -18,11 +18,6 @@ export default class UserRoutes {
       UserController.signup
     );
     this.router.post("/login", userValidation("login"), UserController.login);
-    this.router.get(
-      "/me",
-      authValidation.checkAuth,
-      authValidation.checkRole(["user"]),
-      UserController.me
-    );
+    this.router.get("/me", authenticate, permit(["user"]), UserController.me);
   }
 }

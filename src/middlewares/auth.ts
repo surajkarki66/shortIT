@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
-import ApiError from "../../errors/apiError";
-import config from "../../configs/config";
-import { ROLE } from "./../../interfaces/user";
-import { verifyToken } from "../../helpers/jwtHelper";
+import ApiError from "../errors/apiError";
+import config from "../configs/config";
+import { ROLE } from "../interfaces/user";
+import { verifyToken } from "../helpers/jwtHelper";
 
 interface TokenPayload {
   _id: string;
@@ -13,7 +13,7 @@ interface TokenPayload {
   error: string;
 }
 
-const checkAuth: RequestHandler = async (
+const authenticate: RequestHandler = async (
   req: Request,
   _res: Response,
   next: NextFunction
@@ -47,7 +47,7 @@ const checkAuth: RequestHandler = async (
   }
 };
 
-const checkRole = (roles: string[]) => {
+const permit = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const { role } = req.user;
     if (roles.includes(role)) {
@@ -59,4 +59,4 @@ const checkRole = (roles: string[]) => {
   };
 };
 
-export default { checkAuth, checkRole };
+export { authenticate, permit };
