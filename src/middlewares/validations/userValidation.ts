@@ -1,4 +1,4 @@
-import { body, ValidationChain } from "express-validator";
+import { body, param, ValidationChain } from "express-validator";
 
 export default function userValidation(method: string): ValidationChain[] {
   switch (method) {
@@ -25,6 +25,8 @@ export default function userValidation(method: string): ValidationChain[] {
           .withMessage("Must be a valid email address"),
         body("password", "Password is required")
           .notEmpty()
+          .isString()
+          .withMessage("Password must be string")
           .isLength({ min: 6, max: 255 })
           .withMessage("Password must be greater than 6 "),
       ];
@@ -38,8 +40,62 @@ export default function userValidation(method: string): ValidationChain[] {
           .withMessage("Must be a valid email address"),
         body("password", "Password is required")
           .notEmpty()
+          .isString()
+          .withMessage("Password must be string")
           .isLength({ min: 6, max: 255 })
           .withMessage("Password must be greater than 6 "),
+      ];
+    }
+    case "forgotPassword": {
+      return [
+        body("email", "Email is required")
+          .isEmail()
+          .notEmpty()
+          .normalizeEmail()
+          .withMessage("Must be a valid email address"),
+      ];
+    }
+    case "resetPassword": {
+      return [
+        body("newPassword", "Password is required")
+          .notEmpty()
+          .isString()
+          .withMessage("Password must be string")
+          .isLength({ min: 6, max: 255 })
+          .withMessage("Password must be greater than 6 "),
+        body("token", "Token is required")
+          .notEmpty()
+          .isString()
+          .withMessage("Token must be string"),
+      ];
+    }
+    case "verifyEmail": {
+      return [
+        body("userId", "UserId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("UserId must be objectId"),
+      ];
+    }
+    case "activation": {
+      return [
+        body("token", "Token is required")
+          .notEmpty()
+          .isString()
+          .withMessage("Token must be string"),
+      ];
+    }
+    case "changeEmail": {
+      return [
+        body("email", "Email is required")
+          .isEmail()
+          .notEmpty()
+          .normalizeEmail()
+          .withMessage("Must be a valid email address"),
+        param("userId", "UserId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("UserId must be objectId"),
       ];
     }
     default:

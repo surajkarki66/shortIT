@@ -2,16 +2,8 @@ import { Request, Response, NextFunction, RequestHandler } from "express";
 
 import ApiError from "../errors/apiError";
 import config from "../configs/config";
-import { ROLE } from "../interfaces/user";
+import { ITokenPayload } from "../helpers/types/ITokenPayload";
 import { verifyToken } from "../helpers/jwtHelper";
-
-interface TokenPayload {
-  _id: string;
-  role: ROLE;
-  iat: number;
-  exp: number;
-  error: string;
-}
 
 const authenticate: RequestHandler = async (
   req: Request,
@@ -29,7 +21,7 @@ const authenticate: RequestHandler = async (
           token: authorization[1],
           secretKey: String(config.jwtSecret),
         });
-        const { _id, error, role } = (response as unknown) as TokenPayload;
+        const { _id, error, role } = (response as unknown) as ITokenPayload;
         if (_id) {
           req.user = { id: _id, role };
           return next();

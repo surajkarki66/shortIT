@@ -5,6 +5,7 @@ import {
   IUser,
   IUserDocument,
   IUserModel,
+  IUserDaoResponse,
   ROLE,
   STATUS,
 } from "../interfaces/user";
@@ -63,6 +64,12 @@ userSchema.method("comparePassword", async function (password: string) {
   return await bcrypt.compare(password, this.password);
 });
 
+userSchema.static("manualHashPassword", async function (password: string) {
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
+});
+
 userSchema.static(
   "findByEmail",
   async function (email: string): Promise<IUserDocument> {
@@ -92,6 +99,38 @@ userSchema.static("findMe", async function (id: string): Promise<
   return await this.aggregate(pipeline);
 });
 
+userSchema.static(
+  "updateById",
+  async function (id: string, data: any): Promise<IUserDaoResponse> {
+    return new Promise((resolve, reject) => {
+      const userId = Types.ObjectId(id);
+      this.updateOne({ _id: userId }, { $set: data })
+        .then((res: any) => {
+          {
+            const { nModified } = res;
+            let result: IUserDaoResponse;
+            if (nModified === 1) {
+              result = {
+                success: true,
+                data: { message: "User is updated successfully" },
+                statusCode: 200,
+              };
+              resolve(result);
+            }
+            result = {
+              success: false,
+              data: { message: "User is not found" },
+              statusCode: 404,
+            };
+            resolve(result);
+          }
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
+    });
+  }
+);
 const User: IUserModel = model<IUser, IUserModel>("User", userSchema);
 
 export default User;

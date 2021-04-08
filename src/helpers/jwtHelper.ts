@@ -1,11 +1,10 @@
 import { ROLE } from "./../interfaces/user";
-import { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 
 import config from "../configs/config";
 
 function signToken(
-  payload: { _id: Schema.Types.ObjectId; role: ROLE },
+  payload: { _id: string; role: ROLE },
   expiresIn: string
 ): string {
   const secret = String(config.jwtSecret);
@@ -21,7 +20,7 @@ async function verifyToken({
 }: {
   token: string;
   secretKey: string;
-}): Promise<void> {
+}) {
   return jwt.verify(token, secretKey, (error, response) => {
     if (error) {
       if (String(error).startsWith("TokenExpiredError")) {
