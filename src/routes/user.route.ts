@@ -63,5 +63,14 @@ export default class UserRoutes {
       onlyOwnerCanDoThis,
       UserController.changePassword
     );
+    this.router.post(
+      "/changeUserDetails/:userId",
+      userValidation("changeUserDetails"),
+      showDataValidationError,
+      authenticate,
+      permit(["user"]),
+      onlyOwnerCanDoThis,
+      UserController.changeUserDetails
+    );
   }
 }

@@ -477,6 +477,40 @@ const changePassword: RequestHandler = async (
   }
 };
 
+const changeUserDetails: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userDetails: IUserDocument = req.body;
+    const { userId } = req.params;
+    const updateObject = { ...userDetails };
+
+    const { success, data, statusCode } = await User.updateById(
+      userId,
+      updateObject
+    );
+    if (success) {
+      const result = {
+        status: "success",
+        data: { message: "Update successfully." },
+      };
+      const serverResponse = {
+        result: result,
+        statusCode: statusCode,
+        contentType: "application/json",
+      };
+      return writeServerResponse(res, serverResponse);
+    } else {
+      next(ApiError.notFound(data.message));
+      return;
+    }
+  } catch (error) {
+    next(ApiError.internal(`Something went wrong. ${error.message}`));
+    return;
+  }
+};
 export default {
   signup,
   login,
@@ -487,4 +521,5 @@ export default {
   activation,
   changeEmail,
   changePassword,
+  changeUserDetails,
 };
