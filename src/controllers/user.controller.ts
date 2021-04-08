@@ -427,6 +427,56 @@ const changeEmail: RequestHandler = async (
   }
 };
 
+const changePassword: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { userId } = req.params;
+    const {
+      oldPassword,
+      newPassword,
+    }: { oldPassword: string; newPassword: string } = req.body;
+
+    const user = await User.findById(userId);
+    if (user) {
+      const newUser = new User(user);
+      if (!(await newUser.comparePassword(oldPassword))) {
+        next(ApiError.unauthorized("Make sure your password is correct."));
+        return;
+      }
+      const updateObject = {
+        password: await User.manualHashPassword(newPassword),
+      };
+      const { success, statusCode, data } = await User.updateById(
+        userId,
+        updateObject
+      );
+      if (success) {
+        const result = {
+          status: "success",
+          data: { message: "Password changed successfully." },
+        };
+        const serverResponse = {
+          result: result,
+          statusCode: statusCode,
+          contentType: "application/json",
+        };
+        return writeServerResponse(res, serverResponse);
+      } else {
+        next(ApiError.notFound(data.message));
+        return;
+      }
+    }
+    next(ApiError.notFound("User doesn't exist."));
+    return;
+  } catch (error) {
+    next(ApiError.internal(`Something went wrong. ${error.message}`));
+    return;
+  }
+};
+
 export default {
   signup,
   login,
@@ -436,4 +486,5 @@ export default {
   verifyEmail,
   activation,
   changeEmail,
+  changePassword,
 };

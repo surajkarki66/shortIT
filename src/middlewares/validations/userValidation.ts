@@ -98,6 +98,26 @@ export default function userValidation(method: string): ValidationChain[] {
           .withMessage("UserId must be objectId"),
       ];
     }
+    case "changePassword": {
+      return [
+        param("userId", "UserId is required")
+          .notEmpty()
+          .isMongoId()
+          .withMessage("UserId must be objectId"),
+        body("newPassword", "New password is required")
+          .notEmpty()
+          .isString()
+          .withMessage("New Password must be string")
+          .isLength({ min: 6, max: 255 })
+          .withMessage("New Password must be greater than 6 characters"),
+        body("oldPassword", "Old password is required")
+          .notEmpty()
+          .isString()
+          .withMessage("Old Password must be string")
+          .isLength({ min: 6, max: 255 })
+          .withMessage("Old Password must be greater than 6 characters"),
+      ];
+    }
     default:
       return [];
   }
