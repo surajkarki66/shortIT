@@ -1,7 +1,13 @@
 import bcrypt from "bcrypt";
 import { Schema, model, Types } from "mongoose";
 
-import { IUser, IUserDocument, IUserModel } from "../interfaces/user";
+import {
+  IUser,
+  IUserDocument,
+  IUserModel,
+  ROLE,
+  STATUS,
+} from "../interfaces/user";
 
 export const userSchema = new Schema<IUser>(
   {
@@ -28,6 +34,16 @@ export const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      default: "user",
+      enum: ROLE,
+    },
+    status: {
+      type: String,
+      default: "inactive",
+      enum: STATUS,
     },
   },
   {
