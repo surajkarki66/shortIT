@@ -5,7 +5,7 @@ import {
   IUrl,
   IUrlDaoResponse,
   IUrlDocument,
-} from "./../interfaces/url";
+} from "../interfaces/url";
 
 const urlSchema = new Schema<IUrl>(
   {

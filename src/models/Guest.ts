@@ -1,7 +1,7 @@
 import { IUrlDocument } from "interfaces/url";
 import { Schema, model } from "mongoose";
 
-import { IGuestUrlModel, IGuestUrl } from "./../interfaces/guest";
+import { IGuestUrlModel, IGuestUrl } from "../interfaces/guest";
 
 const guestUrlSchema = new Schema<IGuestUrl>(
   {

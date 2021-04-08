@@ -2,8 +2,8 @@ import path from "path";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { validationResult } from "express-validator";
 
-import Url from "../models/url";
-import GuestUrl from "../models/guest";
+import Url from "../models/Url";
+import GuestUrl from "../models/Guest";
 import ApiError from "../errors/apiError";
 import errorFormatter from "../helpers/errorFormatter";
 

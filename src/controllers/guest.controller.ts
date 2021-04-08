@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
-import GuestUrl from "../models/guest";
+import GuestUrl from "../models/Guest";
 import ApiError from "../errors/apiError";
 import config from "../configs/config";
 import writeServerResponse from "../helpers/response";

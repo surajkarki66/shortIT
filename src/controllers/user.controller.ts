@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
-import User from "../models/user";
+import User from "../models/User";
 import ApiError from "../errors/apiError";
 import writeServerResponse from "../helpers/response";
 import errorFormatter from "../helpers/errorFormatter";
