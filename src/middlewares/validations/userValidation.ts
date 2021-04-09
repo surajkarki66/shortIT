@@ -6,6 +6,9 @@ export default function userValidation(method: string): ValidationChain[] {
       return [
         body("firstName", "First Name is required")
           .notEmpty()
+          .trim()
+          .isString()
+          .withMessage("First Name must be string")
           .isLength({
             min: 2,
             max: 32,
@@ -13,6 +16,9 @@ export default function userValidation(method: string): ValidationChain[] {
           .withMessage("First Name must be between 3 to 32 characters"),
         body("lastName", "Last Name is required")
           .notEmpty()
+          .trim()
+          .isString()
+          .withMessage("Last Name must be string")
           .isLength({
             min: 2,
             max: 32,
@@ -28,7 +34,11 @@ export default function userValidation(method: string): ValidationChain[] {
           .isString()
           .withMessage("Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("Password must be greater than 6 "),
+          .withMessage("Password must be greater than 6 ")
+          .matches("[0-9]")
+          .withMessage("Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("Password Must Contain an Uppercase"),
       ];
     }
     case "login": {
@@ -43,7 +53,11 @@ export default function userValidation(method: string): ValidationChain[] {
           .isString()
           .withMessage("Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("Password must be greater than 6 "),
+          .withMessage("Password must be greater than 6 ")
+          .matches("[0-9]")
+          .withMessage("Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("Password Must Contain an Uppercase"),
       ];
     }
     case "forgotPassword": {
@@ -60,9 +74,13 @@ export default function userValidation(method: string): ValidationChain[] {
         body("newPassword", "Password is required")
           .notEmpty()
           .isString()
-          .withMessage("Password must be string")
+          .withMessage("New Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("Password must be greater than 6 "),
+          .withMessage("New Password must be greater than 6 ")
+          .matches("[0-9]")
+          .withMessage("New Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("New Password Must Contain an Uppercase"),
         body("token", "Token is required")
           .notEmpty()
           .isJWT()
@@ -109,13 +127,21 @@ export default function userValidation(method: string): ValidationChain[] {
           .isString()
           .withMessage("New Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("New Password must be greater than 6 characters"),
+          .withMessage("New Password must be greater than 6")
+          .matches("[0-9]")
+          .withMessage("New Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("New Password Must Contain an Uppercase"),
         body("oldPassword", "Old password is required")
           .notEmpty()
           .isString()
           .withMessage("Old Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("Old Password must be greater than 6 characters"),
+          .withMessage("Old Password must be greater than 6")
+          .matches("[0-9]")
+          .withMessage("Old Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("Old Password Must Contain an Uppercase"),
       ];
     }
     case "changeUserDetails": {
@@ -153,7 +179,11 @@ export default function userValidation(method: string): ValidationChain[] {
           .isString()
           .withMessage("Password must be string")
           .isLength({ min: 6, max: 255 })
-          .withMessage("Password must be greater than 6 characters"),
+          .withMessage("Password must be greater than 6 ")
+          .matches("[0-9]")
+          .withMessage("Password Must Contain a Number")
+          .matches("[A-Z]")
+          .withMessage("Password Must Contain an Uppercase"),
       ];
     }
     default:
