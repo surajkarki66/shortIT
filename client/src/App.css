@@ -1,5 +1,3 @@
-.container {
-  width: "100%";
-  max-width: 100vw;
-  min-height: 100vh;
+.App {
+  text-align: center;
 }
