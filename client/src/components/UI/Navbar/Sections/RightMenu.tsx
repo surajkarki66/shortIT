@@ -12,11 +12,14 @@ const RightMenu: React.FC<Props> = (props) => {
     <React.Fragment>
       {" "}
       <Menu mode={props.mode}>
+        <Menu.Item key="signup">
+          <Link to="/signup">Signup</Link>
+        </Menu.Item>
+        <Menu.Item key="login">
+          <Link to="/login">Login</Link>
+        </Menu.Item>
         <Menu.Item key="profile">
           <Link to="/profile">Profile</Link>
-        </Menu.Item>
-        <Menu.Item key="signup">
-          <Link to="/signup">Profile</Link>
         </Menu.Item>
       </Menu>
     </React.Fragment>

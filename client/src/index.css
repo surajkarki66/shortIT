@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.search-bar {
+  justify-content: center;
+  text-align: center;
+  color: black;
+}
+
+.landingPage {
+  margin-top: 50px;
+}

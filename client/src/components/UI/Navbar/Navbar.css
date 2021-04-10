@@ -14,6 +14,20 @@
   float: left;
 }
 
+.menu__title {
+  width: 70px;
+  float: left;
+}
+
+.menu__title h2 {
+  color: white;
+  display: inline-block;
+  position: relative;
+  top: 20px;
+}
+.menu__title h2:hover {
+  color: rgb(127, 110, 201);
+}
 .menu__logo a {
   display: inline-block;
   font-size: 20px;

@@ -34,6 +34,12 @@ const NavBar: React.FC = () => {
           />
         </a>
       </div>
+      <a href="/">
+        <div className="menu__title">
+          <h2>ShortIT</h2>
+        </div>
+      </a>
+
       <div className="menu__container">
         <div className="menu_right">
           <RightMenu mode="horizontal" />
