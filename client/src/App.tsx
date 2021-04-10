@@ -1,12 +1,15 @@
 import React from "react";
 
 import "./App.css";
+import Navbar from "./components/UI/Navbar/Navbar";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>ShortIT</h1>
-    </div>
+    <React.Fragment>
+      <div style={{ paddingTop: "69px", minHeight: "calc(100vh - 80px)" }}>
+        <Navbar />
+      </div>
+    </React.Fragment>
   );
 };
 
