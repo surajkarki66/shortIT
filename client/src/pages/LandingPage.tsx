@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Form } from "antd";
+import { Button, Input, Form, notification } from "antd";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import Axios from "../axios-url";
-import UrlForm from "../components/UI/UrlForm/UrlForm";
 
 interface IGuestUrl {
   code: string;
@@ -33,6 +32,7 @@ const LandingPage: React.FC = () => {
       setIsCopied(false);
     }, 1000);
   };
+
   const generateUrl = async (inputData: { longUrl: string }) => {
     try {
       const response = await Axios.post("/api/url/generateGuestUrl", inputData);
@@ -53,12 +53,46 @@ const LandingPage: React.FC = () => {
   return (
     <React.Fragment>
       <div className="landingPage">
-        <UrlForm
-          loading={loading}
-          formSubmitHandler={formSubmitHandler}
-          customError={guestUrlError}
-          form={form}
-        />
+        <div className="url-form">
+          <h2 style={{ textTransform: "uppercase" }}>
+            Short your freaking long URL
+          </h2>
+          {guestUrlError !== undefined ? (
+            <h4 style={{ color: "red" }}>{guestUrlError}</h4>
+          ) : undefined}
+          <Form form={form} onFinish={(value) => formSubmitHandler(value)}>
+            <Form.Item
+              name="Url"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your freaky long url!",
+                },
+              ]}
+            >
+              <Input
+                style={{
+                  width: "50%",
+                }}
+                type="text"
+                placeholder="Enter the freaking long url"
+                size="large"
+                allowClear
+                id="urlInput"
+              />
+            </Form.Item>
+            <div style={{ marginTop: "20px" }}>
+              <Button
+                size="large"
+                type="primary"
+                loading={loading}
+                htmlType="submit"
+              >
+                {loading ? "" : "Shorten"}
+              </Button>
+            </div>
+          </Form>
+        </div>
         {guestUrl && !loading && (
           <div className="urlResponse">
             <h1>Your short URL: Click the link to copy</h1>
@@ -67,7 +101,7 @@ const LandingPage: React.FC = () => {
             </CopyToClipboard>
             <h3>{String(new Date(guestUrl.createdAt))}</h3>
 
-            {isCopied && <span style={{ color: "black" }}>Copied!</span>}
+            {isCopied && notification.success({ message: "Copied" })}
           </div>
         )}
       </div>
