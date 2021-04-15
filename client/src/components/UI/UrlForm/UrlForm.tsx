@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, FormInstance } from "antd";
 
 interface Props {
   loading: boolean;
   customError: string;
   formSubmitHandler: (value: any) => void;
+  form: FormInstance<any>;
 }
 
 const urlForm: React.FC<Props> = (props) => {
@@ -17,7 +18,10 @@ const urlForm: React.FC<Props> = (props) => {
         {props.customError !== undefined ? (
           <h4 style={{ color: "red" }}>{props.customError}</h4>
         ) : undefined}
-        <Form onFinish={(value) => props.formSubmitHandler(value)}>
+        <Form
+          form={props.form}
+          onFinish={(value) => props.formSubmitHandler(value)}
+        >
           <Form.Item
             name="Url"
             rules={[
@@ -31,6 +35,8 @@ const urlForm: React.FC<Props> = (props) => {
               type="text"
               placeholder="Enter the freaking long url"
               size="large"
+              allowClear
+              id="urlInput"
             />
           </Form.Item>
           <div style={{ marginTop: "20px" }}>

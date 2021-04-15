@@ -22,3 +22,17 @@ code {
 .landingPage {
   margin-top: 50px;
 }
+
+.urlResponse {
+  margin-top: 30px;
+  text-align: center;
+  z-index: 2;
+  padding: 4rem;
+  background-color: white;
+  opacity: 0.6;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 300px;
+}
