@@ -57,9 +57,9 @@ const LandingPage: React.FC = () => {
           <h2 style={{ textTransform: "uppercase" }}>
             Short your freaking long URL
           </h2>
-          {guestUrlError !== undefined ? (
+          {guestUrlError !== "" && (
             <h4 style={{ color: "red" }}>{guestUrlError}</h4>
-          ) : undefined}
+          )}
           <Form form={form} onFinish={(value) => formSubmitHandler(value)}>
             <Form.Item
               name="Url"

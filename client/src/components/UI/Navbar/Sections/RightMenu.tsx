@@ -13,7 +13,7 @@ const RightMenu: React.FC<Props> = (props) => {
       {" "}
       <Menu mode={props.mode}>
         <Menu.Item key="signup">
-          <Link to="/signup">Signup</Link>
+          <Link to="/register">Register</Link>
         </Menu.Item>
         <Menu.Item key="login">
           <Link to="/login">Login</Link>

@@ -13,6 +13,7 @@ code {
     monospace;
 }
 
+/* Guest Url form */
 .url-form {
   justify-content: center;
   text-align: center;
@@ -35,4 +36,13 @@ code {
   justify-content: space-between;
   flex-direction: column;
   height: 300px;
+}
+
+/* Register form */
+
+.register {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
