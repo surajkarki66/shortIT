@@ -1,28 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 
-import { Redirect } from "react-router";
+import { IUserRegisterInput } from "../../pages/Register";
 
-import Axios from "../../axios-url";
-
-interface IUserRegisterInput {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+interface Props {
+  userInputData: IUserRegisterInput;
+  setUserInputData: React.Dispatch<React.SetStateAction<IUserRegisterInput>>;
+  loading: boolean;
+  registerError: string;
+  onFinish: (value: any) => void;
 }
 
-const RegisterForm: React.FC = () => {
-  const [userInputData, setUserInputData] = useState<IUserRegisterInput>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [successfulRegister, setSuccessfulRegister] = useState(false);
-  const [registerError, setRegisterError] = useState("");
+const RegisterForm: React.FC<Props> = (props) => {
+  const {
+    userInputData,
+    setUserInputData,
+    loading,
+    registerError,
+    onFinish,
+  } = props;
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -45,28 +42,7 @@ const RegisterForm: React.FC = () => {
       },
     },
   };
-  const onFinish = (_values: any) => {
-    setLoading(true);
-    register(userInputData);
-  };
 
-  const register = async (inputData: IUserRegisterInput) => {
-    try {
-      await Axios.post("/api/users/register", inputData);
-      setLoading(false);
-      setRegisterError("");
-      setSuccessfulRegister(true);
-    } catch (error) {
-      const { data } = error.response;
-      setLoading(false);
-      setRegisterError(data.data.error);
-      setSuccessfulRegister(false);
-    }
-  };
-
-  if (successfulRegister) {
-    return <Redirect to="/login" />;
-  }
   return (
     <React.Fragment>
       {registerError !== "" && (
