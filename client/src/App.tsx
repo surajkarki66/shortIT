@@ -5,6 +5,7 @@ import "./App.css";
 import Navbar from "./components/UI/Navbar/Navbar";
 import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </div>
     </React.Fragment>

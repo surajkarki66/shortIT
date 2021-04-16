@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu } from "antd";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import {
+  Link,
+  RouteComponentProps,
+  withRouter,
+  useLocation,
+} from "react-router-dom";
 import { MenuMode } from "antd/lib/menu";
 
 interface Props extends RouteComponentProps {
@@ -8,17 +13,19 @@ interface Props extends RouteComponentProps {
 }
 
 const RightMenu: React.FC<Props> = (props) => {
+  const location = useLocation();
+
   return (
     <React.Fragment>
       {" "}
-      <Menu mode={props.mode}>
-        <Menu.Item key="signup">
+      <Menu defaultSelectedKeys={[location.pathname]} mode={props.mode}>
+        <Menu.Item key="/register">
           <Link to="/register">Register</Link>
         </Menu.Item>
-        <Menu.Item key="login">
+        <Menu.Item key="/login">
           <Link to="/login">Login</Link>
         </Menu.Item>
-        <Menu.Item key="profile">
+        <Menu.Item key="/profile">
           <Link to="/profile">Profile</Link>
         </Menu.Item>
       </Menu>
