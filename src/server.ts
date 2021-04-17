@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import hpp from "hpp";
 import morgan from "morgan";
@@ -26,8 +27,6 @@ class Server {
   }
 
   private routes(): void {
-    // Static route
-
     // General routes
     this.app.use("/api/users", new UserRoutes().router);
     this.app.use("/api/url", new UrlRoutes().router);
@@ -38,12 +37,21 @@ class Server {
   }
 
   private middlewares(): void {
+    this.app.enable("trust proxy");
+    this.app.use(
+      cors({
+        origin: config.url,
+        credentials: true,
+      })
+    );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(cookieParser());
     this.app.use(mongoSanitize());
     this.app.use(helmet());
     this.app.use(hpp());
     this.app.use(httpLogger);
+    this.app.use(morgan("dev"));
     this.app.use(
       compression({
         level: 6,
@@ -56,15 +64,6 @@ class Server {
         },
       })
     );
-
-    if (config.env === "development") {
-      this.app.use(morgan("dev"));
-      this.app.use(
-        cors({
-          origin: config.url,
-        })
-      );
-    }
   }
 
   private async database() {

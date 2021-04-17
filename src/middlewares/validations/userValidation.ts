@@ -51,13 +51,7 @@ export default function userValidation(method: string): ValidationChain[] {
         body("password", "Password is required")
           .notEmpty()
           .isString()
-          .withMessage("Password must be string")
-          .isLength({ min: 6, max: 255 })
-          .withMessage("Password must be greater than 6 ")
-          .matches("[0-9]")
-          .withMessage("Password Must Contain a Number")
-          .matches("[A-Z]")
-          .withMessage("Password Must Contain an Uppercase"),
+          .withMessage("Password must be string"),
       ];
     }
     case "forgotPassword": {

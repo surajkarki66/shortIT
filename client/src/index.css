@@ -46,3 +46,12 @@ code {
   justify-content: center;
   align-items: center;
 }
+
+/* Login form */
+
+.login {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

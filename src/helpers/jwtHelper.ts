@@ -5,7 +5,7 @@ import config from "../configs/config";
 
 function signToken(
   payload: { _id: string; role: ROLE },
-  expiresIn: string
+  expiresIn: string | number | undefined
 ): string {
   const secret = String(config.jwtSecret);
   const options = {

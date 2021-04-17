@@ -82,7 +82,7 @@ const login: RequestHandler = async (
     const newUser = new User(user);
     if (await newUser.comparePassword(password)) {
       const payload = { _id: newUser._id.toString(), role: newUser.role };
-      const accessToken = signToken(payload, "1h");
+      const accessToken = signToken(payload, config.jwtExpiresNum);
       const result = {
         status: "success",
         data: { accessToken: accessToken },
@@ -92,10 +92,12 @@ const login: RequestHandler = async (
         statusCode: 200,
         contentType: "application/json",
       };
-      res.cookie("AccessToken", accessToken, {
-        httpOnly: true,
-        maxAge: 3600000,
-      });
+      const options = {
+        maxAge: Number(config.jwtExpiresNum),
+        secure: config.env === "production" ? true : false,
+        httpOnly: config.env === "production" ? true : false,
+      };
+      res.cookie("AccessToken", accessToken, options);
       return writeServerResponse(res, serverResponse);
     } else {
       next(ApiError.badRequest("Incorrect password."));

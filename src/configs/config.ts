@@ -36,6 +36,7 @@ const SERVER = {
 };
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_NUM = process.env.JWT_EXPIRES_NUM;
 const BASE_URL = process.env.BASE_URL;
 
 const EMAIL = process.env.EMAIL;
@@ -53,6 +54,7 @@ const config = {
   url: CLIENT_URL,
   db: DATABASE,
   jwtSecret: JWT_SECRET,
+  jwtExpiresNum: JWT_EXPIRES_NUM,
   baseUrl: BASE_URL,
   nodeMailer: NODEMAIL,
 };
