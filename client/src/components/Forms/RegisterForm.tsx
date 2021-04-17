@@ -2,24 +2,15 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 
-import { IUserRegisterInput } from "../../pages/Register";
-
 interface Props {
-  userInputData: IUserRegisterInput;
-  setUserInputData: React.Dispatch<React.SetStateAction<IUserRegisterInput>>;
   loading: boolean;
   registerError: string;
   onFinish: (value: any) => void;
+  onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const RegisterForm: React.FC<Props> = (props) => {
-  const {
-    userInputData,
-    setUserInputData,
-    loading,
-    registerError,
-    onFinish,
-  } = props;
+  const { loading, registerError, onFinish, onChangeHandler } = props;
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -69,14 +60,7 @@ const RegisterForm: React.FC<Props> = (props) => {
           },
         ]}
       >
-        <Input
-          onChange={(event) =>
-            setUserInputData({
-              ...userInputData,
-              firstName: event.target.value,
-            })
-          }
-        />
+        <Input name="firstName" onChange={(event) => onChangeHandler(event)} />
       </Form.Item>
       <Form.Item
         label="Last-Name"
@@ -90,14 +74,7 @@ const RegisterForm: React.FC<Props> = (props) => {
           },
         ]}
       >
-        <Input
-          onChange={(event) =>
-            setUserInputData({
-              ...userInputData,
-              lastName: event.target.value,
-            })
-          }
-        />
+        <Input name="lastName" onChange={(event) => onChangeHandler(event)} />
       </Form.Item>
       <Form.Item
         name="email"
@@ -113,14 +90,7 @@ const RegisterForm: React.FC<Props> = (props) => {
           },
         ]}
       >
-        <Input
-          onChange={(event) =>
-            setUserInputData({
-              ...userInputData,
-              email: event.target.value,
-            })
-          }
-        />
+        <Input name="email" onChange={(event) => onChangeHandler(event)} />
       </Form.Item>
       <Form.Item
         name="password"
@@ -140,12 +110,8 @@ const RegisterForm: React.FC<Props> = (props) => {
         hasFeedback
       >
         <Input.Password
-          onChange={(event) =>
-            setUserInputData({
-              ...userInputData,
-              password: event.target.value,
-            })
-          }
+          name="password"
+          onChange={(event) => onChangeHandler(event)}
         />
       </Form.Item>
 

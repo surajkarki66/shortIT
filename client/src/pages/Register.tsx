@@ -26,6 +26,12 @@ const Register: React.FC = () => {
     setLoading(true);
     register(userInputData);
   };
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInputData({
+      ...userInputData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const register = async (inputData: IUserRegisterInput) => {
     try {
@@ -50,10 +56,9 @@ const Register: React.FC = () => {
       <h1>Register</h1>
       <RegisterForm
         loading={loading}
-        userInputData={userInputData}
-        setUserInputData={setUserInputData}
         registerError={registerError}
         onFinish={onFinish}
+        onChangeHandler={onChange}
       />
     </div>
   );
