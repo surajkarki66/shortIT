@@ -9,11 +9,10 @@ import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
-import { UserContext } from "./components/UserContext";
+import { AuthContext } from "./context/AuthContext";
 
 const App: React.FC = () => {
-  const { token } = useContext(UserContext);
-
+  const { loggedIn } = useContext(AuthContext);
   let routes = (
     <Switch>
       <Route exact path="/" component={LandingPage} />
@@ -22,7 +21,7 @@ const App: React.FC = () => {
       <Redirect to="/" />
     </Switch>
   );
-  if (token) {
+  if (loggedIn) {
     routes = (
       <Switch>
         <Route exact path="/dashboard" component={Dashboard} />

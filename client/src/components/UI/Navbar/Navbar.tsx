@@ -1,17 +1,17 @@
-import Cookies from "js-cookie";
 import React, { useState, useContext } from "react";
 import { Drawer, Button } from "antd";
 import { Link } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router";
 
 import "./Navbar.css";
+import Axios from "../../../axios-url";
 import RightMenu from "./Sections/RightMenu";
 import Logo from "../../../logo.svg";
-import { UserContext } from "../../UserContext";
+import { AuthContext } from "../../../context/AuthContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { token, setToken } = useContext(UserContext);
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -19,9 +19,9 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
   const onClose = () => {
     setVisible(false);
   };
-  const logOut = () => {
-    setToken("");
-    Cookies.remove("AccessToken");
+  const logOut = async () => {
+    await Axios.get("/api/users/logout");
+    await getLoggedIn();
     props.history.push("/");
   };
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,7 +57,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         <div className="menu_right">
           <RightMenu
             mode="horizontal"
-            token={token}
+            loggedIn={loggedIn}
             onClickHandler={onClickHandler}
           />
         </div>
@@ -78,7 +78,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         >
           <RightMenu
             mode="inline"
-            token={token}
+            loggedIn={loggedIn}
             onClickHandler={onClickHandler}
           />
         </Drawer>

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { withRouter, Redirect } from "react-router";
+import { Redirect } from "react-router";
 
 import Axios from "../axios-url";
 import LoginForm from "../components/Forms/LoginForm";
-import { UserContext } from "../components/UserContext";
+import { AuthContext } from "../context/AuthContext";
 
 type IUserLoginInput = {
   email: string;
@@ -11,7 +11,7 @@ type IUserLoginInput = {
 };
 
 const Login: React.FC = () => {
-  const { setToken } = useContext(UserContext);
+  const { getLoggedIn } = useContext(AuthContext);
 
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",
@@ -33,13 +33,11 @@ const Login: React.FC = () => {
   };
   const login = async (inputData: IUserLoginInput) => {
     try {
-      const { data } = await Axios.post("/api/users/login", inputData);
-      if (data.data.accessToken) {
-        setLoading(false);
-        setLoginError("");
-        setSuccessfulLogin(true);
-        setToken(data.data.accessToken);
-      }
+      await Axios.post("/api/users/login", inputData);
+      await getLoggedIn();
+      setLoading(false);
+      setLoginError("");
+      setSuccessfulLogin(true);
     } catch (error) {
       const { data } = error.response;
       setLoading(false);
@@ -64,4 +62,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default withRouter(Login);
+export default Login;

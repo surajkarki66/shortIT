@@ -135,12 +135,11 @@ const logOut: RequestHandler = (
   _next: NextFunction
 ) => {
   const options = {
-    expires: new Date(0),
+    maxAge: 0,
     secure: config.env === "production" ? true : false,
     httpOnly: config.env === "production" ? true : false,
   };
-  res.cookie("token", options);
-  res.send("Logout successfully");
+  res.cookie("token", "", options).send();
 };
 
 const loggedIn: RequestHandler = async (

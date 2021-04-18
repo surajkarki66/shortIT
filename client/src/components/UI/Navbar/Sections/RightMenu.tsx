@@ -10,13 +10,13 @@ import { MenuMode } from "antd/lib/menu";
 
 interface Props extends RouteComponentProps {
   mode: MenuMode;
-  token: string;
+  loggedIn: boolean;
   onClickHandler: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
-  const { token, onClickHandler } = props;
+  const { onClickHandler, loggedIn } = props;
   let menu = (
     <Menu defaultSelectedKeys={[location.pathname]} mode={props.mode}>
       <Menu.Item key="/register" style={{ borderBottom: "none" }}>
@@ -27,7 +27,7 @@ const RightMenu: React.FC<Props> = (props) => {
       </Menu.Item>
     </Menu>
   );
-  if (token) {
+  if (loggedIn) {
     menu = (
       <Button type="primary" onClick={onClickHandler}>
         Logout
