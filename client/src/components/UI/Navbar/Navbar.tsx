@@ -1,14 +1,17 @@
+import Cookies from "js-cookie";
 import React, { useState, useContext } from "react";
 import { Drawer, Button } from "antd";
+import { Link } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router";
 
 import "./Navbar.css";
 import RightMenu from "./Sections/RightMenu";
 import Logo from "../../../logo.svg";
 import { UserContext } from "../../UserContext";
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(UserContext);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -16,13 +19,22 @@ const NavBar: React.FC = () => {
   const onClose = () => {
     setVisible(false);
   };
+  const logOut = () => {
+    setIsAuthenticated(false);
+    Cookies.remove("AccessToken");
+    props.history.push("/");
+  };
+  const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    logOut();
+  };
   return (
     <nav
       className="menu"
       style={{ position: "fixed", zIndex: 1, width: "100%" }}
     >
       <div className="menu__logo">
-        <a href="/">
+        <Link to="/">
           <img
             src={Logo}
             alt="Logo"
@@ -33,17 +45,21 @@ const NavBar: React.FC = () => {
               border: "2 px solid",
             }}
           />
-        </a>
+        </Link>
       </div>
-      <a href="/">
+      <Link to="/">
         <div className="menu__title">
           <h2>ShortIT</h2>
         </div>
-      </a>
+      </Link>
 
       <div className="menu__container">
         <div className="menu_right">
-          <RightMenu mode="horizontal" isAuthenticated={isAuthenticated} />
+          <RightMenu
+            mode="horizontal"
+            isAuthenticated={isAuthenticated}
+            onClickHandler={onClickHandler}
+          />
         </div>
         <Button
           className="menu__mobile-button"
@@ -60,11 +76,15 @@ const NavBar: React.FC = () => {
           onClose={onClose}
           visible={visible}
         >
-          <RightMenu mode="inline" isAuthenticated={isAuthenticated} />
+          <RightMenu
+            mode="inline"
+            isAuthenticated={isAuthenticated}
+            onClickHandler={onClickHandler}
+          />
         </Drawer>
       </div>
     </nav>
   );
 };
 
-export default NavBar;
+export default withRouter(NavBar);

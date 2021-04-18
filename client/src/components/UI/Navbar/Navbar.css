@@ -77,7 +77,7 @@
 .menu_drawer .ant-drawer-body {
   padding: 0 !important;
 }
-.menu_drawer .ant-drawer-body .ant-btn {
+.menu_drawer .ant-drawer-body.ant-btn {
   margin-left: 10px;
 }
 
