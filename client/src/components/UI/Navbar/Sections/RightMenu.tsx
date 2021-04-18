@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Menu } from "antd";
 import {
   Link,
@@ -8,12 +8,15 @@ import {
 } from "react-router-dom";
 import { MenuMode } from "antd/lib/menu";
 
+import { UserContext } from "../../../UserContext";
+
 interface Props extends RouteComponentProps {
   mode: MenuMode;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
+  const { isAuthenticated } = useContext(UserContext);
 
   return (
     <React.Fragment>
@@ -26,7 +29,7 @@ const RightMenu: React.FC<Props> = (props) => {
           <Link to="/login">Login</Link>
         </Menu.Item>
         <Menu.Item key="/profile">
-          <Link to="/profile">Profile</Link>
+          <Link to="/profile">Dashboard</Link>
         </Menu.Item>
       </Menu>
     </React.Fragment>

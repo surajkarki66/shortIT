@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router";
 
 import Axios from "../axios-url";
 import LoginForm from "../components/Forms/LoginForm";
+import { UserContext } from "../components/UserContext";
 
 export interface IUserLoginInput {
   email: string;
@@ -10,6 +11,8 @@ export interface IUserLoginInput {
 }
 
 const Login: React.FC = () => {
+  const { setToken, setIsAuthenticated } = useContext(UserContext);
+
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",
     password: "",
@@ -35,6 +38,8 @@ const Login: React.FC = () => {
         setLoading(false);
         setLoginError("");
         setSuccessfulLogin(true);
+        setToken(data.data.accessToken);
+        setIsAuthenticated(true);
       }
     } catch (error) {
       const { data } = error.response;
