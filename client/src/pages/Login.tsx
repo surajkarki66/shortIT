@@ -49,7 +49,7 @@ const Login: React.FC = () => {
     }
   };
   if (successfulLogin) {
-    return <Redirect exact to="/" />;
+    return <Redirect exact to="/dashboard" />;
   }
 
   return (

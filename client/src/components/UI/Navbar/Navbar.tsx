@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Drawer, Button } from "antd";
 
 import "./Navbar.css";
 import RightMenu from "./Sections/RightMenu";
 import Logo from "../../../logo.svg";
+import { UserContext } from "../../UserContext";
 
 const NavBar: React.FC = () => {
   const [visible, setVisible] = useState(false);
-
+  const { isAuthenticated } = useContext(UserContext);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -42,7 +43,7 @@ const NavBar: React.FC = () => {
 
       <div className="menu__container">
         <div className="menu_right">
-          <RightMenu mode="horizontal" />
+          <RightMenu mode="horizontal" isAuthenticated={isAuthenticated} />
         </div>
         <Button
           className="menu__mobile-button"
@@ -59,7 +60,7 @@ const NavBar: React.FC = () => {
           onClose={onClose}
           visible={visible}
         >
-          <RightMenu mode="inline" />
+          <RightMenu mode="inline" isAuthenticated={isAuthenticated} />
         </Drawer>
       </div>
     </nav>
