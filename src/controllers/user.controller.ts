@@ -97,7 +97,7 @@ const login: RequestHandler = async (
         secure: config.env === "production" ? true : false,
         httpOnly: config.env === "production" ? true : false,
       };
-      res.cookie("AccessToken", accessToken, options);
+      res.cookie("token", accessToken, options);
       return writeServerResponse(res, serverResponse);
     } else {
       next(ApiError.badRequest("Incorrect password."));
@@ -139,8 +139,25 @@ const logOut: RequestHandler = (
     secure: config.env === "production" ? true : false,
     httpOnly: config.env === "production" ? true : false,
   };
-  res.cookie("AccessToken", options);
+  res.cookie("token", options);
   res.send("Logout successfully");
+};
+
+const loggedIn: RequestHandler = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.json(false);
+
+    await verifyToken({ token, secretKey: String(config.jwtSecret) });
+
+    res.send(true);
+  } catch (err) {
+    res.json(false);
+  }
 };
 
 const forgotPassword: RequestHandler = async (
@@ -571,6 +588,7 @@ export default {
   signup,
   login,
   logOut,
+  loggedIn,
   me,
   forgotPassword,
   resetPassword,

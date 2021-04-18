@@ -21,6 +21,7 @@ export default class UserRoutes {
     );
     this.router.post("/login", userValidation("login"), UserController.login);
     this.router.get("/logout", UserController.logOut);
+    this.router.get("/loggedIn", UserController.loggedIn);
     this.router.get("/me", authenticate, permit(["user"]), UserController.me);
     this.router.post(
       "/forgotPassword",
