@@ -129,6 +129,20 @@ const me = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const logOut: RequestHandler = (
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const options = {
+    expires: new Date(0),
+    secure: config.env === "production" ? true : false,
+    httpOnly: config.env === "production" ? true : false,
+  };
+  res.cookie("AccessToken", options);
+  res.send("Logout successfully");
+};
+
 const forgotPassword: RequestHandler = async (
   req: Request,
   res: Response,
@@ -556,6 +570,7 @@ const deleteUser: RequestHandler = async (
 export default {
   signup,
   login,
+  logOut,
   me,
   forgotPassword,
   resetPassword,

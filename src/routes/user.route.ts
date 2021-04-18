@@ -20,6 +20,7 @@ export default class UserRoutes {
       UserController.signup
     );
     this.router.post("/login", userValidation("login"), UserController.login);
+    this.router.get("/logout", UserController.logOut);
     this.router.get("/me", authenticate, permit(["user"]), UserController.me);
     this.router.post(
       "/forgotPassword",
