@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router";
+import { withRouter, Redirect } from "react-router";
 
 import Axios from "../axios-url";
 import RegisterForm from "../components/Forms/RegisterForm";
 
-export interface IUserRegisterInput {
+type UserRegisterInputType = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-}
+};
 
 const Register: React.FC = () => {
-  const [userInputData, setUserInputData] = useState<IUserRegisterInput>({
+  const [userInputData, setUserInputData] = useState<UserRegisterInputType>({
     firstName: "",
     lastName: "",
     email: "",
@@ -33,7 +33,7 @@ const Register: React.FC = () => {
     });
   };
 
-  const register = async (inputData: IUserRegisterInput) => {
+  const register = async (inputData: UserRegisterInputType) => {
     try {
       await Axios.post("/api/users/register", inputData);
       setLoading(false);
@@ -48,7 +48,7 @@ const Register: React.FC = () => {
   };
 
   if (successfulRegister) {
-    return <Redirect to="/login" />;
+    return <Redirect exact to="/login" />;
   }
 
   return (
@@ -64,4 +64,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default withRouter(Register);

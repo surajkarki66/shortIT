@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-interface Props {
+type Props = {
   loading: boolean;
   loginError: string;
   onFinish: (value: any) => void;
   onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 const LoginForm: React.FC<Props> = (props) => {
   const { loading, loginError, onFinish, onChangeHandler } = props;

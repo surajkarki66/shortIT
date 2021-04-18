@@ -11,7 +11,7 @@ import { UserContext } from "../../UserContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = useContext(UserContext);
+  const { token, setToken } = useContext(UserContext);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -20,7 +20,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
     setVisible(false);
   };
   const logOut = () => {
-    setIsAuthenticated(false);
+    setToken("");
     Cookies.remove("AccessToken");
     props.history.push("/");
   };
@@ -57,7 +57,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         <div className="menu_right">
           <RightMenu
             mode="horizontal"
-            isAuthenticated={isAuthenticated}
+            token={token}
             onClickHandler={onClickHandler}
           />
         </div>
@@ -78,7 +78,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         >
           <RightMenu
             mode="inline"
-            isAuthenticated={isAuthenticated}
+            token={token}
             onClickHandler={onClickHandler}
           />
         </Drawer>

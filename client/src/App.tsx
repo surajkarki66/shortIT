@@ -3,26 +3,30 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import Navbar from "./components/UI/Navbar/Navbar";
+
+import Dashboard from "./components/Dashboard/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+
 import { UserContext } from "./components/UserContext";
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
   let routes = (
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
+      <Redirect to="/" />
     </Switch>
   );
-  if (isAuthenticated) {
+  if (token) {
     routes = (
       <Switch>
-        <Route exact path="/dashboard" />
-        <Redirect exact to="/dashboard" />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Redirect to="/dashboard" />
       </Switch>
     );
   }

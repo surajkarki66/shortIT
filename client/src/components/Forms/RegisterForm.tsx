@@ -2,12 +2,12 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 
-interface Props {
+type Props = {
   loading: boolean;
   registerError: string;
   onFinish: (value: any) => void;
   onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 const RegisterForm: React.FC<Props> = (props) => {
   const { loading, registerError, onFinish, onChangeHandler } = props;

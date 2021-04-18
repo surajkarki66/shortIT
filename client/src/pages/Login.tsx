@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
-import { Redirect } from "react-router";
+import { withRouter, Redirect } from "react-router";
 
 import Axios from "../axios-url";
 import LoginForm from "../components/Forms/LoginForm";
 import { UserContext } from "../components/UserContext";
 
-export interface IUserLoginInput {
+type IUserLoginInput = {
   email: string;
   password: string;
-}
+};
 
 const Login: React.FC = () => {
-  const { setToken, setIsAuthenticated } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
 
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",
@@ -39,7 +39,6 @@ const Login: React.FC = () => {
         setLoginError("");
         setSuccessfulLogin(true);
         setToken(data.data.accessToken);
-        setIsAuthenticated(true);
       }
     } catch (error) {
       const { data } = error.response;
@@ -65,4 +64,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

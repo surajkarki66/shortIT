@@ -4,13 +4,13 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import Axios from "../axios-url";
 
-interface IGuestUrl {
+type IGuestUrl = {
   code: string;
   createdAt: Date;
   updatedAt: Date;
   longUrl: string;
   shortUrl: string;
-}
+};
 
 const LandingPage: React.FC = () => {
   const [guestUrl, setGuestUrl] = useState<IGuestUrl>();
