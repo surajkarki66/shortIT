@@ -33,23 +33,23 @@ const LandingPage: React.FC = () => {
     }, 1000);
   };
 
-  const generateUrl = async (inputData: { longUrl: string }) => {
-    try {
-      const response = await Axios.post("/api/url/generateGuestUrl", inputData);
-      const { data } = response;
-      setGuestUrl(data.data);
-      setLoading(false);
-      setGuestUrlError("");
-      form.resetFields();
-    } catch (error) {
-      const { data } = error.response;
-      setGuestUrlError(data.data.error);
-      setLoading(false);
-      setGuestUrl(undefined);
-      form.resetFields();
-    }
+  const generateUrl = (inputData: { longUrl: string }) => {
+    Axios.post("/api/url/generateGuestUrl", inputData)
+      .then((res) => {
+        const { data } = res;
+        setGuestUrl(data.data);
+        setLoading(false);
+        setGuestUrlError("");
+        form.resetFields();
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        setGuestUrlError(data.data.error);
+        setLoading(false);
+        setGuestUrl(undefined);
+        form.resetFields();
+      });
   };
-
   return (
     <React.Fragment>
       <div className="landingPage">
