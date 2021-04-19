@@ -22,9 +22,11 @@ const Register: React.FC = () => {
   const [successfulRegister, setSuccessfulRegister] = useState(false);
   const [registerError, setRegisterError] = useState("");
 
-  const onFinish = (_values: any) => {
-    setLoading(true);
-    register(userInputData);
+  const onFinish = (values: any) => {
+    if (values) {
+      setLoading(true);
+      register(userInputData);
+    }
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInputData({
@@ -33,18 +35,19 @@ const Register: React.FC = () => {
     });
   };
 
-  const register = async (inputData: UserRegisterInputType) => {
-    try {
-      await Axios.post("/api/users/register", inputData);
-      setLoading(false);
-      setRegisterError("");
-      setSuccessfulRegister(true);
-    } catch (error) {
-      const { data } = error.response;
-      setLoading(false);
-      setRegisterError(data.data.error);
-      setSuccessfulRegister(false);
-    }
+  const register = (inputData: UserRegisterInputType) => {
+    Axios.post("/api/users/register", inputData)
+      .then((_res) => {
+        setLoading(false);
+        setRegisterError("");
+        setSuccessfulRegister(true);
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        setLoading(false);
+        setRegisterError(data.data.error);
+        setSuccessfulRegister(false);
+      });
   };
 
   if (successfulRegister) {
