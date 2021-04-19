@@ -8,7 +8,7 @@ type Props = {
 
 type AuthContextType = {
   token: string;
-  getToken: () => Promise<void>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -16,17 +16,14 @@ export const AuthContext = createContext({} as AuthContextType);
 export const AuthContextProvider: React.FC<Props> = (props) => {
   const [token, setToken] = useState("");
 
-  async function getToken() {
-    const { data } = await Axios.get("/api/users/loggedIn");
-    setToken(data);
-  }
-
   useEffect(() => {
-    getToken();
+    Axios.get("/api/users/loggedIn").then((res) => {
+      setToken(res.data);
+    });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, getToken }}>
+    <AuthContext.Provider value={{ token, setToken }}>
       {props.children}
     </AuthContext.Provider>
   );
