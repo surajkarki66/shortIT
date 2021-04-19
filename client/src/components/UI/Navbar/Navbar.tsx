@@ -19,14 +19,16 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
   const onClose = () => {
     setVisible(false);
   };
-  const logOut = async () => {
-    const { data } = await Axios.get("/api/users/logout");
-    setToken(data);
-    props.history.push("/");
+  const logout = () => {
+    Axios.get("/api/users/logout").then((res) => {
+      const { data } = res;
+      setToken(data);
+      props.history.push("/");
+    });
   };
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    logOut();
+    logout();
   };
   return (
     <nav
