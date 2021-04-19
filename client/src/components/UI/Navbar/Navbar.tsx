@@ -11,7 +11,7 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { loggedIn, getLoggedIn } = useContext(AuthContext);
+  const { token, getToken } = useContext(AuthContext);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -21,7 +21,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
   };
   const logOut = async () => {
     await Axios.get("/api/users/logout");
-    await getLoggedIn();
+    await getToken();
     props.history.push("/");
   };
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,7 +57,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         <div className="menu_right">
           <RightMenu
             mode="horizontal"
-            loggedIn={loggedIn}
+            token={token}
             onClickHandler={onClickHandler}
           />
         </div>
@@ -78,7 +78,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         >
           <RightMenu
             mode="inline"
-            loggedIn={loggedIn}
+            token={token}
             onClickHandler={onClickHandler}
           />
         </Drawer>

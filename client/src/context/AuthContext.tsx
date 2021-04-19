@@ -7,26 +7,26 @@ type Props = {
 };
 
 type AuthContextType = {
-  loggedIn: boolean;
-  getLoggedIn: () => Promise<void>;
+  token: string;
+  getToken: () => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthContextProvider: React.FC<Props> = (props) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [token, setToken] = useState("");
 
-  async function getLoggedIn() {
+  async function getToken() {
     const { data } = await Axios.get("/api/users/loggedIn");
-    setLoggedIn(data);
+    setToken(data);
   }
 
   useEffect(() => {
-    getLoggedIn();
+    getToken();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
+    <AuthContext.Provider value={{ token, getToken }}>
       {props.children}
     </AuthContext.Provider>
   );

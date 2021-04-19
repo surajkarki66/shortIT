@@ -149,13 +149,13 @@ const loggedIn: RequestHandler = async (
 ) => {
   try {
     const token = req.cookies.token;
-    if (!token) return res.json(false);
+    if (!token) return res.send("");
 
     await verifyToken({ token, secretKey: String(config.jwtSecret) });
 
-    res.send(true);
+    res.send(token);
   } catch (err) {
-    res.json(false);
+    res.send("");
   }
 };
 

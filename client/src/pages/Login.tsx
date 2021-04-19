@@ -11,7 +11,7 @@ type IUserLoginInput = {
 };
 
 const Login: React.FC = () => {
-  const { getLoggedIn } = useContext(AuthContext);
+  const { getToken } = useContext(AuthContext);
 
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
   const login = async (inputData: IUserLoginInput) => {
     try {
       await Axios.post("/api/users/login", inputData);
-      await getLoggedIn();
+      await getToken();
       setLoading(false);
       setLoginError("");
       setSuccessfulLogin(true);
