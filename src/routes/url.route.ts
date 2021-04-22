@@ -19,7 +19,6 @@ export default class UrlRoutes {
       "/generateUrl",
       authenticate,
       permit(["user"]),
-      onlyActiveUserCanDoThis,
       urlValidation("generateUrl"),
       UrlController.generateShortUrl
     );

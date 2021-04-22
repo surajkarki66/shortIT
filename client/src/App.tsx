@@ -6,6 +6,7 @@ import Navbar from "./components/UI/Navbar/Navbar";
 
 import Dashboard from "./components/Dashboard/Dashboard";
 import LandingPage from "./pages/LandingPage";
+import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   if (token) {
     routes = (
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Redirect to="/dashboard" />
       </Switch>

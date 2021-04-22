@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form } from "antd";
 
-import Axios from "../axios-url";
 import UrlForm from "../components/Forms/UrlForm";
 import Url from "../components/UI/Card/Url";
+import { AuthContext } from "../context/AuthContext";
+import Axios from "../axios-url";
 
-export type GuestUrlType = {
-  _id: string;
+export type UrlType = {
+  accessedDates?: Date[];
   code: string;
   createdAt: Date;
-  updatedAt: Date;
   longUrl: string;
   shortUrl: string;
+  updatedAt: Date;
+  userId: string;
+  title?: string;
 };
 
 const LandingPage: React.FC = () => {
-  const [guestUrl, setGuestUrl] = useState<GuestUrlType>();
+  const { token } = useContext(AuthContext);
+  const [url, setUrl] = useState<UrlType>();
   const [loading, setLoading] = useState(false);
-  const [guestUrlError, setGuestUrlError] = useState("");
+  const [urlError, setUrlError] = useState("");
+
   const [form] = Form.useForm();
 
   const formSubmitHandler = (value: any) => {
@@ -29,19 +34,21 @@ const LandingPage: React.FC = () => {
   };
 
   const generateUrl = (inputData: { longUrl: string }) => {
-    Axios.post("/api/url/generateGuestUrl", inputData)
+    Axios.post("/api/url/generateUrl", inputData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => {
         const { data } = res;
-        setGuestUrl(data.data);
+        setUrl(data.data);
         setLoading(false);
-        setGuestUrlError("");
+        setUrlError("");
         form.resetFields();
       })
       .catch((error) => {
         const { data } = error.response;
-        setGuestUrlError(data.data.error);
+        setUrlError(data.data.error);
         setLoading(false);
-        setGuestUrl(undefined);
+        setUrl(undefined);
         form.resetFields();
       });
   };
@@ -52,9 +59,10 @@ const LandingPage: React.FC = () => {
           form={form}
           formSubmitHandler={formSubmitHandler}
           loading={loading}
-          urlError={guestUrlError}
+          urlError={urlError}
         />
-        {guestUrl && !loading && <Url url={guestUrl} />}
+
+        {url && !loading && <Url url={url} />}
       </div>
     </React.Fragment>
   );
