@@ -38,11 +38,13 @@ const HomePage: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
+    setLoading(true);
     Axios.get("/api/users/me", {
       headers: { Authorization: `Bearer ${token}` },
     }).then((res) => {
       const { data } = res;
       setUser(data.data);
+      setLoading(false);
     });
   }, [token]);
 

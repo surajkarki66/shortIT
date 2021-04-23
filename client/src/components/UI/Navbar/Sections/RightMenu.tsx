@@ -24,7 +24,7 @@ interface Props extends RouteComponentProps {
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
   const { logoutClickHandler, mode, authData } = props;
-  const { token, fullName } = authData;
+  const { token, fullName, userId } = authData;
 
   let menu = (
     <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
@@ -46,7 +46,7 @@ const RightMenu: React.FC<Props> = (props) => {
           style={{ borderBottom: "none", color: "white" }}
         >
           <Menu.Item key="profile_settings">
-            <Link to="/profile">Profile Settings</Link>
+            <Link to={`${userId}/profile`}>Profile Settings</Link>
           </Menu.Item>
           <Menu.Item key="account_settings">
             <Link to="/account">Account Settings</Link>

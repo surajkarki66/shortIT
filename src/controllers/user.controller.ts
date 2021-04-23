@@ -87,6 +87,7 @@ const login: RequestHandler = async (
         firstName: newUser.firstName,
         lastName: newUser.lastName,
       };
+
       const accessToken = signToken(payload, config.jwtExpiresNum);
       const result = {
         status: "success",

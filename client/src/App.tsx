@@ -7,11 +7,13 @@ import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 import { AuthContext } from "./context/AuthContext";
 
 const App: React.FC = () => {
   const { token, userId } = useContext(AuthContext);
+
   let routes = (
     <Switch>
       <Route exact path="/" component={LandingPage} />
@@ -23,10 +25,9 @@ const App: React.FC = () => {
   if (token) {
     routes = (
       <Switch>
-        <Route exact path="/:userId/links" component={Home} />
-        <Route exact path="/profile" />
-        <Route exact path="/profile" />
-        <Redirect to={`/${userId}/links`} />
+        <Route exact path="/:userId" component={Home} />
+        <Route exact path="/:userId/profile" component={Profile} />
+        <Redirect to={`/${userId}`} />
       </Switch>
     );
   }

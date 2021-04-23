@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "antd";
 
-const UrlCard: React.FC = () => {
+const Url: React.FC = () => {
   return (
     <Card style={{ width: 300 }}>
       <p>Card content</p>
@@ -11,4 +11,4 @@ const UrlCard: React.FC = () => {
   );
 };
 
-export default UrlCard;
+export default Url;
