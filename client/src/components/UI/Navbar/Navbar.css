@@ -117,4 +117,7 @@
   .menu_drawer {
     font-weight: bold;
   }
+  .ant-menu-submenu-title {
+    color: black;
+  }
 }

@@ -81,7 +81,12 @@ const login: RequestHandler = async (
     }
     const newUser = new User(user);
     if (await newUser.comparePassword(password)) {
-      const payload = { _id: newUser._id.toString(), role: newUser.role };
+      const payload = {
+        _id: newUser._id.toString(),
+        role: newUser.role,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+      };
       const accessToken = signToken(payload, config.jwtExpiresNum);
       const result = {
         status: "success",

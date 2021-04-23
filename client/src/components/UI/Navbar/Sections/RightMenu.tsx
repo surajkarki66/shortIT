@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Menu } from "antd";
+import { Menu } from "antd";
 import {
   Link,
   RouteComponentProps,
@@ -15,11 +15,12 @@ interface Props extends RouteComponentProps {
   mode: MenuMode;
   token: string;
   logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  fullName: string;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
-  const { logoutClickHandler, token } = props;
+  const { logoutClickHandler, token, fullName } = props;
   let menu = (
     <Menu defaultSelectedKeys={[location.pathname]} mode={props.mode}>
       <Menu.Item key="/register" style={{ borderBottom: "none" }}>
@@ -36,7 +37,7 @@ const RightMenu: React.FC<Props> = (props) => {
         <SubMenu
           key="loggedInNav"
           icon={<UserOutlined />}
-          title="User"
+          title={fullName}
           style={{ borderBottom: "none", color: "white" }}
         >
           <Menu.Item key="profile_settings">Profile Settings</Menu.Item>

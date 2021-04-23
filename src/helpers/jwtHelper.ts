@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import config from "../configs/config";
 
 function signToken(
-  payload: { _id: string; role: ROLE },
+  payload: { _id: string; role: ROLE; firstName?: string; lastName?: string },
   expiresIn: string | number | undefined
 ): string {
   const secret = String(config.jwtSecret);
