@@ -11,7 +11,8 @@ type IUserLoginInput = {
 };
 
 const Login: React.FC = () => {
-  const { setToken } = useContext(AuthContext);
+  const { setToken, userId } = useContext(AuthContext);
+  console.log(userId);
 
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",
@@ -52,7 +53,7 @@ const Login: React.FC = () => {
       });
   };
   if (successfulLogin) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to={`/${userId}`} />;
   }
 
   return (

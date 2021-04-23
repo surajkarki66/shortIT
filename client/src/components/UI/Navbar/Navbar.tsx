@@ -11,7 +11,8 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { token, setToken, fullName } = useContext(AuthContext);
+  const { token, setToken, fullName, userId } = useContext(AuthContext);
+  const authData = { token, setToken, fullName, userId };
   const showDrawer = () => {
     setVisible(true);
   };
@@ -59,9 +60,8 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         <div className="menu_right">
           <RightMenu
             mode="horizontal"
-            token={token}
             logoutClickHandler={logoutClickHandler}
-            fullName={fullName}
+            authData={authData}
           />
         </div>
         <Button
@@ -81,9 +81,8 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         >
           <RightMenu
             mode="inline"
-            token={token}
             logoutClickHandler={logoutClickHandler}
-            fullName={fullName}
+            authData={authData}
           />
         </Drawer>
       </div>

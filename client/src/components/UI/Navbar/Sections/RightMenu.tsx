@@ -13,16 +13,21 @@ const { SubMenu } = Menu;
 
 interface Props extends RouteComponentProps {
   mode: MenuMode;
-  token: string;
+  authData: {
+    token: string;
+    userId: string;
+    fullName: string;
+  };
   logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-  fullName: string;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
-  const { logoutClickHandler, token, fullName } = props;
+  const { logoutClickHandler, mode, authData } = props;
+  const { token, fullName } = authData;
+
   let menu = (
-    <Menu defaultSelectedKeys={[location.pathname]} mode={props.mode}>
+    <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
       <Menu.Item key="/register" style={{ borderBottom: "none" }}>
         <Link to="/register">Register</Link>
       </Menu.Item>
@@ -33,15 +38,19 @@ const RightMenu: React.FC<Props> = (props) => {
   );
   if (token) {
     menu = (
-      <Menu mode={props.mode}>
+      <Menu mode={mode}>
         <SubMenu
           key="loggedInNav"
           icon={<UserOutlined />}
           title={fullName}
           style={{ borderBottom: "none", color: "white" }}
         >
-          <Menu.Item key="profile_settings">Profile Settings</Menu.Item>
-          <Menu.Item key="account_settings">Account Settings</Menu.Item>
+          <Menu.Item key="profile_settings">
+            <Link to="/profile">Profile Settings</Link>
+          </Menu.Item>
+          <Menu.Item key="account_settings">
+            <Link to="/account">Account Settings</Link>
+          </Menu.Item>
           <Menu.Item key="logout">
             <Link to="/" onClick={logoutClickHandler}>
               Log Out
@@ -49,10 +58,6 @@ const RightMenu: React.FC<Props> = (props) => {
           </Menu.Item>
         </SubMenu>
       </Menu>
-
-      // <Button type="primary" onClick={onClickHandler}>
-      //   Logout
-      // </Button>
     );
   }
 
