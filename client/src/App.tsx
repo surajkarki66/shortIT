@@ -23,10 +23,10 @@ const App: React.FC = () => {
   if (token) {
     routes = (
       <Switch>
-        <Route exact path="/:userId" component={Home} />
+        <Route exact path="/:userId/links" component={Home} />
         <Route exact path="/profile" />
         <Route exact path="/profile" />
-        <Redirect to={`/${userId}`} />
+        <Redirect to={`/${userId}/links`} />
       </Switch>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Form } from "antd";
 
 import UrlForm from "../components/Forms/UrlForm";
@@ -17,13 +17,34 @@ export type UrlType = {
   title?: string;
 };
 
-const LandingPage: React.FC = () => {
+type UserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  status: string;
+  role: string;
+  createdAt: Date;
+  updatedAt: Date;
+  urls: UrlType[];
+};
+
+const HomePage: React.FC = () => {
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState<UrlType>();
+  const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState(false);
   const [urlError, setUrlError] = useState("");
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    Axios.get("/api/users/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((res) => {
+      const { data } = res;
+      setUser(data.data);
+    });
+  }, [token]);
 
   const formSubmitHandler = (value: any) => {
     if (value) {
@@ -68,4 +89,4 @@ const LandingPage: React.FC = () => {
   );
 };
 
-export default LandingPage;
+export default HomePage;

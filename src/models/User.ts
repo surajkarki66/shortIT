@@ -95,6 +95,7 @@ userSchema.static("findMe", async function (id: string): Promise<
         as: "urls",
       },
     },
+    { $unset: "password" },
   ];
   return await this.aggregate(pipeline);
 });

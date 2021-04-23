@@ -53,7 +53,7 @@ const Login: React.FC = () => {
       });
   };
   if (successfulLogin) {
-    return <Redirect to={`/${userId}`} />;
+    return <Redirect to={`/${userId}/links`} />;
   }
 
   return (
