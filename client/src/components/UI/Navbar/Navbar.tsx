@@ -26,7 +26,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
       props.history.push("/");
     });
   };
-  const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const logoutClickHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     logout();
   };
@@ -60,7 +60,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
           <RightMenu
             mode="horizontal"
             token={token}
-            onClickHandler={onClickHandler}
+            logoutClickHandler={logoutClickHandler}
           />
         </div>
         <Button
@@ -81,7 +81,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
           <RightMenu
             mode="inline"
             token={token}
-            onClickHandler={onClickHandler}
+            logoutClickHandler={logoutClickHandler}
           />
         </Drawer>
       </div>

@@ -7,16 +7,19 @@ import {
   useLocation,
 } from "react-router-dom";
 import { MenuMode } from "antd/lib/menu";
+import { UserOutlined } from "@ant-design/icons";
+
+const { SubMenu } = Menu;
 
 interface Props extends RouteComponentProps {
   mode: MenuMode;
   token: string;
-  onClickHandler: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
-  const { onClickHandler, token } = props;
+  const { logoutClickHandler, token } = props;
   let menu = (
     <Menu defaultSelectedKeys={[location.pathname]} mode={props.mode}>
       <Menu.Item key="/register" style={{ borderBottom: "none" }}>
@@ -29,9 +32,26 @@ const RightMenu: React.FC<Props> = (props) => {
   );
   if (token) {
     menu = (
-      <Button type="primary" onClick={onClickHandler}>
-        Logout
-      </Button>
+      <Menu mode={props.mode}>
+        <SubMenu
+          key="loggedInNav"
+          icon={<UserOutlined />}
+          title="User"
+          style={{ borderBottom: "none", color: "white" }}
+        >
+          <Menu.Item key="profile_settings">Profile Settings</Menu.Item>
+          <Menu.Item key="account_settings">Account Settings</Menu.Item>
+          <Menu.Item key="logout">
+            <Link to="/" onClick={logoutClickHandler}>
+              Log Out
+            </Link>
+          </Menu.Item>
+        </SubMenu>
+      </Menu>
+
+      // <Button type="primary" onClick={onClickHandler}>
+      //   Logout
+      // </Button>
     );
   }
 
