@@ -71,30 +71,27 @@ const Url: React.FC<PropsType> = (props) => {
     return <Redirect to="/" />;
   }
   return (
-    <div>
-      <Row>
-        <Col span={6}></Col>
-        <Col span={12}>
-          {urls &&
-            urls.map((url) => (
-              <UrlCard
-                key={url.code}
-                url={url}
-                fullName={fullName}
-                loading={loading}
-                deleteConfirm={deleteConfirm}
-                visible={visible}
-                handleEditOk={handleEditOk}
-                handleEditCancel={handleEditCancel}
-                showModal={showModal}
-                Title={title}
-                setTitle={setTitle}
-              />
-            ))}
-        </Col>
-        <Col span={6}></Col>
-      </Row>
-    </div>
+    <Row>
+      {urls &&
+        urls.map((url) => (
+          <Col span={24} style={{ border: "3px solid black" }}>
+            <UrlCard
+              key={url.code}
+              url={url}
+              fullName={fullName}
+              loading={loading}
+              deleteConfirm={deleteConfirm}
+              visible={visible}
+              handleEditOk={handleEditOk}
+              handleEditCancel={handleEditCancel}
+              showModal={showModal}
+              Title={title}
+              setTitle={setTitle}
+            />
+          </Col>
+        ))}
+      <Col span={6} />
+    </Row>
   );
 };
 
