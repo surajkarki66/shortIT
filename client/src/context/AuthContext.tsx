@@ -11,9 +11,11 @@ type AuthContextType = {
   token: string;
   userId: string;
   fullName: string;
+  isActive: boolean;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
   setFullName: React.Dispatch<React.SetStateAction<string>>;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -22,6 +24,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
   const [fullName, setFullName] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     Axios.get("/api/users/loggedIn").then((res) => {
@@ -36,7 +39,16 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, fullName, setFullName, userId, setUserId }}
+      value={{
+        token,
+        setToken,
+        fullName,
+        setFullName,
+        userId,
+        setUserId,
+        isActive,
+        setIsActive,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
