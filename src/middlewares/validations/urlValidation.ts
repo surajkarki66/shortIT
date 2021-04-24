@@ -42,7 +42,7 @@ export default function urlValidation(method: string): ValidationChain[] {
           .isString()
           .withMessage("urlId must be string")
           .isLength({
-            min: 2,
+            min: 1,
             max: 250,
           })
           .withMessage("Title must be between 2 to 250 characters long"),

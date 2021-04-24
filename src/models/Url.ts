@@ -9,7 +9,7 @@ import {
 
 const urlSchema = new Schema<IUrl>(
   {
-    title: { type: String, min: 2, max: 255 },
+    title: { type: String, min: 1, max: 255 },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     longUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },

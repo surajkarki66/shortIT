@@ -5,14 +5,33 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { UrlType } from "../../../pages/Home";
 import { BarChartOutlined } from "@ant-design/icons";
+import EditUrl from "../../../containers/Url/EditUrl";
 
 type PropsType = {
   url: UrlType;
   fullName: string;
+  loading: boolean;
+  visible: boolean;
+  Title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  handleEditOk: (_id: string) => void;
+  handleEditCancel: () => void;
+  showModal: () => void;
+  deleteConfirm: (_id: string) => void;
 };
 const UrlCard: React.FC<PropsType> = (props) => {
-  const { fullName } = props;
-  const { createdAt, title, shortUrl, longUrl, accessedDates } = props.url;
+  const {
+    fullName,
+    loading,
+    deleteConfirm,
+    showModal,
+    Title,
+    setTitle,
+    visible,
+    handleEditOk,
+    handleEditCancel,
+  } = props;
+  const { _id, createdAt, title, shortUrl, longUrl, accessedDates } = props.url;
   const [isCopied, setIsCopied] = useState(false);
 
   const onCopyText = () => {
@@ -59,10 +78,26 @@ const UrlCard: React.FC<PropsType> = (props) => {
             </Button>
           </CopyToClipboard>
           {isCopied && notification.success({ message: "Copied" })}
-          <Button size="small" style={{ marginRight: 20, fontSize: 10 }}>
+          <Button
+            size="small"
+            style={{ marginRight: 20, fontSize: 10 }}
+            onClick={showModal}
+          >
             EDIT
           </Button>
+          <EditUrl
+            title={Title}
+            setTitle={setTitle}
+            urlId={_id}
+            visible={visible}
+            loading={loading}
+            handleEditOk={handleEditOk}
+            handleEditCancel={handleEditCancel}
+          />
+
           <Button
+            loading={loading}
+            onClick={() => deleteConfirm(_id)}
             type="link"
             size="small"
             style={{ marginRight: 20, fontSize: 10, color: "red" }}

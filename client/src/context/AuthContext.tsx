@@ -32,7 +32,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         setFullName(jwtData.firstName + " " + jwtData.lastName);
       }
     });
-  }, [token]);
+  }, [token, setToken]);
 
   return (
     <AuthContext.Provider

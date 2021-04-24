@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import Axios from "../axios-url";
 
 export type UrlType = {
+  _id: string;
   accessedDates?: Date[];
   code: string;
   createdAt: Date;
