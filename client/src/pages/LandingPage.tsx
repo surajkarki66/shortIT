@@ -3,7 +3,7 @@ import { Form } from "antd";
 
 import Axios from "../axios-url";
 import UrlForm from "../components/Forms/UrlForm";
-import Url from "../components/UI/Card/Url";
+import UrlResponse from "../components/UI/Card/UrlResponse";
 
 export type GuestUrlType = {
   _id: string;
@@ -54,7 +54,7 @@ const LandingPage: React.FC = () => {
           loading={loading}
           urlError={guestUrlError}
         />
-        {guestUrl && !loading && <Url url={guestUrl} />}
+        {guestUrl && !loading && <UrlResponse url={guestUrl} />}
       </div>
     </React.Fragment>
   );

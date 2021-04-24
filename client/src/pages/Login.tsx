@@ -12,7 +12,6 @@ type IUserLoginInput = {
 
 const Login: React.FC = () => {
   const { setToken, userId } = useContext(AuthContext);
-  console.log(userId);
 
   const [userInputData, setUserInputData] = useState<IUserLoginInput>({
     email: "",

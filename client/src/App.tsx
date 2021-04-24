@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import CreateUrl from "./containers/Url/CreateUrl";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
       <Switch>
         <Route exact path="/:userId" component={Home} />
         <Route exact path="/:userId/profile" component={Profile} />
+        <Route exact path="/:userId/link/create" component={CreateUrl} />
         <Redirect to={`/${userId}`} />
       </Switch>
     );

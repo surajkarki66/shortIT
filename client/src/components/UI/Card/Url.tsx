@@ -1,40 +1,14 @@
-import React, { useState } from "react";
-import { notification } from "antd";
+import { Card } from "antd";
+import React from "react";
 
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { CopyOutlined } from "@ant-design/icons";
-
-import { GuestUrlType } from "../../../pages/LandingPage";
-import { UrlType } from "../../../pages/Home";
-
-type PropsType = {
-  url: GuestUrlType | UrlType;
-};
-
-const Url: React.FC<PropsType> = (props) => {
-  const [isCopied, setIsCopied] = useState(false);
-  const onCopyText = () => {
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 1000);
-  };
-
-  const { url } = props;
+const UrlCard: React.FC = () => {
   return (
-    <div className="urlResponse">
-      <h1>Your short URL:</h1>
-      <h2 style={{ color: "blue" }}>
-        {url?.shortUrl}&nbsp;&nbsp;{" "}
-        <CopyToClipboard text={url.shortUrl} onCopy={onCopyText}>
-          <CopyOutlined style={{ fontSize: "20px", color: "black" }} />
-        </CopyToClipboard>{" "}
-      </h2>
-      <h3>{String(new Date(url.createdAt))}</h3>
-
-      {isCopied && notification.success({ message: "Copied" })}
-    </div>
+    <Card>
+      <p>Card content</p>
+      <p>Card content</p>
+      <p>Card content</p>
+    </Card>
   );
 };
 
-export default Url;
+export default UrlCard;
