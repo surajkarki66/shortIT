@@ -44,17 +44,15 @@ const HomePage: React.FC = () => {
   }, [token]);
 
   return (
-    <React.Fragment>
-      <div className="landingPage">
-        {user && !loading ? (
-          <Url user={user} />
-        ) : (
-          <div className="spin">
-            <Spin tip="Loading..." size="large" />
-          </div>
-        )}
-      </div>
-    </React.Fragment>
+    <div className="landingPage">
+      {user && !loading ? (
+        <Url user={user} />
+      ) : (
+        <div className="spin">
+          <Spin tip="Loading..." size="large" />
+        </div>
+      )}
+    </div>
   );
 };
 
