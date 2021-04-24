@@ -1,14 +1,16 @@
 import moment from "moment";
-import { Button, Card, Col, Row, notification } from "antd";
-import React, { useState } from "react";
+import { Button, Card, Col, Row, notification, Form, Modal, Input } from "antd";
+import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import { useForm } from "antd/lib/form/Form";
 import { UrlType } from "../../../pages/Home";
 import { BarChartOutlined } from "@ant-design/icons";
 import EditUrl from "../../../containers/Url/EditUrl";
 
 type PropsType = {
   url: UrlType;
+  key: string;
   fullName: string;
   loading: boolean;
   visible: boolean;
@@ -22,7 +24,6 @@ type PropsType = {
 const UrlCard: React.FC<PropsType> = (props) => {
   const {
     fullName,
-    loading,
     deleteConfirm,
     showModal,
     Title,
@@ -30,9 +31,11 @@ const UrlCard: React.FC<PropsType> = (props) => {
     visible,
     handleEditOk,
     handleEditCancel,
+    loading,
   } = props;
   const { _id, createdAt, title, shortUrl, longUrl, accessedDates } = props.url;
   const [isCopied, setIsCopied] = useState(false);
+  const [form] = useForm();
 
   const onCopyText = () => {
     setIsCopied(true);
@@ -40,6 +43,13 @@ const UrlCard: React.FC<PropsType> = (props) => {
       setIsCopied(false);
     }, 1000);
   };
+
+  useEffect(() => {
+    if (isCopied) {
+      notification.success({ message: "Copied" });
+    }
+  }, [isCopied]);
+
   return (
     <Card>
       <Row>
@@ -77,7 +87,6 @@ const UrlCard: React.FC<PropsType> = (props) => {
               COPY
             </Button>
           </CopyToClipboard>
-          {isCopied && notification.success({ message: "Copied" })}
           <Button
             size="small"
             style={{ marginRight: 20, fontSize: 10 }}
@@ -94,9 +103,42 @@ const UrlCard: React.FC<PropsType> = (props) => {
             handleEditOk={handleEditOk}
             handleEditCancel={handleEditCancel}
           />
+          <Modal
+            title="Edit Url"
+            visible={visible}
+            closable={false}
+            footer={[
+              <Button key="back" onClick={handleEditCancel}>
+                Cancel
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                onClick={() => handleEditOk(_id)}
+                disabled={title ? false : true}
+              >
+                Submit
+              </Button>,
+            ]}
+          >
+            <Form form={form}>
+              <Form.Item name="Title">
+                <Input
+                  style={{
+                    width: "50%",
+                  }}
+                  type="text"
+                  placeholder="Enter the title"
+                  size="large"
+                  allowClear
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
 
           <Button
-            loading={loading}
             onClick={() => deleteConfirm(_id)}
             type="link"
             size="small"

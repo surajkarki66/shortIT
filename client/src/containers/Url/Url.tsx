@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
@@ -6,17 +6,25 @@ import Axios from "../../axios-url";
 import UrlCard from "../../components/UI/Card/Url";
 import { UserType } from "../../pages/Home";
 import { AuthContext } from "../../context/AuthContext";
-import { Redirect } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 
-type PropsType = { user: UserType };
+interface PropsType extends RouteComponentProps {
+  user: UserType;
+}
 
 const Url: React.FC<PropsType> = (props) => {
-  const { fullName, token, userId } = useContext(AuthContext);
+  const { fullName, token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isEditSuccess, setIsEditSuccess] = useState(false);
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    if (isDeleteSuccess || isEditSuccess) {
+      props.history.push("/");
+    }
+  }, [isEditSuccess, isDeleteSuccess, props.history]);
 
   const handleEditOk = (_id: string) => {
     setLoading(true);
@@ -67,19 +75,16 @@ const Url: React.FC<PropsType> = (props) => {
 
   const { urls } = props.user;
 
-  if (isDeleteSuccess || isEditSuccess) {
-    return <Redirect to="/" />;
-  }
   return (
     <Row>
       {urls &&
         urls.map((url) => (
-          <Col span={24} style={{ border: "3px solid black" }}>
+          <Col key={url._id} span={24} style={{ border: "3px solid black" }}>
             <UrlCard
-              key={url.code}
+              key={url._id}
               url={url}
-              fullName={fullName}
               loading={loading}
+              fullName={fullName}
               deleteConfirm={deleteConfirm}
               visible={visible}
               handleEditOk={handleEditOk}
@@ -95,4 +100,4 @@ const Url: React.FC<PropsType> = (props) => {
   );
 };
 
-export default Url;
+export default withRouter(Url);

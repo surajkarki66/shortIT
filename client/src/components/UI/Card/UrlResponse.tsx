@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import { notification } from "antd";
-
+import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyOutlined } from "@ant-design/icons";
 
@@ -12,7 +11,14 @@ type PropsType = {
 };
 
 const UrlResponse: React.FC<PropsType> = (props) => {
+  const { url } = props;
   const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    if (isCopied) {
+      notification.success({ message: "Copied" });
+    }
+  }, [isCopied]);
   const onCopyText = () => {
     setIsCopied(true);
     setTimeout(() => {
@@ -20,7 +26,6 @@ const UrlResponse: React.FC<PropsType> = (props) => {
     }, 1000);
   };
 
-  const { url } = props;
   return (
     <div className="urlResponse">
       <h1>Your short URL:</h1>
@@ -31,8 +36,6 @@ const UrlResponse: React.FC<PropsType> = (props) => {
         </CopyToClipboard>{" "}
       </h2>
       <h3>{String(new Date(url.createdAt))}</h3>
-
-      {isCopied && notification.success({ message: "Copied" })}
     </div>
   );
 };

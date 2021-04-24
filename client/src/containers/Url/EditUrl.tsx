@@ -29,17 +29,16 @@ const EditUrl: React.FC<PropsType> = (props) => {
       <Modal
         title="Edit Url"
         visible={visible}
-        closable={false}
         footer={[
           <Button key="back" onClick={handleEditCancel}>
-            Cancel
+            Return
           </Button>,
           <Button
             key="submit"
             type="primary"
             loading={loading}
             onClick={() => handleEditOk(urlId)}
-            disabled={title ? false : true}
+            disabled={!title ? true : false}
           >
             Submit
           </Button>,
@@ -55,7 +54,6 @@ const EditUrl: React.FC<PropsType> = (props) => {
               placeholder="Enter the title"
               size="large"
               allowClear
-              value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
           </Form.Item>
