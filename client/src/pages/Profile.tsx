@@ -8,7 +8,7 @@ const Profile: React.FC = () => {
   const [isSend, setIsSend] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
-  const { isActive, token, userId } = useContext(AuthContext);
+  const { status, token, userId } = useContext(AuthContext);
 
   useEffect(() => {
     if (success) {
@@ -44,7 +44,7 @@ const Profile: React.FC = () => {
   };
   return (
     <div>
-      {!isActive && (
+      {status === "inactive" && (
         <h4 style={{ textAlign: "center" }}>
           {" "}
           Please verify your email to get all features{" "}

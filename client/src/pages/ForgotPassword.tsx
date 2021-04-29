@@ -1,5 +1,5 @@
 import { notification, Form } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Axios from "../axios-url";
 import ForgotPasswordForm from "../components/Forms/ForgotPasswordForm";
@@ -10,6 +10,14 @@ const ForgotPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [forgotError, setForgotError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (isSuccess) {
+      notification.info({
+        message: "Email is sent to you. Follow the instruction.",
+      });
+    }
+  }, [isSuccess]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -38,11 +46,7 @@ const ForgotPassword: React.FC = () => {
         setIsSuccess(false);
       });
   };
-  if (isSuccess) {
-    notification.info({
-      message: "Email is sent to you. Follow the instruction.",
-    });
-  }
+
   return (
     <div className="forgotPassword">
       <h1>Enter your email:</h1>

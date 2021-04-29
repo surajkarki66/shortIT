@@ -72,6 +72,14 @@ code {
   align-items: center;
 }
 
+.verifyEmail {
+  margin-top: 20px;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #components-layout-demo-top-side-2 .logo {
   float: left;
   width: 120px;

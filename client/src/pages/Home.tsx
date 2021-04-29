@@ -29,7 +29,7 @@ export type UserType = {
 };
 
 const HomePage: React.FC = () => {
-  const { token } = useContext(AuthContext);
+  const { token, setStatus } = useContext(AuthContext);
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState(false);
 
@@ -40,9 +40,10 @@ const HomePage: React.FC = () => {
     }).then((res) => {
       const { data } = res;
       setUser(data.data);
+      setStatus(data.data.status);
       setLoading(false);
     });
-  }, [token]);
+  }, [setStatus, token]);
 
   return (
     <div className="landingPage">
