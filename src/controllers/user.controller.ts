@@ -307,6 +307,7 @@ const verifyEmail: RequestHandler = async (
         };
         transporter.sendMail(mailOptions, (error, body) => {
           if (error) {
+            console.log(error);
             next(ApiError.internal(`Something went wrong: ${error.message}`));
             return;
           }
