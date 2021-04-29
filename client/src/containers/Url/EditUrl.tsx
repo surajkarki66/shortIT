@@ -23,6 +23,7 @@ const EditUrl: React.FC<PropsType> = (props) => {
     setTitle,
   } = props;
   const [form] = useForm();
+  console.log(title);
 
   return (
     <>
@@ -38,7 +39,6 @@ const EditUrl: React.FC<PropsType> = (props) => {
             type="primary"
             loading={loading}
             onClick={() => handleEditOk(urlId)}
-            disabled={!title ? true : false}
           >
             Submit
           </Button>,

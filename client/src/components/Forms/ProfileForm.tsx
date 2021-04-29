@@ -1,18 +1,14 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
-
-import { UserType } from "../../pages/Home";
+import { Form, Input } from "antd";
 
 type Props = {
-  loading: boolean;
   editError: string;
-  user: UserType;
   onFinish: (value: any) => void;
   onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ProfileForm: React.FC<Props> = (props) => {
-  const { loading, editError, onFinish, onChangeHandler, user } = props;
+  const { editError, onFinish, onChangeHandler } = props;
 
   const formItemLayout = {
     labelCol: {
@@ -24,38 +20,22 @@ const ProfileForm: React.FC<Props> = (props) => {
       sm: { span: 16 },
     },
   };
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
 
   return (
     <Form
       style={{
-        minWidth: "405px",
+        minWidth: "300px",
         fontWeight: "bold",
-        marginTop: "50px",
       }}
       {...formItemLayout}
       name="register"
       initialValues={{
         remember: true,
-        firstName: user.firstName,
-        lastName: user.lastName,
       }}
       onFinish={onFinish}
     >
       {editError !== "" && <h4 style={{ color: "red" }}>{editError}</h4>}
       <Form.Item
-        label="First-Name"
         name="firstName"
         rules={[
           { required: true, message: "Please input your First Name" },
@@ -66,10 +46,13 @@ const ProfileForm: React.FC<Props> = (props) => {
           },
         ]}
       >
-        <Input name="firstName" onChange={(event) => onChangeHandler(event)} />
+        <Input
+          name="firstName"
+          onChange={(event) => onChangeHandler(event)}
+          placeholder="First Name"
+        />
       </Form.Item>
       <Form.Item
-        label="Last-Name"
         name="lastName"
         rules={[
           { required: true, message: "Please input your Last Name" },
@@ -80,19 +63,11 @@ const ProfileForm: React.FC<Props> = (props) => {
           },
         ]}
       >
-        <Input name="lastName" onChange={(event) => onChangeHandler(event)} />
-      </Form.Item>
-
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          disabled={user.status === "inactive" ? true : false}
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          style={{ marginTop: "20px" }}
-        >
-          {loading ? "" : "Edit"}
-        </Button>
+        <Input
+          name="lastName"
+          onChange={(event) => onChangeHandler(event)}
+          placeholder="Last Name"
+        />
       </Form.Item>
     </Form>
   );

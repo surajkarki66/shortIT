@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Axios from "../axios-url";
 import { UserType } from "../pages/Home";
-import ProfileForm from "../components/Forms/ProfileForm";
+import ProfileCard from "../containers/Profile";
 import { AuthContext } from "../context/AuthContext";
+import { Redirect } from "react-router";
 
 type UserEditInputType = {
   firstName: string;
@@ -19,9 +20,12 @@ const Profile: React.FC = () => {
   });
   const [isSend, setIsSend] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [editError, setEditError] = useState("");
+  const [editSuccess, setEditSuccess] = useState(false);
   const { status, token, userId, setStatus } = useContext(AuthContext);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (success) {
@@ -41,14 +45,14 @@ const Profile: React.FC = () => {
       .catch((err) => {
         setLoading(false);
       });
-  }, [setStatus, success, token]);
+  }, [setStatus, success, token, editSuccess]);
   const onClickSendBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendVerificationEmail(userId);
   };
 
   const sendVerificationEmail = (userId: string) => {
-    setLoading(true);
+    setSendLoading(true);
     Axios.post(
       "/api/users/verifyEmail",
       { userId },
@@ -58,12 +62,12 @@ const Profile: React.FC = () => {
     )
       .then((res) => {
         const { data } = res;
-        setLoading(false);
+        setSendLoading(false);
         setIsSend(true);
         setSuccess(data.data.message);
       })
       .catch((err) => {
-        setLoading(false);
+        setSendLoading(false);
         setIsSend(false);
         setSuccess("");
       });
@@ -75,11 +79,10 @@ const Profile: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const onFinish = (values: any) => {
-    if (values) {
-      setLoading(true);
-      editUser(userInputData, userId);
-    }
+  const onFinish = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    editUser(userInputData, userId);
   };
 
   const editUser = (userInputData: UserEditInputType, userId: string) => {
@@ -90,12 +93,23 @@ const Profile: React.FC = () => {
       .then((res) => {
         setLoading(false);
         setEditError("");
+        setEditSuccess(true);
+        onClose();
+        return <Redirect to={`/${userId}/profile`} />;
       })
       .catch((err) => {
         const { data } = err.response;
         setLoading(false);
+        setEditSuccess(false);
         setEditError(data.data.error);
       });
+  };
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+  const onClose = () => {
+    setVisible(false);
   };
   return (
     <div className="profile">
@@ -104,7 +118,7 @@ const Profile: React.FC = () => {
           {" "}
           Please verify your email to get all features{" "}
           <Button
-            loading={loading}
+            loading={sendLoading}
             type="link"
             size="middle"
             style={{ marginRight: 20, fontSize: 15 }}
@@ -114,14 +128,17 @@ const Profile: React.FC = () => {
           </Button>
         </h4>
       )}
-      <h1>Profile</h1>
+
       {user ? (
-        <ProfileForm
-          loading={loading}
+        <ProfileCard
           user={user}
-          onChangeHandler={onChange}
-          onFinish={onFinish}
+          loading={loading}
           editError={editError}
+          onChange={onChange}
+          onFinish={onFinish}
+          visible={visible}
+          showDrawer={showDrawer}
+          onClose={onClose}
         />
       ) : (
         <div className="spin">
