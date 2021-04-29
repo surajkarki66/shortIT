@@ -132,6 +132,7 @@ const Profile: React.FC = () => {
       {user ? (
         <ProfileCard
           user={user}
+          status={status}
           loading={loading}
           editError={editError}
           onChange={onChange}

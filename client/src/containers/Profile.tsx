@@ -1,12 +1,13 @@
 import { Button, Drawer } from "antd";
 import moment from "moment";
-import React, { useState } from "react";
+import React from "react";
 
 import { UserType } from "../pages/Home";
 import ProfileForm from "../components/Forms/ProfileForm";
 
 type Props = {
   user: UserType;
+  status: string;
   loading: boolean;
   editError: string;
   visible: boolean;
@@ -26,6 +27,7 @@ const ProfileCard: React.FC<Props> = (props) => {
     showDrawer,
     visible,
     onClose,
+    status,
   } = props;
   const { firstName, lastName, email } = user;
 
@@ -42,6 +44,7 @@ const ProfileCard: React.FC<Props> = (props) => {
 
         <p>
           <Button
+            disabled={status === "active" ? false : true}
             size="small"
             style={{ marginBottom: "5px" }}
             type="primary"
