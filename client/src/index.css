@@ -54,7 +54,12 @@ code {
   justify-content: center;
   align-items: center;
 }
-
+.profile {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Login form */
 
 .login {
