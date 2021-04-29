@@ -1,4 +1,4 @@
-import { Button, notification, Spin } from "antd";
+import { Button, notification, Spin, Form } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 
 import Axios from "../axios-url";
@@ -14,6 +14,7 @@ type UserEditInputType = {
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<UserType>();
+  const [form] = Form.useForm();
   const [userInputData, setUserInputData] = useState<UserEditInputType>({
     firstName: "",
     lastName: "",
@@ -95,7 +96,8 @@ const Profile: React.FC = () => {
         setEditError("");
         setEditSuccess(true);
         onClose();
-        return <Redirect to={`/${userId}/profile`} />;
+        form.resetFields();
+        return <Redirect to="/profile" />;
       })
       .catch((err) => {
         const { data } = err.response;
@@ -131,6 +133,7 @@ const Profile: React.FC = () => {
 
       {user ? (
         <ProfileCard
+          form={form}
           user={user}
           status={status}
           loading={loading}

@@ -1,4 +1,4 @@
-import { Button, Drawer } from "antd";
+import { Button, Drawer, FormInstance } from "antd";
 import moment from "moment";
 import React from "react";
 
@@ -7,6 +7,7 @@ import ProfileForm from "../components/Forms/ProfileForm";
 
 type Props = {
   user: UserType;
+  form: FormInstance<any>;
   status: string;
   loading: boolean;
   editError: string;
@@ -21,6 +22,7 @@ const ProfileCard: React.FC<Props> = (props) => {
   const {
     loading,
     user,
+    form,
     editError,
     onChange,
     onFinish,
@@ -79,6 +81,7 @@ const ProfileCard: React.FC<Props> = (props) => {
           editError={editError}
           onChangeHandler={onChange}
           onFinish={onFinish}
+          form={form}
         />
       </Drawer>
     </div>

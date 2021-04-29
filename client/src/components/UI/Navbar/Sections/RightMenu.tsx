@@ -25,7 +25,7 @@ const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
 
   const { logoutClickHandler, mode, authData } = props;
-  const { token, fullName, userId } = authData;
+  const { token, fullName } = authData;
 
   let menu = (
     <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
@@ -43,23 +43,23 @@ const RightMenu: React.FC<Props> = (props) => {
         <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
           <Menu.Item key="create" style={{ borderBottom: "none" }}>
             <Button type="primary">
-              <Link to={`/${userId}/link/create`}>
+              <Link to="/link/create">
                 <LinkOutlined />
                 Create
               </Link>
             </Button>
           </Menu.Item>
           <SubMenu
-            key={`/${userId}`}
+            key="/"
             icon={<UserOutlined />}
             title={fullName}
             style={{ color: "#87ceeb" }}
           >
             <Menu.Item key="profile_settings">
-              <Link to={`${userId}/profile`}>Profile Settings</Link>
+              <Link to="/profile">Profile Settings</Link>
             </Menu.Item>
             <Menu.Item key="account_settings">
-              <Link to="/account">Account Settings</Link>
+              <Link to="/account-setting">Account Settings</Link>
             </Menu.Item>
             <Menu.Item key="logout">
               <Link to="/" onClick={logoutClickHandler}>

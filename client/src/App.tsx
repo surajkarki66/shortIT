@@ -12,11 +12,12 @@ import CreateUrl from "./containers/Url/CreateUrl";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Activate from "./pages/Activate";
+import Account from "./pages/Account";
 
 import { AuthContext } from "./context/AuthContext";
 
 const App: React.FC = () => {
-  const { token, userId } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   let routes = (
     <Switch>
@@ -36,11 +37,12 @@ const App: React.FC = () => {
   if (token) {
     routes = (
       <Switch>
-        <Route exact path="/:userId" component={Home} />
-        <Route exact path="/:userId/profile" component={Profile} />
-        <Route exact path="/:userId/link/create" component={CreateUrl} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/account-setting" component={Account} />
+        <Route exact path="/link/create" component={CreateUrl} />
         <Route exact path="/user/activate/:token" component={Activate} />
-        <Redirect to={`/${userId}`} />
+        <Redirect to="/" />
       </Switch>
     );
   }

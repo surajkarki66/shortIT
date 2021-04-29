@@ -1,14 +1,15 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Form, Input, FormInstance } from "antd";
 
 type Props = {
+  form: FormInstance<any>;
   editError: string;
   onFinish: (value: any) => void;
   onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ProfileForm: React.FC<Props> = (props) => {
-  const { editError, onFinish, onChangeHandler } = props;
+  const { editError, onFinish, onChangeHandler, form } = props;
 
   const formItemLayout = {
     labelCol: {
@@ -23,6 +24,7 @@ const ProfileForm: React.FC<Props> = (props) => {
 
   return (
     <Form
+      form={form}
       style={{
         minWidth: "300px",
         fontWeight: "bold",
