@@ -74,7 +74,7 @@ export default class UserRoutes {
       showDataValidationError,
       UserController.changeUserDetails
     );
-    this.router.delete(
+    this.router.post(
       "/deleteUser/:userId",
       authenticate,
       permit(["user"]),

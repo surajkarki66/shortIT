@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Collapse, Form, notification } from "antd";
+import { Button, Collapse, Form, notification } from "antd";
 
 import Axios from "../axios-url";
 import ChangePasswordForm from "../components/Forms/ChangePasswordForm";
 import ChangeEmailForm from "../components/Forms/ChangeEmailForm";
+import DeleteForm from "../components/Forms/DeleteForm";
 import { AuthContext } from "../context/AuthContext";
+import { Redirect } from "react-router";
 
 const { Panel } = Collapse;
 
@@ -13,9 +15,10 @@ const Account: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [changeEmailError, setChangeEmailError] = useState("");
   const [changePassError, setChangePassError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [successPassChange, setSuccessPassChange] = useState(false);
   const [successEmailChange, setSuccessEmailChange] = useState(false);
-  const { userId, token, setStatus } = useContext(AuthContext);
+  const { userId, token, setStatus, setToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (successPassChange) {
@@ -95,29 +98,63 @@ const Account: React.FC = () => {
         setChangePassError(data.data.error);
       });
   };
+
+  const onFinishDelete = (values: any) => {
+    if (values) {
+      const { password } = values;
+      deleteAccount(password, userId, token);
+    }
+  };
+  const logout = () => {
+    Axios.get("/api/users/logout").then((res) => {
+      const { data } = res;
+      setToken(data);
+      return <Redirect to="/" />;
+    });
+  };
+  const deleteAccount = (password: string, userId: string, token: string) => {
+    setLoading(true);
+    Axios.post(
+      `/api/users/deleteUser/${userId}`,
+      { password },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((res) => {
+        setLoading(false);
+        logout();
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
   return (
     <Collapse>
       <Panel header="Change Password" key="1">
-        <div className="changePassword">
-          <ChangePasswordForm
-            form={form}
-            loading={loading}
-            changeError={changePassError}
-            onFinish={onFinishPassChange}
-          />
-        </div>
+        <ChangePasswordForm
+          form={form}
+          loading={loading}
+          changeError={changePassError}
+          onFinish={onFinishPassChange}
+        />
       </Panel>
       <Panel header="Change Email" key="2">
-        <div className="changeEmail">
-          <ChangeEmailForm
-            form={form}
-            loading={loading}
-            changeError={changeEmailError}
-            onFinish={onFinishEmailChange}
-          />
-        </div>
+        <ChangeEmailForm
+          form={form}
+          loading={loading}
+          changeError={changeEmailError}
+          onFinish={onFinishEmailChange}
+        />
       </Panel>
-      <Panel header="Delete Account" key="3"></Panel>
+      <Panel header="Delete Account" key="3">
+        <DeleteForm
+          loading={loading}
+          form={form}
+          deleteError={deleteError}
+          onFinish={onFinishDelete}
+        />
+      </Panel>
     </Collapse>
   );
 };
