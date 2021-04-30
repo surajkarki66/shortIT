@@ -69,6 +69,13 @@ code {
   align-items: center;
 }
 
+.changePassword {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .forgotPassword {
   margin-top: 20px;
   flex-direction: column;
