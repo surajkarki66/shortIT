@@ -71,7 +71,7 @@ class Server {
     if (config.env === "production") {
       this.app.use(express.static("client/build"));
       this.app.get("/*", function (req, res) {
-        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+        res.sendFile(path.join(__dirname, "../client/build", "index.html"));
       });
     }
   }
