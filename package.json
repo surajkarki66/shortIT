@@ -11,7 +11,7 @@
     "test": "snyk test",
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build && tsc"
+    "heroku-postbuild": "npm run install-client && tsc && npm run build"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
