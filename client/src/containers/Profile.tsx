@@ -1,5 +1,4 @@
 import { Button, Drawer, FormInstance } from "antd";
-import moment from "moment";
 import React from "react";
 
 import { UserType } from "../pages/Home";
@@ -36,11 +35,6 @@ const ProfileCard: React.FC<Props> = (props) => {
   return (
     <div>
       <div className="card">
-        <img
-          src={`http://gravatar.com/avatar/${moment().unix()}?d=identicon`}
-          style={{ width: "100%" }}
-          alt={firstName + " " + lastName}
-        />
         <h1>{firstName + " " + lastName}</h1>
         <p className="title">{email}</p>
 
