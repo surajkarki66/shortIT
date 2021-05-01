@@ -8,7 +8,9 @@
     "start": "node dist/app.js",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "snyk test"
+    "test": "snyk test",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",

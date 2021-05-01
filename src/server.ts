@@ -51,7 +51,10 @@ class Server {
     this.app.use(helmet());
     this.app.use(hpp());
     this.app.use(httpLogger);
-    this.app.use(morgan("dev"));
+    if (config.env === "development") {
+      this.app.use(morgan("dev"));
+    }
+
     this.app.use(
       compression({
         level: 6,
