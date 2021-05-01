@@ -4,14 +4,13 @@
   "description": "This is a web application that takes long url and convert them to short and tiny url.",
   "main": "index.js",
   "scripts": {
-    "build-js": "rm -rf dist/ && prettier --write src/ && tsc",
+    "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node --files' src/app.ts",
     "start": "node dist/app.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "snyk test",
-    "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && tsc && npm run build"
+    "heroku-postbuild": "npm run install-client && cd client && npm run build"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
