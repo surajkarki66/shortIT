@@ -28,7 +28,7 @@ export type UserType = {
   urls: UrlType[];
 };
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC = (props) => {
   const { token, setStatus } = useContext(AuthContext);
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState(false);

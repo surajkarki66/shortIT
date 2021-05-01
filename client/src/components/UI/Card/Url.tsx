@@ -1,41 +1,23 @@
 import moment from "moment";
-import { Button, Card, Col, Row, notification, Form, Modal, Input } from "antd";
+import { Button, Card, Col, Row, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { useForm } from "antd/lib/form/Form";
 import { UrlType } from "../../../pages/Home";
 import { BarChartOutlined } from "@ant-design/icons";
-import EditUrl from "../../../containers/Url/EditUrl";
+import { Link } from "react-router-dom";
 
 type PropsType = {
   url: UrlType;
   key: string;
   fullName: string;
   loading: boolean;
-  visible: boolean;
-  Title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  handleEditOk: (_id: string) => void;
-  handleEditCancel: () => void;
-  showModal: () => void;
   deleteConfirm: (_id: string) => void;
 };
 const UrlCard: React.FC<PropsType> = (props) => {
-  const {
-    fullName,
-    deleteConfirm,
-    showModal,
-    Title,
-    setTitle,
-    visible,
-    handleEditOk,
-    handleEditCancel,
-    loading,
-  } = props;
+  const { fullName, deleteConfirm } = props;
   const { _id, createdAt, title, shortUrl, longUrl, accessedDates } = props.url;
   const [isCopied, setIsCopied] = useState(false);
-  const [form] = useForm();
 
   const onCopyText = () => {
     setIsCopied(true);
@@ -70,7 +52,7 @@ const UrlCard: React.FC<PropsType> = (props) => {
             {" "}
             {accessedDates && accessedDates.length}&nbsp;&nbsp;&nbsp;
             <BarChartOutlined />
-            {accessedDates && accessedDates.length > 1 ? (
+            {accessedDates && accessedDates.length >= 1 ? (
               <p style={{ fontSize: 12 }}>
                 {moment(accessedDates[accessedDates.length - 1]).fromNow()}
               </p>
@@ -87,56 +69,9 @@ const UrlCard: React.FC<PropsType> = (props) => {
               COPY
             </Button>
           </CopyToClipboard>
-          <Button
-            size="small"
-            style={{ marginRight: 20, fontSize: 10 }}
-            onClick={showModal}
-          >
-            EDIT
+          <Button size="small" style={{ marginRight: 20, fontSize: 10 }}>
+            <Link to={`/link/edit/${_id}`}>EDIT</Link>
           </Button>
-          <EditUrl
-            title={Title}
-            setTitle={setTitle}
-            urlId={_id}
-            visible={visible}
-            loading={loading}
-            handleEditOk={handleEditOk}
-            handleEditCancel={handleEditCancel}
-          />
-          <Modal
-            title="Edit Url"
-            visible={visible}
-            closable={false}
-            footer={[
-              <Button key="back" onClick={handleEditCancel}>
-                Cancel
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                onClick={() => handleEditOk(_id)}
-                disabled={title ? false : true}
-              >
-                Submit
-              </Button>,
-            ]}
-          >
-            <Form form={form}>
-              <Form.Item name="Title">
-                <Input
-                  style={{
-                    width: "50%",
-                  }}
-                  type="text"
-                  placeholder="Enter the title"
-                  size="large"
-                  allowClear
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
-                />
-              </Form.Item>
-            </Form>
-          </Modal>
 
           <Button
             onClick={() => deleteConfirm(_id)}

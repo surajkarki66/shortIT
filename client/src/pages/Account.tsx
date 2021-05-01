@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, Collapse, Form, notification } from "antd";
+import { Collapse, Form, notification } from "antd";
 
 import Axios from "../axios-url";
 import ChangePasswordForm from "../components/Forms/ChangePasswordForm";
@@ -123,10 +123,13 @@ const Account: React.FC = () => {
     )
       .then((res) => {
         setLoading(false);
+        setDeleteError("");
         logout();
       })
       .catch((err) => {
+        const { data } = err.response;
         setLoading(false);
+        setDeleteError(data.data.error);
       });
   };
   return (

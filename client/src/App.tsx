@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import "./App.css";
+import Footer from "./components/Footer/Footer";
 import Navbar from "./components/UI/Navbar/Navbar";
 import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
@@ -13,7 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Activate from "./pages/Activate";
 import Account from "./pages/Account";
-
+import EditUrl from "./containers/Url/EditUrl";
 import { AuthContext } from "./context/AuthContext";
 
 const App: React.FC = () => {
@@ -42,6 +43,7 @@ const App: React.FC = () => {
         <Route exact path="/account-setting" component={Account} />
         <Route exact path="/link/create" component={CreateUrl} />
         <Route exact path="/user/activate/:token" component={Activate} />
+        <Route exact path="/link/edit/:urlId" component={EditUrl} />
         <Redirect to="/" />
       </Switch>
     );
@@ -54,7 +56,8 @@ const App: React.FC = () => {
       }}
     >
       <Navbar />
-      <div>{routes}</div>
+      {routes}
+      <Footer />
     </div>
   );
 };

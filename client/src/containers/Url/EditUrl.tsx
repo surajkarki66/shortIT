@@ -1,65 +1,62 @@
-import { Modal, Input, Form, Button } from "antd";
-import { useForm } from "antd/lib/form/Form";
-import React from "react";
+import { Form } from "antd";
+import React, { useContext, useState } from "react";
+import { Redirect, useParams } from "react-router";
 
-type PropsType = {
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  urlId: string;
-  visible: boolean;
-  loading: boolean;
-  handleEditOk: (_id: string) => void;
-  handleEditCancel: () => void;
-};
+import Axios from "../../axios-url";
+import { AuthContext } from "../../context/AuthContext";
+import EditUrlForm from "../../components/Forms/EditUrlForm";
 
-const EditUrl: React.FC<PropsType> = (props) => {
-  const {
-    urlId,
-    visible,
-    loading,
-    handleEditOk,
-    handleEditCancel,
-    title,
-    setTitle,
-  } = props;
-  const [form] = useForm();
-  console.log(title);
+const EditUrl = () => {
+  const params = useParams<{ urlId: string }>();
+  const { urlId } = params;
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [editError, setEditError] = useState("");
+  const [editSuccess, setEditSuccess] = useState(false);
 
+  const [form] = Form.useForm();
+  const { token } = useContext(AuthContext);
+
+  const onClickSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    editUrl(title, urlId, token);
+  };
+  const editUrl = (title: string, urlId: string, token: string) => {
+    setLoading(true);
+    Axios.patch(
+      `/api/url/updateUrl/${urlId}`,
+      { title },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((res) => {
+        setLoading(false);
+        setEditError("");
+        setEditSuccess(true);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        setLoading(false);
+        setEditError(data.data.error);
+        setEditSuccess(false);
+      });
+  };
+  if (editSuccess) {
+    return <Redirect to="/" />;
+  }
   return (
-    <>
-      <Modal
-        title="Edit Url"
-        visible={visible}
-        footer={[
-          <Button key="back" onClick={handleEditCancel}>
-            Return
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={loading}
-            onClick={() => handleEditOk(urlId)}
-          >
-            Submit
-          </Button>,
-        ]}
-      >
-        <Form form={form}>
-          <Form.Item name="Title">
-            <Input
-              style={{
-                width: "50%",
-              }}
-              type="text"
-              placeholder="Enter the title"
-              size="large"
-              allowClear
-              onChange={(event) => setTitle(event.target.value)}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </>
+    <div className="editUrl">
+      <h1>Edit Url</h1>
+      <EditUrlForm
+        loading={loading}
+        editError={editError}
+        title={title}
+        setTitle={setTitle}
+        form={form}
+        onClickSubmitBtn={onClickSubmitBtn}
+      />
+    </div>
   );
 };
 

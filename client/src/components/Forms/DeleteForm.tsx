@@ -47,7 +47,7 @@ const DeleteForm: React.FC<Props> = (props) => {
           loading={loading}
           type="primary"
           htmlType="submit"
-          className="delete-password-button"
+          style={{ backgroundColor: "red" }}
         >
           {loading ? "" : "Delete"}
         </Button>

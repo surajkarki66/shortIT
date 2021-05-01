@@ -29,7 +29,7 @@ code {
 }
 
 .landingPage {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .urlResponse {
@@ -69,6 +69,12 @@ code {
   align-items: center;
 }
 
+.editUrl {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .forgotPassword {
   margin-top: 20px;
   flex-direction: column;

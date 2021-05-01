@@ -1,15 +1,17 @@
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { Router } from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthContextProvider } from "./context/AuthContext";
+const history = createBrowserHistory();
 ReactDOM.render(
   <AuthContextProvider>
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
   </AuthContextProvider>,
   document.getElementById("root")
 );

@@ -16,38 +16,13 @@ const Url: React.FC<PropsType> = (props) => {
   const { fullName, token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
-  const [isEditSuccess, setIsEditSuccess] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [title, setTitle] = useState("");
 
   useEffect(() => {
-    if (isDeleteSuccess || isEditSuccess) {
-      props.history.push("/");
+    if (isDeleteSuccess) {
+      props.history.push("/home");
     }
-  }, [isEditSuccess, isDeleteSuccess, props.history]);
+  }, [isDeleteSuccess, props.history]);
 
-  const handleEditOk = (_id: string) => {
-    setLoading(true);
-    Axios.patch(
-      `/api/url/updateUrl/${_id}`,
-      { title },
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-      .then((res) => {
-        setLoading(false);
-        setIsEditSuccess(true);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setIsEditSuccess(false);
-      });
-  };
-  const handleEditCancel = () => {
-    setVisible(false);
-  };
-  const showModal = () => {
-    setVisible(true);
-  };
   const handleDeleteOk = (_id: string) => {
     setLoading(true);
     Axios.delete(`/api/url/deleteUrl/${_id}`, {
@@ -77,25 +52,21 @@ const Url: React.FC<PropsType> = (props) => {
 
   return (
     <Row>
-      {urls &&
+      {urls && urls.length !== 0 ? (
         urls.map((url) => (
-          <Col key={url._id} span={24} style={{ border: "3px solid black" }}>
+          <Col key={url._id} span={24}>
             <UrlCard
               key={url._id}
               url={url}
               loading={loading}
               fullName={fullName}
               deleteConfirm={deleteConfirm}
-              visible={visible}
-              handleEditOk={handleEditOk}
-              handleEditCancel={handleEditCancel}
-              showModal={showModal}
-              Title={title}
-              setTitle={setTitle}
             />
           </Col>
-        ))}
-      <Col span={6} />
+        ))
+      ) : (
+        <p style={{ textAlign: "center", fontSize: "20px" }}>No Links</p>
+      )}
     </Row>
   );
 };
