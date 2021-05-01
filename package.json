@@ -34,8 +34,6 @@
     "nanoid": "^3.1.22",
     "nodemailer": "^6.5.0",
     "passport-local": "^1.0.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -54,7 +52,6 @@
     "@types/morgan-json": "^1.1.0",
     "@types/node": "^14.14.35",
     "@types/nodemailer": "^6.4.1",
-    "@types/react-router-dom": "^5.1.7",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "snyk": "^1.522.0",
