@@ -64,6 +64,9 @@ class Server {
         },
       })
     );
+    if (config.env === "production") {
+      this.app.use(express.static("client/build"));
+    }
   }
 
   private async database() {

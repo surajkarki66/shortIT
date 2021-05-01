@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node --files' src/app.ts",
     "start": "node dist/app.js",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "snyk test"
