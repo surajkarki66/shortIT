@@ -41,6 +41,12 @@ const NODEMAIL = {
     email: EMAIL,
     pass: EMAIL_PASS,
 };
+const Oauth = {
+    CLIENT_ID: process.env.CLIENT_ID,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    REDIRECT_URI: process.env.REDIRECT_URI,
+    REFRESH_TOKEN: process.env.REFRESH_TOKEN,
+};
 const config = {
     mongo: MONGO,
     server: SERVER,
@@ -51,6 +57,7 @@ const config = {
     jwtExpiresNum: JWT_EXPIRES_NUM,
     baseUrl: BASE_URL,
     nodeMailer: NODEMAIL,
+    oauth: Oauth,
 };
 exports.default = config;
 //# sourceMappingURL=config.js.map

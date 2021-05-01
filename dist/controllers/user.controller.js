@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const googleapis_1 = require("googleapis");
 const express_validator_1 = require("express-validator");
 const User_1 = __importDefault(require("../models/User"));
 const Url_1 = __importDefault(require("../models/Url"));
@@ -156,6 +157,12 @@ const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const { email } = req.body;
         const user = yield User_1.default.findByEmail(email);
         if (user) {
+            const oAuth2Client = new googleapis_1.google.auth.OAuth2(config_1.default.oauth.CLIENT_ID, config_1.default.oauth.CLIENT_SECRET, config_1.default.oauth.REDIRECT_URI);
+            oAuth2Client.setCredentials({
+                refresh_token: config_1.default.oauth.REFRESH_TOKEN,
+            });
+            const accessToken = yield oAuth2Client.getAccessToken();
+            const transporter = yield nodemailer_1.default(accessToken);
             const { _id, role } = user;
             const payload = { _id: _id.toString(), role };
             const token = jwtHelper_1.signToken(payload, "5m");
@@ -171,7 +178,7 @@ const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                     <p>${config_1.default.url}</p>
                 `,
             };
-            nodemailer_1.default.sendMail(mailOptions, (error, _body) => {
+            transporter.sendMail(mailOptions, (error, _body) => {
                 if (error) {
                     next(apiError_1.default.internal(`Something went wrong: ${error.message}`));
                     return;
@@ -251,6 +258,12 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             let result;
             const { _id, status, email, role } = user;
             if (status === "inactive") {
+                const oAuth2Client = new googleapis_1.google.auth.OAuth2(config_1.default.oauth.CLIENT_ID, config_1.default.oauth.CLIENT_SECRET, config_1.default.oauth.REDIRECT_URI);
+                oAuth2Client.setCredentials({
+                    refresh_token: config_1.default.oauth.REFRESH_TOKEN,
+                });
+                const accessToken = yield oAuth2Client.getAccessToken();
+                const transporter = yield nodemailer_1.default(accessToken);
                 const payload = { _id: _id.toString(), role };
                 const token = jwtHelper_1.signToken(payload, "5m");
                 const mailOptions = {
@@ -266,7 +279,7 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
            		<p>${config_1.default.url}</p>
            		 `,
                 };
-                nodemailer_1.default.sendMail(mailOptions, (error, body) => {
+                transporter.sendMail(mailOptions, (error, body) => {
                     if (error) {
                         console.log(error);
                         next(apiError_1.default.internal(`Something went wrong: ${error.message}`));
@@ -371,6 +384,12 @@ const changeEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         };
         const { success, statusCode, data } = yield User_1.default.updateById(userId, updateObject);
         if (success) {
+            const oAuth2Client = new googleapis_1.google.auth.OAuth2(config_1.default.oauth.CLIENT_ID, config_1.default.oauth.CLIENT_SECRET, config_1.default.oauth.REDIRECT_URI);
+            oAuth2Client.setCredentials({
+                refresh_token: config_1.default.oauth.REFRESH_TOKEN,
+            });
+            const accessToken = yield oAuth2Client.getAccessToken();
+            const transporter = yield nodemailer_1.default(accessToken);
             const newRole = role;
             const payload = { _id: id, role: newRole };
             const token = jwtHelper_1.signToken(payload, "5m");
@@ -387,7 +406,7 @@ const changeEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 						 <p>${config_1.default.url}</p>
 							`,
             };
-            nodemailer_1.default.sendMail(mailOptions, (error, body) => {
+            transporter.sendMail(mailOptions, (error, body) => {
                 if (error) {
                     next(apiError_1.default.internal(`Something went wrong: ${error.message}`));
                     return;
