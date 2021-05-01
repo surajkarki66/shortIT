@@ -1,3 +1,4 @@
+import path from "path";
 import cookieParser from "cookie-parser";
 import express from "express";
 import hpp from "hpp";
@@ -69,6 +70,9 @@ class Server {
     );
     if (config.env === "production") {
       this.app.use(express.static("client/build"));
+      this.app.get("/*", function (req, res) {
+        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+      });
     }
   }
 
