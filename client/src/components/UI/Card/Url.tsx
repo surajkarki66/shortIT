@@ -44,7 +44,7 @@ const UrlCard: React.FC<PropsType> = (props) => {
           <h4 style={{ color: "#666666" }}>{longUrl}</h4>
           <br />
           <a rel="noreferrer" href={shortUrl} target="_blank">
-            {shortUrl.slice(7)}
+            {shortUrl.slice(8)}
           </a>
         </Col>
         <Col span={24}>
