@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node --files' src/app.ts",
-    "start": "node dist/app.js",
+    "start": "node ./dist/app.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "snyk test",
     "install-client": "cd client && npm install",
