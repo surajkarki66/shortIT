@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_1 = __importDefault(require("express"));
 const hpp_1 = __importDefault(require("hpp"));
@@ -71,6 +72,9 @@ class Server {
         }));
         if (config_1.default.env === "production") {
             this.app.use(express_1.default.static("client/build"));
+            this.app.get("*", (req, res) => {
+                res.sendFile(path_1.default.resolve(__dirname, "../client", "build", "index.html"));
+            });
         }
     }
     database() {
