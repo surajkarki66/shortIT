@@ -25,7 +25,9 @@ const Profile: React.FC = () => {
   const [success, setSuccess] = useState("");
   const [editError, setEditError] = useState("");
   const [editSuccess, setEditSuccess] = useState(false);
-  const { status, token, userId, setStatus } = useContext(AuthContext);
+  const { status, token, userId, setStatus, setFullName } = useContext(
+    AuthContext
+  );
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -97,6 +99,7 @@ const Profile: React.FC = () => {
         setLoading(false);
         setEditError("");
         setEditSuccess(true);
+        setFullName(userInputData.firstName + " " + userInputData.lastName);
         onClose();
         form.resetFields();
         return <Redirect to="/profile" />;
