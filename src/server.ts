@@ -61,10 +61,6 @@ class Server {
     this.app.use(helmet());
     this.app.use(hpp());
     this.app.use(httpLogger);
-    if (config.env === "development") {
-      this.app.use(morgan("dev"));
-    }
-
     this.app.use(
       compression({
         level: 6,
@@ -77,6 +73,9 @@ class Server {
         },
       })
     );
+    if (config.env === "development") {
+      this.app.use(morgan("dev"));
+    }
   }
 
   private async database() {

@@ -43,6 +43,12 @@ class Server {
         this.app.use(new common_route_1.default().router);
         // Error handler route
         this.app.use(apiErrorHandler_1.default);
+        if (config_1.default.env === "production") {
+            this.app.use(express_1.default.static("client/build"));
+            this.app.get("*", (req, res) => {
+                res.sendFile(path_1.default.resolve(__dirname, "../client", "build", "index.html"));
+            });
+        }
     }
     middlewares() {
         this.app.enable("trust proxy");
@@ -57,9 +63,6 @@ class Server {
         this.app.use(helmet_1.default());
         this.app.use(hpp_1.default());
         this.app.use(httpLogger_1.default);
-        if (config_1.default.env === "development") {
-            this.app.use(morgan_1.default("dev"));
-        }
         this.app.use(compression_1.default({
             level: 6,
             threshold: 100 * 100,
@@ -70,11 +73,8 @@ class Server {
                 return compression_1.default.filter(req, res);
             },
         }));
-        if (config_1.default.env === "production") {
-            this.app.use(express_1.default.static("client/build"));
-            this.app.get("*", (req, res) => {
-                res.sendFile(path_1.default.resolve(__dirname, "../client", "build", "index.html"));
-            });
+        if (config_1.default.env === "development") {
+            this.app.use(morgan_1.default("dev"));
         }
     }
     database() {
