@@ -1,32 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Spin } from "antd";
 
-import Url from "../containers/Url/Url";
-import { AuthContext } from "../context/AuthContext";
 import Axios from "../axios-url";
-
-export type UrlType = {
-  _id: string;
-  accessedDates?: Date[];
-  code: string;
-  createdAt: Date;
-  longUrl: string;
-  shortUrl: string;
-  updatedAt: Date;
-  userId: string;
-  title?: string;
-};
-
-export type UserType = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  status: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-  urls: UrlType[];
-};
+import Url from "../containers/Url/Url";
+import { UserType } from "../types/User";
+import { AuthContext } from "../context/AuthContext";
 
 const HomePage: React.FC = (props) => {
   const { token, setStatus, setFullName } = useContext(AuthContext);

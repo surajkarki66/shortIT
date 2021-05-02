@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Form } from "antd";
 
 import Axios from "../../axios-url";
-import { UrlType } from "../../pages/Home";
+import { UrlType } from "../../types/Url";
 import { AuthContext } from "../../context/AuthContext";
 import UrlForm from "../../components/Forms/UrlForm";
 import UrlResponse from "../../components/UI/Card/UrlResponse";

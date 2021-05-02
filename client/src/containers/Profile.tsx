@@ -1,7 +1,7 @@
 import { Button, Drawer, FormInstance } from "antd";
 import React from "react";
 
-import { UserType } from "../pages/Home";
+import { UserType } from "../types/User";
 import ProfileForm from "../components/Forms/ProfileForm";
 
 type Props = {

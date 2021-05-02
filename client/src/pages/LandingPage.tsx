@@ -2,17 +2,9 @@ import React, { useState } from "react";
 import { Form } from "antd";
 
 import Axios from "../axios-url";
+import { GuestUrlType } from "../types/GuestUrl";
 import UrlForm from "../components/Forms/UrlForm";
 import UrlResponse from "../components/UI/Card/UrlResponse";
-
-export type GuestUrlType = {
-  _id: string;
-  code: string;
-  createdAt: Date;
-  updatedAt: Date;
-  longUrl: string;
-  shortUrl: string;
-};
 
 const LandingPage: React.FC = () => {
   const [guestUrl, setGuestUrl] = useState<GuestUrlType>();

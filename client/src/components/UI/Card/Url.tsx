@@ -3,7 +3,7 @@ import { Button, Card, Col, Row, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { UrlType } from "../../../pages/Home";
+import { UrlType } from "../.../../../../types/Url";
 import { BarChartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 

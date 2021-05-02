@@ -4,7 +4,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import Axios from "../../axios-url";
 import UrlCard from "../../components/UI/Card/Url";
-import { UserType } from "../../pages/Home";
+import { UserType } from "../../types/User";
 import { AuthContext } from "../../context/AuthContext";
 import { RouteComponentProps, withRouter } from "react-router";
 

@@ -2,7 +2,7 @@ import { Button, notification, Spin, Form } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 
 import Axios from "../axios-url";
-import { UserType } from "../pages/Home";
+import { UserType } from "../types/User";
 import ProfileCard from "../containers/Profile";
 import { AuthContext } from "../context/AuthContext";
 

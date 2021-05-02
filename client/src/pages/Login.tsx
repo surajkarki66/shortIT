@@ -2,18 +2,14 @@ import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 import Axios from "../axios-url";
-import LoginForm from "../components/Forms/LoginForm";
 import { AuthContext } from "../context/AuthContext";
-
-type IUserLoginInput = {
-  email: string;
-  password: string;
-};
+import LoginForm from "../components/Forms/LoginForm";
+import { UserLoginInputType } from "../types/UserLoginInput";
 
 const Login: React.FC = () => {
   const { setToken } = useContext(AuthContext);
 
-  const [userInputData, setUserInputData] = useState<IUserLoginInput>({
+  const [userInputData, setUserInputData] = useState<UserLoginInputType>({
     email: "",
     password: "",
   });
@@ -33,7 +29,7 @@ const Login: React.FC = () => {
     login(userInputData);
   };
 
-  const login = (inputData: IUserLoginInput) => {
+  const login = (inputData: UserLoginInputType) => {
     Axios.post("/api/users/login", inputData)
       .then((res) => {
         const { data } = res;

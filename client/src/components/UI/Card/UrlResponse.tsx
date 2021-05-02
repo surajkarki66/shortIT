@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyOutlined } from "@ant-design/icons";
 
-import { GuestUrlType } from "../../../pages/LandingPage";
-import { UrlType } from "../../../pages/Home";
+import { UrlType } from "../../../types/Url";
+import { GuestUrlType } from "../../../types/GuestUrl";
 
 type PropsType = {
   url: GuestUrlType | UrlType;
