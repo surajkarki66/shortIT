@@ -102,7 +102,6 @@ const Profile: React.FC = () => {
         setFullName(userInputData.firstName + " " + userInputData.lastName);
         onClose();
         form.resetFields();
-        return <Redirect to="/profile" />;
       })
       .catch((err) => {
         const { data } = err.response;
@@ -118,6 +117,10 @@ const Profile: React.FC = () => {
   const onClose = () => {
     setVisible(false);
   };
+
+  if (editSuccess) {
+    return <Redirect to="/profile" />;
+  }
   return (
     <div className="profile">
       {status === "inactive" && (
