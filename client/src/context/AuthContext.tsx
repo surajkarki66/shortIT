@@ -10,11 +10,9 @@ type Props = {
 type AuthContextType = {
   token: string;
   userId: string;
-  fullName: string;
   status: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
-  setFullName: React.Dispatch<React.SetStateAction<string>>;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
 };
 
@@ -23,7 +21,6 @@ export const AuthContext = createContext({} as AuthContextType);
 export const AuthContextProvider: React.FC<Props> = (props) => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
-  const [fullName, setFullName] = useState("");
   const [status, setStatus] = useState("");
 
   useEffect(() => {
@@ -32,7 +29,6 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       if (token) {
         const jwtData: any = jwt_decode(res.data);
         setUserId(jwtData._id);
-        setFullName(jwtData.firstName + " " + jwtData.lastName);
         setStatus(jwtData.status);
       }
     });
@@ -43,8 +39,6 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       value={{
         token,
         setToken,
-        fullName,
-        setFullName,
         userId,
         setUserId,
         status,

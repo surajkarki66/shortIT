@@ -11,8 +11,8 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { token, setToken, fullName, userId } = useContext(AuthContext);
-  const authData = { token, setToken, fullName, userId };
+  const { token, setToken } = useContext(AuthContext);
+  const authData = { token };
   const showDrawer = () => {
     setVisible(true);
   };

@@ -5,7 +5,6 @@ import Axios from "../axios-url";
 import { UserType } from "../pages/Home";
 import ProfileCard from "../containers/Profile";
 import { AuthContext } from "../context/AuthContext";
-import { Redirect } from "react-router";
 
 type UserEditInputType = {
   firstName: string;
