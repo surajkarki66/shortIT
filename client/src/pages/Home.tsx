@@ -34,19 +34,21 @@ const HomePage: React.FC = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    Axios.get("/api/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        const { data } = res;
-        setUser(data.data);
-        setStatus(data.data.status);
-        setLoading(false);
+    if (token) {
+      setLoading(true);
+      Axios.get("/api/users/me", {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .catch((err) => {
-        setLoading(false);
-      });
+        .then((res) => {
+          const { data } = res;
+          setUser(data.data);
+          setStatus(data.data.status);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
   }, [setStatus, token]);
 
   return (

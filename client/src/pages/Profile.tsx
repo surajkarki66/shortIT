@@ -33,19 +33,21 @@ const Profile: React.FC = () => {
       notification.info({ message: success });
       setSuccess("");
     }
-    setLoading(true);
-    Axios.get("/api/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        const { data } = res;
-        setUser(data.data);
-        setStatus(data.data.status);
-        setLoading(false);
+    if (token) {
+      setLoading(true);
+      Axios.get("/api/users/me", {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .catch((err) => {
-        setLoading(false);
-      });
+        .then((res) => {
+          const { data } = res;
+          setUser(data.data);
+          setStatus(data.data.status);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
   }, [setStatus, success, token, editSuccess]);
   const onClickSendBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
