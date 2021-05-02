@@ -43,12 +43,13 @@ const Profile: React.FC = () => {
         const { data } = res;
         setUser(data.data);
         setStatus(data.data.status);
+        setFullName(data.data.firstName + " " + data.data.lastName);
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
       });
-  }, [setStatus, success, token, editSuccess]);
+  }, [setStatus, success, token, editSuccess, setFullName]);
   const onClickSendBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendVerificationEmail(userId);

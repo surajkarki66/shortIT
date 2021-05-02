@@ -29,7 +29,7 @@ export type UserType = {
 };
 
 const HomePage: React.FC = (props) => {
-  const { token, setStatus } = useContext(AuthContext);
+  const { token, setStatus, setFullName } = useContext(AuthContext);
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState(false);
 
@@ -43,13 +43,14 @@ const HomePage: React.FC = (props) => {
           const { data } = res;
           setUser(data.data);
           setStatus(data.data.status);
+          setFullName(data.data.firstName + " " + data.data.lastName);
           setLoading(false);
         })
         .catch((err) => {
           setLoading(false);
         });
     }
-  }, [setStatus, token]);
+  }, [setFullName, setStatus, token]);
 
   return (
     <div className="landingPage">

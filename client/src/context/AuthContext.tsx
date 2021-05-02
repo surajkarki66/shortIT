@@ -11,6 +11,8 @@ type AuthContextType = {
   token: string;
   userId: string;
   status: string;
+  fullName: string;
+  setFullName: React.Dispatch<React.SetStateAction<string>>;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
@@ -22,6 +24,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
   const [status, setStatus] = useState("");
+  const [fullName, setFullName] = useState("");
 
   useEffect(() => {
     Axios.get("/api/users/loggedIn").then((res) => {
@@ -30,9 +33,18 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         const jwtData: any = jwt_decode(res.data);
         setUserId(jwtData._id);
         setStatus(jwtData.status);
+        Axios.get("/api/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => {
+            const { data } = res;
+            setFullName(data.data.firstName + " " + data.data.lastName);
+            setStatus(data.data.status);
+          })
+          .catch((err) => {});
       }
     });
-  }, [token, setToken]);
+  }, [token, setToken, fullName, setFullName]);
 
   return (
     <AuthContext.Provider
@@ -43,6 +55,8 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         setUserId,
         status,
         setStatus,
+        fullName,
+        setFullName,
       }}
     >
       {props.children}

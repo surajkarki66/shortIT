@@ -16,14 +16,14 @@ interface Props extends RouteComponentProps {
   authData: {
     token: string;
   };
-
+  fullName: string;
   logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
 
-  const { logoutClickHandler, mode, authData } = props;
+  const { logoutClickHandler, mode, authData, fullName } = props;
   const { token } = authData;
 
   let menu = (
@@ -51,7 +51,7 @@ const RightMenu: React.FC<Props> = (props) => {
           <SubMenu
             key="/"
             icon={<UserOutlined />}
-            title="Profile"
+            title={fullName}
             style={{ color: "#87ceeb" }}
           >
             <Menu.Item key="profile_settings">
