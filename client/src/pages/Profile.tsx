@@ -35,21 +35,20 @@ const Profile: React.FC = () => {
       notification.info({ message: success });
       setSuccess("");
     }
-    if (token) {
-      setLoading(true);
-      Axios.get("/api/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
+
+    setLoading(true);
+    Axios.get("/api/users/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        const { data } = res;
+        setUser(data.data);
+        setStatus(data.data.status);
+        setLoading(false);
       })
-        .then((res) => {
-          const { data } = res;
-          setUser(data.data);
-          setStatus(data.data.status);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-        });
-    }
+      .catch((err) => {
+        setLoading(false);
+      });
   }, [setStatus, success, token, editSuccess]);
   const onClickSendBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -118,9 +117,6 @@ const Profile: React.FC = () => {
     setVisible(false);
   };
 
-  if (editSuccess) {
-    return <Redirect to="/profile" />;
-  }
   return (
     <div className="profile">
       {status === "inactive" && (
