@@ -35,6 +35,15 @@ class Server {
 
     // Error handler route
     this.app.use(apiErrorHandler);
+
+    if (config.env === "production") {
+      this.app.use(express.static("client/build"));
+      this.app.get("*", (req, res) => {
+        res.sendFile(
+          path.resolve(__dirname, "../client", "build", "index.html")
+        );
+      });
+    }
   }
 
   private middlewares(): void {
@@ -68,14 +77,6 @@ class Server {
         },
       })
     );
-    if (config.env === "production") {
-      this.app.use(express.static("client/build"));
-      this.app.get("*", (req, res) => {
-        res.sendFile(
-          path.resolve(__dirname, "../client", "build", "index.html")
-        );
-      });
-    }
   }
 
   private async database() {

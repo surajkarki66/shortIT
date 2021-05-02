@@ -37,12 +37,16 @@ const HomePage: React.FC = (props) => {
     setLoading(true);
     Axios.get("/api/users/me", {
       headers: { Authorization: `Bearer ${token}` },
-    }).then((res) => {
-      const { data } = res;
-      setUser(data.data);
-      setStatus(data.data.status);
-      setLoading(false);
-    });
+    })
+      .then((res) => {
+        const { data } = res;
+        setUser(data.data);
+        setStatus(data.data.status);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   }, [setStatus, token]);
 
   return (
