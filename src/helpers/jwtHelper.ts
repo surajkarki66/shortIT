@@ -1,9 +1,10 @@
+import { ROLE } from "./../interfaces/user";
 import jwt from "jsonwebtoken";
 
 import config from "../configs/config";
 
 function signToken(
-  payload: { _id: string },
+  payload: { _id: string; role: ROLE },
   expiresIn: string | number | undefined
 ): string {
   const secret = String(config.jwtSecret);

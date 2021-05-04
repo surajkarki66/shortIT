@@ -43,6 +43,7 @@ class Server {
         this.app.use(new common_route_1.default().router);
         // Error handler route
         this.app.use(apiErrorHandler_1.default);
+        // Frontend production
         if (config_1.default.env === "production") {
             this.app.use(express_1.default.static("client/build"));
             this.app.get("*", (req, res) => {

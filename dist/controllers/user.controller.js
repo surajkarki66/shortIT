@@ -73,6 +73,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (yield newUser.comparePassword(password)) {
             const payload = {
                 _id: newUser._id.toString(),
+                role: newUser.role,
             };
             const accessToken = jwtHelper_1.signToken(payload, config_1.default.jwtExpiresNum);
             const result = {
@@ -160,8 +161,8 @@ const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             });
             const accessToken = yield oAuth2Client.getAccessToken();
             const transporter = yield nodemailer_1.default(accessToken);
-            const { _id } = user;
-            const payload = { _id: _id.toString() };
+            const { _id, role } = user;
+            const payload = { _id: _id.toString(), role };
             const token = jwtHelper_1.signToken(payload, "5m");
             const mailOptions = {
                 from: config_1.default.nodeMailer.email,
@@ -261,7 +262,7 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 });
                 const accessToken = yield oAuth2Client.getAccessToken();
                 const transporter = yield nodemailer_1.default(accessToken);
-                const payload = { _id: _id.toString() };
+                const payload = { _id: _id.toString(), role };
                 const token = jwtHelper_1.signToken(payload, "5m");
                 const mailOptions = {
                     from: config_1.default.nodeMailer.email,
@@ -278,7 +279,6 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 };
                 transporter.sendMail(mailOptions, (error, body) => {
                     if (error) {
-                        console.log(error);
                         next(apiError_1.default.internal(`Something went wrong: ${error.message}`));
                         return;
                     }
@@ -387,7 +387,8 @@ const changeEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             });
             const accessToken = yield oAuth2Client.getAccessToken();
             const transporter = yield nodemailer_1.default(accessToken);
-            const payload = { _id: id };
+            const newRole = role;
+            const payload = { _id: id, role: newRole };
             const token = jwtHelper_1.signToken(payload, "5m");
             const mailOptions = {
                 from: config_1.default.nodeMailer.email,
