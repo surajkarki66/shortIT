@@ -84,9 +84,6 @@ const login: RequestHandler = async (
     if (await newUser.comparePassword(password)) {
       const payload = {
         _id: newUser._id.toString(),
-        role: newUser.role,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
       };
 
       const accessToken = signToken(payload, config.jwtExpiresNum);
@@ -193,8 +190,8 @@ const forgotPassword: RequestHandler = async (
 
       const accessToken = await oAuth2Client.getAccessToken();
       const transporter = await nodeMailer(accessToken);
-      const { _id, role } = user;
-      const payload = { _id: _id.toString(), role };
+      const { _id } = user;
+      const payload = { _id: _id.toString() };
       const token = signToken(payload, "5m");
       const mailOptions = {
         from: config.nodeMailer.email,
@@ -315,7 +312,7 @@ const verifyEmail: RequestHandler = async (
 
         const accessToken = await oAuth2Client.getAccessToken();
         const transporter = await nodeMailer(accessToken);
-        const payload = { _id: _id.toString(), role };
+        const payload = { _id: _id.toString() };
         const token = signToken(payload, "5m");
         const mailOptions = {
           from: config.nodeMailer.email,
@@ -460,8 +457,7 @@ const changeEmail: RequestHandler = async (
 
       const accessToken = await oAuth2Client.getAccessToken();
       const transporter = await nodeMailer(accessToken);
-      const newRole = <ROLE>role;
-      const payload = { _id: id, role: newRole };
+      const payload = { _id: id };
       const token = signToken(payload, "5m");
       const mailOptions = {
         from: config.nodeMailer.email,
