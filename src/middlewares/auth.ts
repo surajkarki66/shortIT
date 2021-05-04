@@ -23,6 +23,7 @@ const authenticate: RequestHandler = async (
         });
 
         const { _id, error, role } = (response as unknown) as ITokenPayload;
+
         if (_id) {
           req.user = { id: _id, role };
           return next();
