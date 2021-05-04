@@ -1,4 +1,3 @@
-import jwt_decode from "jwt-decode";
 import React, { useState, createContext, ReactChild, useEffect } from "react";
 
 import Axios from "../axios-url";
@@ -30,21 +29,23 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     Axios.get("/api/users/loggedIn").then((res) => {
       setToken(res.data);
       if (token) {
-        const jwtData: any = jwt_decode(res.data);
-        setUserId(jwtData._id);
-        setStatus(jwtData.status);
         Axios.get("/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         })
           .then((res) => {
             const { data } = res;
+            setUserId(data.data._id);
             setFullName(data.data.firstName + " " + data.data.lastName);
             setStatus(data.data.status);
           })
-          .catch((err) => {});
+          .catch((err) => {
+            setUserId("");
+            setFullName("");
+            setStatus("");
+          });
       }
     });
-  }, [token, setToken, fullName, setFullName]);
+  }, [token, setToken, fullName, setFullName, status, setStatus]);
 
   return (
     <AuthContext.Provider
