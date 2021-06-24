@@ -6,13 +6,12 @@ import {
   withRouter,
   useLocation,
 } from "react-router-dom";
-import { MenuMode } from "antd/lib/menu";
 import { UserOutlined, LinkOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 
 interface Props extends RouteComponentProps {
-  mode?: MenuMode;
+  mode: any;
   authData: {
     token: string;
   };
