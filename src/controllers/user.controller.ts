@@ -103,6 +103,7 @@ const login: RequestHandler = async (
         httpOnly: config.env === "production" ? true : false,
         sameSite: config.env === "production" ? true : false,
       };
+
       res.cookie("token", accessToken, options);
       return writeServerResponse(res, serverResponse);
     } else {

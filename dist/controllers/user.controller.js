@@ -89,6 +89,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                 maxAge: Number(config_1.default.jwtExpiresNum),
                 secure: config_1.default.env === "production" ? true : false,
                 httpOnly: config_1.default.env === "production" ? true : false,
+                sameSite: config_1.default.env === "production" ? true : false,
             };
             res.cookie("token", accessToken, options);
             return response_1.default(res, serverResponse);
