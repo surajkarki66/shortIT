@@ -12,7 +12,7 @@ import { UserOutlined, LinkOutlined } from "@ant-design/icons";
 const { SubMenu } = Menu;
 
 interface Props extends RouteComponentProps {
-  mode: MenuMode;
+  mode?: MenuMode;
   authData: {
     token: string;
   };
