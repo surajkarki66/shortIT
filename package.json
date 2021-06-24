@@ -17,10 +17,12 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@types/csurf": "^1.11.1",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.2",

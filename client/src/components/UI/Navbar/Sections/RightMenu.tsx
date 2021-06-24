@@ -7,11 +7,12 @@ import {
   useLocation,
 } from "react-router-dom";
 import { UserOutlined, LinkOutlined } from "@ant-design/icons";
+import { MenuMode } from "antd/lib/menu";
 
 const { SubMenu } = Menu;
 
 interface Props extends RouteComponentProps {
-  mode: any;
+  mode?: MenuMode;
   authData: {
     token: string;
   };
