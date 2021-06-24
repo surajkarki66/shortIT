@@ -101,6 +101,7 @@ const login: RequestHandler = async (
         maxAge: Number(config.jwtExpiresNum),
         secure: config.env === "production" ? true : false,
         httpOnly: config.env === "production" ? true : false,
+        sameSite: config.env === "production" ? true : false,
       };
       res.cookie("token", accessToken, options);
       return writeServerResponse(res, serverResponse);
