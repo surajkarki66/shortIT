@@ -4,6 +4,7 @@ import express from "express";
 import hpp from "hpp";
 import morgan from "morgan";
 import cors from "cors";
+import csrf from "csurf";
 import helmet from "helmet";
 import compression from "compression";
 import mongoSanitize from "express-mongo-sanitize";
@@ -19,6 +20,7 @@ import logger from "./utils/logger";
 
 class Server {
   private app: express.Application;
+  private csrfProtection = csrf({ cookie: true });
 
   constructor() {
     this.app = express();
@@ -55,12 +57,14 @@ class Server {
         credentials: true,
       })
     );
+
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
     this.app.use(mongoSanitize());
     this.app.use(helmet());
     this.app.use(hpp());
+    this.app.use(this.csrfProtection);
     this.app.use(httpLogger);
     this.app.use(
       compression({

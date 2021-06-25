@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form } from "antd";
 
 import Axios from "../axios-url";
 import { GuestUrlType } from "../types/GuestUrl";
+import { AuthContext } from "../context/AuthContext";
 import UrlForm from "../components/Forms/UrlForm";
 import UrlResponse from "../components/UI/Card/UrlResponse";
 
 const LandingPage: React.FC = () => {
+  const { csrfToken } = useContext(AuthContext);
   const [guestUrl, setGuestUrl] = useState<GuestUrlType>();
   const [loading, setLoading] = useState(false);
   const [guestUrlError, setGuestUrlError] = useState("");
@@ -21,6 +23,7 @@ const LandingPage: React.FC = () => {
   };
 
   const generateUrl = (inputData: { longUrl: string }) => {
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/url/generateGuestUrl", inputData)
       .then((res) => {
         const { data } = res;

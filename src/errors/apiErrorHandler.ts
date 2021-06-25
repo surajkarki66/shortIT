@@ -9,7 +9,7 @@ const apiErrorHandler = (
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
-): Response<any, Record<string, any>> => {
+) => {
   let serverResponse = {
     result: {
       status: "failed",

@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
+import Axios from "./axios-url";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/UI/Navbar/Navbar";
@@ -18,7 +19,15 @@ import EditUrl from "./containers/Url/EditUrl";
 import { AuthContext } from "./context/AuthContext";
 
 const App: React.FC = () => {
-  const { token } = useContext(AuthContext);
+  const { token, setCsrfToken } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getCsrfToken = async () => {
+      const { data } = await Axios.get("/csrf-token");
+      setCsrfToken(data.csrfToken);
+    };
+    getCsrfToken();
+  }, [setCsrfToken]);
 
   let routes = (
     <Switch>

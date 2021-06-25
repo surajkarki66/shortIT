@@ -1,8 +1,8 @@
 /node_modules
 
 # dist
-# dist
-# dist/
+dist
+dist/
 
 # Logs
 logs

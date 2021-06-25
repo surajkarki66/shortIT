@@ -15,7 +15,7 @@ const EditUrl = () => {
   const [editSuccess, setEditSuccess] = useState(false);
 
   const [form] = Form.useForm();
-  const { token } = useContext(AuthContext);
+  const { token, csrfToken } = useContext(AuthContext);
 
   const onClickSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -23,6 +23,8 @@ const EditUrl = () => {
   };
   const editUrl = (title: string, urlId: string, token: string) => {
     setLoading(true);
+
+    Axios.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
     Axios.patch(
       `/api/url/updateUrl/${urlId}`,
       { title },

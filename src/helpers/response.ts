@@ -6,10 +6,7 @@ export interface IResponseData {
   contentType: string;
 }
 
-function writeServerResponse(
-  res: Response,
-  responseData: IResponseData
-): Response<any, Record<string, any>> {
+function writeServerResponse(res: Response, responseData: IResponseData) {
   const { result, statusCode, contentType } = responseData;
   res.setHeader("Content-Type", contentType);
   return res.status(statusCode).json(result);

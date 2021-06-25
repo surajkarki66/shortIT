@@ -7,7 +7,7 @@ import LoginForm from "../components/Forms/LoginForm";
 import { UserLoginInputType } from "../types/UserLoginInput";
 
 const Login: React.FC = () => {
-  const { setToken } = useContext(AuthContext);
+  const { setToken, csrfToken } = useContext(AuthContext);
 
   const [userInputData, setUserInputData] = useState<UserLoginInputType>({
     email: "",
@@ -30,6 +30,7 @@ const Login: React.FC = () => {
   };
 
   const login = (inputData: UserLoginInputType) => {
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/login", inputData)
       .then((res) => {
         const { data } = res;

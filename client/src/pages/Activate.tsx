@@ -1,11 +1,12 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router";
 import { useParams } from "react-router-dom";
 
 import Axios from "../axios-url";
-
+import { AuthContext } from "../context/AuthContext";
 const Activate: React.FC = () => {
+  const { csrfToken } = useContext(AuthContext);
   const params = useParams<{ token: string }>();
 
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ const Activate: React.FC = () => {
 
   const activate = (token: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/activate", { token })
       .then((res) => {
         setLoading(false);

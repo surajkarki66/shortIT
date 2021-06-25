@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 
 import Axios from "../axios-url";
+import { AuthContext } from "../context/AuthContext";
 import RegisterForm from "../components/Forms/RegisterForm";
 
 type UserRegisterInputType = {
@@ -21,6 +22,7 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [successfulRegister, setSuccessfulRegister] = useState(false);
   const [registerError, setRegisterError] = useState("");
+  const { csrfToken } = useContext(AuthContext);
 
   const onFinish = (values: any) => {
     if (values) {
@@ -36,6 +38,7 @@ const Register: React.FC = () => {
   };
 
   const register = (inputData: UserRegisterInputType) => {
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/register", inputData)
       .then((_res) => {
         setLoading(false);

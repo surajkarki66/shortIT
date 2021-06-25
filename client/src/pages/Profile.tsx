@@ -2,7 +2,6 @@ import { Button, notification, Spin, Form } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 
 import Axios from "../axios-url";
-import { UserType } from "../types/User";
 import ProfileCard from "../containers/Profile";
 import { AuthContext } from "../context/AuthContext";
 
@@ -12,7 +11,6 @@ type UserEditInputType = {
 };
 
 const Profile: React.FC = () => {
-  const [user, setUser] = useState<UserType>();
   const [form] = Form.useForm();
   const [userInputData, setUserInputData] = useState<UserEditInputType>({
     firstName: "",
@@ -23,10 +21,17 @@ const Profile: React.FC = () => {
   const [sendLoading, setSendLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [editError, setEditError] = useState("");
-  const [editSuccess, setEditSuccess] = useState(false);
-  const { status, token, userId, setStatus, setFullName } = useContext(
-    AuthContext
-  );
+  const authState = useContext(AuthContext);
+  const {
+    status,
+    token,
+    userId,
+    setFullName,
+    fullName,
+    email,
+    csrfToken,
+  } = authState;
+  const user = { fullName, email };
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -34,22 +39,7 @@ const Profile: React.FC = () => {
       notification.info({ message: success });
       setSuccess("");
     }
-
-    setLoading(true);
-    Axios.get("/api/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        const { data } = res;
-        setUser(data.data);
-        setStatus(data.data.status);
-        setFullName(data.data.firstName + " " + data.data.lastName);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
-  }, [setStatus, success, token, editSuccess, setFullName]);
+  }, [success]);
   const onClickSendBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendVerificationEmail(userId);
@@ -57,6 +47,7 @@ const Profile: React.FC = () => {
 
   const sendVerificationEmail = (userId: string) => {
     setSendLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       "/api/users/verifyEmail",
       { userId },
@@ -91,13 +82,13 @@ const Profile: React.FC = () => {
 
   const editUser = (userInputData: UserEditInputType, userId: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(`/api/users/changeUserDetails/${userId}`, userInputData, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         setLoading(false);
         setEditError("");
-        setEditSuccess(true);
         setFullName(userInputData.firstName + " " + userInputData.lastName);
         onClose();
         form.resetFields();
@@ -105,7 +96,6 @@ const Profile: React.FC = () => {
       .catch((err) => {
         const { data } = err.response;
         setLoading(false);
-        setEditSuccess(false);
         setEditError(data.data.error);
       });
   };
@@ -135,7 +125,7 @@ const Profile: React.FC = () => {
         </h4>
       )}
 
-      {user ? (
+      {authState ? (
         <ProfileCard
           form={form}
           user={user}

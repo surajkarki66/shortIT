@@ -18,7 +18,9 @@ const Account: React.FC = () => {
   const [deleteError, setDeleteError] = useState("");
   const [successPassChange, setSuccessPassChange] = useState(false);
   const [successEmailChange, setSuccessEmailChange] = useState(false);
-  const { userId, token, setStatus, setToken } = useContext(AuthContext);
+  const { userId, token, setStatus, setToken, csrfToken } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
     if (successPassChange) {
@@ -47,6 +49,7 @@ const Account: React.FC = () => {
 
   const changeEmail = (email: string, userId: string, token: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/changeEmail/${userId}`,
       { email },
@@ -75,6 +78,7 @@ const Account: React.FC = () => {
     token: string
   ) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/changePassword/${userId}`,
       {
@@ -114,6 +118,7 @@ const Account: React.FC = () => {
   };
   const deleteAccount = (password: string, userId: string, token: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/deleteUser/${userId}`,
       { password },

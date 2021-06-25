@@ -8,7 +8,7 @@ import UrlForm from "../../components/Forms/UrlForm";
 import UrlResponse from "../../components/UI/Card/UrlResponse";
 
 const CreateUrl: React.FC = () => {
-  const { token } = useContext(AuthContext);
+  const { token, csrfToken } = useContext(AuthContext);
   const [url, setUrl] = useState<UrlType>();
   const [loading, setLoading] = useState(false);
   const [urlError, setUrlError] = useState("");
@@ -22,6 +22,7 @@ const CreateUrl: React.FC = () => {
     }
   };
   const generateUrl = (inputData: { longUrl: string }) => {
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/url/generateUrl", inputData, {
       headers: { Authorization: `Bearer ${token}` },
     })

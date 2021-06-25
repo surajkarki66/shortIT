@@ -4,16 +4,16 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import Axios from "../../axios-url";
 import UrlCard from "../../components/UI/Card/Url";
-import { UserType } from "../../types/User";
+import { UrlType } from "../../types/Url";
 import { AuthContext } from "../../context/AuthContext";
 import { RouteComponentProps, withRouter } from "react-router";
 
 interface PropsType extends RouteComponentProps {
-  user: UserType;
+  urls: UrlType[];
 }
 
 const Url: React.FC<PropsType> = (props) => {
-  const { fullName, token } = useContext(AuthContext);
+  const { fullName, token, csrfToken } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
 
@@ -25,6 +25,7 @@ const Url: React.FC<PropsType> = (props) => {
 
   const handleDeleteOk = (_id: string) => {
     setLoading(true);
+    Axios.defaults.headers.delete["X-CSRF-Token"] = csrfToken;
     Axios.delete(`/api/url/deleteUrl/${_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -48,7 +49,7 @@ const Url: React.FC<PropsType> = (props) => {
     });
   };
 
-  const { urls } = props.user;
+  const { urls } = props;
 
   return (
     <Row>

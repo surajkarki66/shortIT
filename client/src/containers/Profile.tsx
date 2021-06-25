@@ -1,11 +1,10 @@
 import { Button, Drawer, FormInstance } from "antd";
 import React from "react";
 
-import { UserType } from "../types/User";
 import ProfileForm from "../components/Forms/ProfileForm";
 
 type Props = {
-  user: UserType;
+  user: { fullName: string; email: string };
   form: FormInstance<any>;
   status: string;
   loading: boolean;
@@ -30,12 +29,12 @@ const ProfileCard: React.FC<Props> = (props) => {
     onClose,
     status,
   } = props;
-  const { firstName, lastName, email } = user;
+  const { fullName, email } = user;
 
   return (
     <div>
       <div className="card">
-        <h1>{firstName + " " + lastName}</h1>
+        <h1>{fullName}</h1>
         <p className="title">{email}</p>
 
         <p>

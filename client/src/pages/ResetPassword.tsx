@@ -1,9 +1,10 @@
 import { notification, Form } from "antd";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router";
 import { useParams } from "react-router-dom";
 
 import Axios from "../axios-url";
+import { AuthContext } from "../context/AuthContext";
 import ResetPasswordForm from "../components/Forms/ResetPasswordForm";
 
 const ResetPassword: React.FC = () => {
@@ -14,6 +15,7 @@ const ResetPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [resetError, setResetError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const { csrfToken } = useContext(AuthContext);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -25,6 +27,7 @@ const ResetPassword: React.FC = () => {
 
   const resetPassword = (password: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/resetPassword", {
       newPassword: password,
       token: params.token,

@@ -12,6 +12,9 @@ class IndexRoutes {
         this.routes();
     }
     routes() {
+        this.router.get("/csrf-token", (req, res) => {
+            return res.json({ csrfToken: req.csrfToken() });
+        });
         this.router.get("/:code", urlValidation_1.default("checkCode"), common_controller_1.default.goToUrl);
     }
 }

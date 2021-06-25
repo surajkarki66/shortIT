@@ -18,6 +18,7 @@ const express_1 = __importDefault(require("express"));
 const hpp_1 = __importDefault(require("hpp"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+const csurf_1 = __importDefault(require("csurf"));
 const helmet_1 = __importDefault(require("helmet"));
 const compression_1 = __importDefault(require("compression"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
@@ -31,6 +32,7 @@ const common_route_1 = __importDefault(require("./routes/common.route"));
 const logger_1 = __importDefault(require("./utils/logger"));
 class Server {
     constructor() {
+        this.csrfProtection = csurf_1.default({ cookie: true });
         this.app = express_1.default();
         this.middlewares();
         this.routes();
@@ -63,6 +65,7 @@ class Server {
         this.app.use(express_mongo_sanitize_1.default());
         this.app.use(helmet_1.default());
         this.app.use(hpp_1.default());
+        this.app.use(this.csrfProtection);
         this.app.use(httpLogger_1.default);
         this.app.use(compression_1.default({
             level: 6,

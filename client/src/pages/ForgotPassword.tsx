@@ -1,7 +1,8 @@
 import { notification, Form } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import Axios from "../axios-url";
+import { AuthContext } from "../context/AuthContext";
 import ForgotPasswordForm from "../components/Forms/ForgotPasswordForm";
 
 const ForgotPassword: React.FC = () => {
@@ -10,6 +11,7 @@ const ForgotPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [forgotError, setForgotError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const { csrfToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (isSuccess) {
@@ -29,6 +31,7 @@ const ForgotPassword: React.FC = () => {
 
   const forgotPassword = (email: string) => {
     setLoading(true);
+    Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/forgotPassword", { email })
       .then((res) => {
         const { data } = res;

@@ -3,12 +3,12 @@ import { Spin } from "antd";
 
 import Axios from "../axios-url";
 import Url from "../containers/Url/Url";
-import { UserType } from "../types/User";
 import { AuthContext } from "../context/AuthContext";
 
-const HomePage: React.FC = (props) => {
-  const { token, setStatus, setFullName } = useContext(AuthContext);
-  const [user, setUser] = useState<UserType>();
+const HomePage: React.FC = () => {
+  const { token, setStatus, setFullName, urls, setUrls } = useContext(
+    AuthContext
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const HomePage: React.FC = (props) => {
       })
         .then((res) => {
           const { data } = res;
-          setUser(data.data);
+          setUrls(data.data.urls);
           setStatus(data.data.status);
           setFullName(data.data.firstName + " " + data.data.lastName);
           setLoading(false);
@@ -28,12 +28,11 @@ const HomePage: React.FC = (props) => {
           setLoading(false);
         });
     }
-  }, [setFullName, setStatus, token]);
-
+  }, [setFullName, setStatus, token, setUrls]);
   return (
     <div className="landingPage">
-      {user && !loading ? (
-        <Url user={user} />
+      {urls && !loading ? (
+        <Url urls={urls} />
       ) : (
         <div className="spin">
           <Spin tip="Loading..." size="large" />
