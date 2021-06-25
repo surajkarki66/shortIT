@@ -9,8 +9,8 @@
     "start": "node ./dist/app.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "snyk test",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run build && npm run install-client && cd client && npm run build"
+    "install-client": "cd client && yarn install",
+    "heroku-postbuild": "yarn run build && yarn run install-client && cd client && yarn run build"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
