@@ -6,29 +6,25 @@ import Url from "../containers/Url/Url";
 import { AuthContext } from "../context/AuthContext";
 
 const HomePage: React.FC = () => {
-  const { token, setStatus, setFullName, urls, setUrls } = useContext(
-    AuthContext
-  );
+  const { token, setStatus, urls, setUrls } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (token) {
+    const me = async () => {
       setLoading(true);
-      Axios.get("/api/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => {
-          const { data } = res;
-          setUrls(data.data.urls);
-          setStatus(data.data.status);
-          setFullName(data.data.firstName + " " + data.data.lastName);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
+      try {
+        const { data } = await Axios.get("/api/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
         });
-    }
-  }, [setFullName, setStatus, token, setUrls]);
+        setUrls(data.data.urls);
+        setStatus(data.data.status);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+    me();
+  }, [setStatus, token, setUrls]);
   return (
     <div className="landingPage">
       {urls && !loading ? (
