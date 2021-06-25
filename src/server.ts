@@ -20,7 +20,14 @@ import logger from "./utils/logger";
 
 class Server {
   private app: express.Application;
-  private csrfProtection = csrf({ cookie: true });
+  private csrfProtection = csrf({
+    cookie: {
+      maxAge: 1,
+      secure: config.env === "production" ? true : false,
+      httpOnly: config.env === "production" ? true : false,
+      sameSite: config.env === "production" ? true : false,
+    },
+  });
 
   constructor() {
     this.app = express();
