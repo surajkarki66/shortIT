@@ -1,5 +1,5 @@
 import axios from "axios";
-let nodeEnv = "development";
+let nodeEnv = "production";
 const instance = axios.create({
   baseURL:
     nodeEnv === "production"
