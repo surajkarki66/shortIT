@@ -52,6 +52,10 @@ export default function userValidation(method: string): ValidationChain[] {
           .notEmpty()
           .isString()
           .withMessage("Password must be string"),
+        body("rememberMe")
+          .default(false)
+          .isBoolean()
+          .withMessage("rememberMe must be a boolean"),
       ];
     }
     case "forgotPassword": {

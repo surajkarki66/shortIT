@@ -18,6 +18,7 @@ import nodeMailer from "../configs/nodemailer";
 interface ILogin {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 const signup: RequestHandler = async (
@@ -74,7 +75,7 @@ const login: RequestHandler = async (
       next(ApiError.badRequest(msg[0]));
       return;
     }
-    const { email, password }: ILogin = req.body;
+    const { email, password, rememberMe }: ILogin = req.body;
     const user = await User.findByEmail(email);
     if (!user) {
       next(ApiError.badRequest("Email is incorrect."));
@@ -97,14 +98,17 @@ const login: RequestHandler = async (
         statusCode: 200,
         contentType: "application/json",
       };
-      const options = {
-        maxAge: Number(config.jwtExpiresNum),
+      let options: any = {
         secure: config.env === "production" ? true : false,
         httpOnly: config.env === "production" ? true : false,
         sameSite: config.env === "production" ? true : false,
       };
-
       res.cookie("token", accessToken, options);
+
+      if (rememberMe) {
+        options = { ...options, maxAge: Number(config.jwtExpiresNum) };
+        res.cookie("rememberMe", accessToken, options);
+      }
       return writeServerResponse(res, serverResponse);
     } else {
       next(ApiError.badRequest("Incorrect password."));
