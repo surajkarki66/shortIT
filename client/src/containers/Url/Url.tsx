@@ -18,23 +18,25 @@ const Url: React.FC<PropsType> = (props) => {
   const { urls, deleteConfirm, loading } = props;
 
   return (
-    <Row>
+    <div>
       {urls && urls.length !== 0 ? (
         urls.map((url) => (
-          <Col key={url._id} span={24}>
-            <UrlCard
-              key={url._id}
-              url={url}
-              loading={loading}
-              fullName={fullName}
-              deleteConfirm={deleteConfirm}
-            />
-          </Col>
+          <Row>
+            <Col key={url._id} span={24}>
+              <UrlCard
+                key={url._id}
+                url={url}
+                fullName={fullName}
+                deleteConfirm={deleteConfirm}
+                loading={loading}
+              />
+            </Col>
+          </Row>
         ))
       ) : (
         <p style={{ textAlign: "center", fontSize: "20px" }}>No Links</p>
       )}
-    </Row>
+    </div>
   );
 };
 

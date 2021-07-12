@@ -11,11 +11,11 @@ type PropsType = {
   url: UrlType;
   key: string;
   fullName: string;
-  loading: boolean;
   deleteConfirm: (_id: string) => void;
+  loading: boolean;
 };
 const UrlCard: React.FC<PropsType> = (props) => {
-  const { fullName, deleteConfirm } = props;
+  const { fullName, deleteConfirm, loading } = props;
   const { _id, createdAt, title, shortUrl, longUrl, accessedDates } = props.url;
   const [isCopied, setIsCopied] = useState(false);
 
@@ -33,7 +33,7 @@ const UrlCard: React.FC<PropsType> = (props) => {
   }, [isCopied]);
 
   return (
-    <Card>
+    <Card hoverable loading={loading}>
       <Row>
         <Col>
           <h4 style={{ color: "#666666" }}>

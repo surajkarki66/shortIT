@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Spin, Modal } from "antd";
+import { Modal } from "antd";
 
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
@@ -60,12 +60,8 @@ const LinksPage: React.FC<PropsType> = (props) => {
   };
   return (
     <div className="landingPage">
-      {urls && !loading ? (
+      {urls && (
         <Url urls={urls} deleteConfirm={deleteConfirm} loading={loading} />
-      ) : (
-        <div className="spin">
-          <Spin tip="Loading..." size="large" />
-        </div>
       )}
     </div>
   );
