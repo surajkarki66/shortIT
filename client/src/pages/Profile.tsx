@@ -36,7 +36,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     if (success) {
-      notification.info({ message: success });
+      notification.info({ message: success, duration: 3 });
       setSuccess("");
     }
   }, [success]);

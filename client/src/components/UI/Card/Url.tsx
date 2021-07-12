@@ -28,7 +28,7 @@ const UrlCard: React.FC<PropsType> = (props) => {
 
   useEffect(() => {
     if (isCopied) {
-      notification.success({ message: "Copied" });
+      notification.success({ message: "Copied", duration: 2 });
     }
   }, [isCopied]);
 

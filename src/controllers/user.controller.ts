@@ -45,7 +45,6 @@ const signup: RequestHandler = async (
     user = new User(userFromBody);
 
     await user.save();
-
     const result: { status: string; data: IUserDocument } = {
       status: "success",
       data: user,

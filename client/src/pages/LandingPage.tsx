@@ -42,7 +42,7 @@ const LandingPage: React.FC = () => {
   };
   return (
     <React.Fragment>
-      <div className="landingPage">
+      <div style={{ marginTop: 45 }}>
         <UrlForm
           form={form}
           formSubmitHandler={formSubmitHandler}

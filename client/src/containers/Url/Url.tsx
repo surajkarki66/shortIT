@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Row, Col, Modal } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import React, { useContext } from "react";
+import { Row, Col } from "antd";
 
-import Axios from "../../axios-url";
 import UrlCard from "../../components/UI/Card/Url";
 import { UrlType } from "../../types/Url";
 import { AuthContext } from "../../context/AuthContext";
@@ -10,46 +8,14 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 interface PropsType extends RouteComponentProps {
   urls: UrlType[];
+  deleteConfirm: (_id: string) => void;
+  loading: boolean;
 }
 
 const Url: React.FC<PropsType> = (props) => {
-  const { fullName, token, csrfToken } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+  const { fullName } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (isDeleteSuccess) {
-      props.history.push("/home");
-    }
-  }, [isDeleteSuccess, props.history]);
-
-  const handleDeleteOk = (_id: string) => {
-    setLoading(true);
-    Axios.defaults.headers.delete["X-CSRF-Token"] = csrfToken;
-    Axios.delete(`/api/url/deleteUrl/${_id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        setIsDeleteSuccess(true);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
-  };
-
-  const deleteConfirm = (_id: string) => {
-    Modal.confirm({
-      title: "Are you sure to delete this link ?",
-      icon: <ExclamationCircleOutlined />,
-      content: " Then you will permanently loose this link.",
-      okText: "Submit",
-      cancelText: "Cancel",
-      onOk: () => handleDeleteOk(_id),
-    });
-  };
-
-  const { urls } = props;
+  const { urls, deleteConfirm, loading } = props;
 
   return (
     <Row>

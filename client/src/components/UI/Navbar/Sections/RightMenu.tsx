@@ -6,7 +6,7 @@ import {
   withRouter,
   useLocation,
 } from "react-router-dom";
-import { UserOutlined, LinkOutlined } from "@ant-design/icons";
+import { UserOutlined, LinkOutlined, LoadingOutlined } from "@ant-design/icons";
 import { MenuMode } from "antd/lib/menu";
 
 const { SubMenu } = Menu;
@@ -42,15 +42,15 @@ const RightMenu: React.FC<Props> = (props) => {
         <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
           <Menu.Item key="create" style={{ borderBottom: "none" }}>
             <Button type="primary">
-              <Link to="/link/create">
+              <Link to="/links">
                 <LinkOutlined />
-                Create
+                Links
               </Link>
             </Button>
           </Menu.Item>
           <SubMenu
             key="/"
-            icon={<UserOutlined />}
+            icon={fullName ? <UserOutlined /> : <LoadingOutlined />}
             title={fullName ? fullName : null}
             style={{ color: "#87ceeb" }}
           >

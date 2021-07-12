@@ -42,7 +42,7 @@ const CreateUrl: React.FC = () => {
       });
   };
   return (
-    <div style={{ marginTop: 50 }}>
+    <div style={{ marginTop: 45 }}>
       <UrlForm
         form={form}
         formSubmitHandler={formSubmitHandler}

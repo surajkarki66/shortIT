@@ -45,7 +45,7 @@ const EditUrl = () => {
       });
   };
   if (editSuccess) {
-    return <Redirect to="/" />;
+    return <Redirect to="/links" />;
   }
   return (
     <div className="editUrl">

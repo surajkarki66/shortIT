@@ -27,7 +27,6 @@ export default function userValidation(method: string): ValidationChain[] {
         body("email", "Email is required")
           .isEmail()
           .notEmpty()
-          .normalizeEmail()
           .withMessage("Must be a valid email address"),
         body("password", "Password is required")
           .notEmpty()
@@ -46,7 +45,6 @@ export default function userValidation(method: string): ValidationChain[] {
         body("email", "Email is required")
           .isEmail()
           .notEmpty()
-          .normalizeEmail()
           .withMessage("Must be a valid email address"),
         body("password", "Password is required")
           .notEmpty()
