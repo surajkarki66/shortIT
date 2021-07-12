@@ -1,38 +1,34 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { Modal } from "antd";
-
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import Axios from "../axios-url";
 import Url from "../containers/Url/Url";
 import { AuthContext } from "../context/AuthContext";
-import { RouteComponentProps, withRouter } from "react-router";
-interface PropsType extends RouteComponentProps {}
 
-const LinksPage: React.FC<PropsType> = (props) => {
+const LinksPage: React.FC = () => {
   const { token, setStatus, urls, setUrls, csrfToken } = useContext(
     AuthContext
   );
   const [loading, setLoading] = useState(false);
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+
+  const me = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await Axios.get("/api/users/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUrls(data.data.urls);
+      setStatus(data.data.status);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  }, [setStatus, setUrls, token]);
 
   useEffect(() => {
-    const me = async () => {
-      setLoading(true);
-      try {
-        const { data } = await Axios.get("/api/users/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUrls(data.data.urls);
-        setStatus(data.data.status);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    };
     me();
-  }, [setStatus, token, setUrls, isDeleteSuccess]);
-
+  }, [me]);
   const handleDeleteOk = (_id: string) => {
     setLoading(true);
     Axios.defaults.headers.delete["X-CSRF-Token"] = csrfToken;
@@ -40,11 +36,12 @@ const LinksPage: React.FC<PropsType> = (props) => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        setIsDeleteSuccess(true);
         setLoading(false);
+        me();
       })
       .catch((err) => {
         setLoading(false);
+        me();
       });
   };
 
@@ -63,8 +60,11 @@ const LinksPage: React.FC<PropsType> = (props) => {
       {urls && (
         <Url urls={urls} deleteConfirm={deleteConfirm} loading={loading} />
       )}
+      {!loading && urls && urls.length === 0 && (
+        <p style={{ textAlign: "center", fontSize: "20px" }}>No Links</p>
+      )}
     </div>
   );
 };
 
-export default withRouter(LinksPage);
+export default LinksPage;

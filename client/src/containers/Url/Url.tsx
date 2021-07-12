@@ -8,34 +8,30 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 interface PropsType extends RouteComponentProps {
   urls: UrlType[];
-  deleteConfirm: (_id: string) => void;
   loading: boolean;
+  deleteConfirm: (_id: string) => void;
 }
 
 const Url: React.FC<PropsType> = (props) => {
   const { fullName } = useContext(AuthContext);
 
   const { urls, deleteConfirm, loading } = props;
-
   return (
     <div>
-      {urls && urls.length !== 0 ? (
+      {urls &&
         urls.map((url) => (
-          <Row>
+          <Row key={url._id}>
             <Col key={url._id} span={24}>
               <UrlCard
                 key={url._id}
                 url={url}
                 fullName={fullName}
-                deleteConfirm={deleteConfirm}
                 loading={loading}
+                deleteConfirm={deleteConfirm}
               />
             </Col>
           </Row>
-        ))
-      ) : (
-        <p style={{ textAlign: "center", fontSize: "20px" }}>No Links</p>
-      )}
+        ))}
     </div>
   );
 };

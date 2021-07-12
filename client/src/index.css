@@ -109,14 +109,6 @@ code {
   position: fixed;
 }
 
-.spin {
-  margin: 250px 0;
-  padding: 30px 50px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;

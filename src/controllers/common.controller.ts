@@ -24,7 +24,7 @@ const goToUrl: RequestHandler = async (
       const { longUrl } = result[1];
       return res.redirect(longUrl);
     } else {
-      return res.status(404);
+      return res.status(404).send();
     }
   } catch (error) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
