@@ -145,12 +145,9 @@ const logOut: RequestHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  const options = {
-    maxAge: 0,
-    secure: config.env === "production" ? true : false,
-    httpOnly: config.env === "production" ? true : false,
-  };
-  res.cookie("token", "", options).send();
+  res.clearCookie("token");
+  res.clearCookie("rememberMe");
+  res.send();
 };
 
 const loggedIn: RequestHandler = async (
@@ -159,12 +156,24 @@ const loggedIn: RequestHandler = async (
   _next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token;
-    if (!token) return res.send("");
+    let token = req.cookies.token;
+    const rememberMe = req.cookies.rememberMe;
+    if (!rememberMe) {
+      if (!token) return res.send("");
 
-    await verifyToken({ token, secretKey: String(config.jwtSecret) });
+      await verifyToken({ token, secretKey: String(config.jwtSecret) });
 
-    res.send(token);
+      res.send(token);
+    }
+    if (rememberMe) {
+      if (!token) {
+        token = rememberMe;
+        await verifyToken({ token, secretKey: String(config.jwtSecret) });
+        res.send(token);
+      }
+      await verifyToken({ token, secretKey: String(config.jwtSecret) });
+      res.send(token);
+    }
   } catch (err) {
     res.send("");
   }
