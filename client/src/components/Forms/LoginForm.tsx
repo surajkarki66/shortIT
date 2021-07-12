@@ -1,17 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 type Props = {
   loading: boolean;
   loginError: string;
   onFinish: (value: any) => void;
-  onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeCheckBoxHandler: (event: CheckboxChangeEvent) => void;
 };
 
 const LoginForm: React.FC<Props> = (props) => {
-  const { loading, loginError, onFinish, onChangeHandler } = props;
+  const {
+    loading,
+    loginError,
+    onFinish,
+    onChangeHandler,
+    onChangeCheckBoxHandler,
+  } = props;
   return (
     <Form
       style={{
@@ -61,6 +69,14 @@ const LoginForm: React.FC<Props> = (props) => {
           type="password"
           placeholder="Password"
         />
+      </Form.Item>
+      <Form.Item name="rememberMe" valuePropName="unchecked">
+        <Checkbox
+          name="rememberMe"
+          onChange={(event) => onChangeCheckBoxHandler(event)}
+        >
+          Remember me
+        </Checkbox>
       </Form.Item>
       <Form.Item>
         <Link to="/forgotPassword">Forgot password</Link>

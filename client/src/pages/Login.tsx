@@ -5,6 +5,7 @@ import Axios from "../axios-url";
 import { AuthContext } from "../context/AuthContext";
 import LoginForm from "../components/Forms/LoginForm";
 import { UserLoginInputType } from "../types/UserLoginInput";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 const Login: React.FC = () => {
   const { setToken, csrfToken } = useContext(AuthContext);
@@ -12,15 +13,22 @@ const Login: React.FC = () => {
   const [userInputData, setUserInputData] = useState<UserLoginInputType>({
     email: "",
     password: "",
+    rememberMe: false,
   });
   const [loading, setLoading] = useState(false);
   const [successfulLogin, setSuccessfulLogin] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInputData({
       ...userInputData,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const onChangeCheckBox = (event: CheckboxChangeEvent) => {
+    setUserInputData({
+      ...userInputData,
+      [event.target.name as string]: event.target.checked,
     });
   };
 
@@ -60,6 +68,7 @@ const Login: React.FC = () => {
         loginError={loginError}
         onFinish={onFinish}
         onChangeHandler={onChange}
+        onChangeCheckBoxHandler={onChangeCheckBox}
       />
     </div>
   );
