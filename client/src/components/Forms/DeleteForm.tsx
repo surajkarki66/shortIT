@@ -1,18 +1,16 @@
 import React from "react";
-import { Form, Input, Button, FormInstance } from "antd";
+import { Form, Input, Button } from "antd";
 
 type Props = {
-  form: FormInstance<any>;
   loading: boolean;
   deleteError: string;
   onFinish: (value: any) => void;
 };
 
 const DeleteForm: React.FC<Props> = (props) => {
-  const { loading, deleteError, onFinish, form } = props;
+  const { loading, deleteError, onFinish } = props;
   return (
     <Form
-      form={form}
       style={{
         minWidth: "405px",
         fontWeight: "bold",

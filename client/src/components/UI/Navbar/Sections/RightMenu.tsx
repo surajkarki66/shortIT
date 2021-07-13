@@ -26,27 +26,19 @@ const RightMenu: React.FC<Props> = (props) => {
   const { logoutClickHandler, mode, authData, fullName } = props;
   const { token } = authData;
 
-  let menu = (
-    <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
-      <Menu.Item key="register" style={{ borderBottom: "none" }}>
-        <Link to="/register">Register</Link>
-      </Menu.Item>
-      <Menu.Item key="login" style={{ borderBottom: "none" }}>
-        <Link to="/login">Login</Link>
-      </Menu.Item>
-    </Menu>
-  );
-  if (token) {
-    menu = (
-      <>
+  return (
+    <React.Fragment>
+      {token && (
         <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
           <Menu.Item key="create" style={{ borderBottom: "none" }}>
-            <Button type="primary">
-              <Link to="/links">
-                <LinkOutlined />
-                Links
-              </Link>
-            </Button>
+            {fullName && (
+              <Button type="primary">
+                <Link to="/links">
+                  <LinkOutlined />
+                  Links
+                </Link>
+              </Button>
+            )}
           </Menu.Item>
           <SubMenu
             key="/"
@@ -67,11 +59,19 @@ const RightMenu: React.FC<Props> = (props) => {
             </Menu.Item>
           </SubMenu>
         </Menu>
-      </>
-    );
-  }
-
-  return <React.Fragment>{menu}</React.Fragment>;
+      )}
+      {!token && (
+        <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
+          <Menu.Item key="register" style={{ borderBottom: "none" }}>
+            <Link to="/register">Register</Link>
+          </Menu.Item>
+          <Menu.Item key="login" style={{ borderBottom: "none" }}>
+            <Link to="/login">Login</Link>
+          </Menu.Item>
+        </Menu>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default withRouter(RightMenu);

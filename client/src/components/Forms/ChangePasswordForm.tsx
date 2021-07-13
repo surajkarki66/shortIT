@@ -1,10 +1,10 @@
 import React from "react";
-import { Form, Input, Button, FormInstance, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, FormInstance } from "antd";
 
 type Props = {
-  form: FormInstance<any>;
   loading: boolean;
   changeError: string;
+  form: FormInstance<any>;
   onFinish: (value: any) => void;
 };
 

@@ -2,9 +2,9 @@ import React from "react";
 import { Form, Input, Button, FormInstance } from "antd";
 
 type Props = {
-  form: FormInstance<any>;
   loading: boolean;
   changeError: string;
+  form: FormInstance<any>;
   onFinish: (value: any) => void;
 };
 

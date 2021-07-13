@@ -6,13 +6,16 @@ import ChangePasswordForm from "../components/Forms/ChangePasswordForm";
 import ChangeEmailForm from "../components/Forms/ChangeEmailForm";
 import DeleteForm from "../components/Forms/DeleteForm";
 import { AuthContext } from "../context/AuthContext";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
 
 const { Panel } = Collapse;
 
 const Account: React.FC = () => {
-  const [form] = Form.useForm();
+  const [changePassForm] = Form.useForm();
+  const [changeEmailForm] = Form.useForm();
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [panelKey, setPanelKey] = useState<string | string[]>();
   const [changeEmailError, setChangeEmailError] = useState("");
   const [changePassError, setChangePassError] = useState("");
   const [deleteError, setDeleteError] = useState("");
@@ -61,7 +64,7 @@ const Account: React.FC = () => {
         setLoading(false);
         setChangeEmailError("");
         setSuccessEmailChange(true);
-        form.resetFields();
+        changeEmailForm.resetFields();
         await getToken();
       })
       .catch((error) => {
@@ -98,7 +101,7 @@ const Account: React.FC = () => {
           logout();
         }
         setSuccessPassChange(true);
-        form.resetFields();
+        changePassForm.resetFields();
       })
       .catch((error) => {
         const { data } = error.response;
@@ -118,7 +121,7 @@ const Account: React.FC = () => {
     Axios.get("/api/users/logout").then((res) => {
       const { data } = res;
       setToken(data);
-      return <Redirect to="/" />;
+      history.push("/");
     });
   };
   const deleteAccount = (password: string, userId: string, token?: string) => {
@@ -134,6 +137,7 @@ const Account: React.FC = () => {
       .then((res) => {
         setLoading(false);
         setDeleteError("");
+        history.push("/");
         logout();
       })
       .catch((err) => {
@@ -149,10 +153,16 @@ const Account: React.FC = () => {
           <Spin size="large" tip="Loading..." />
         </div>
       ) : (
-        <Collapse>
+        <Collapse
+          defaultActiveKey={panelKey}
+          accordion
+          onChange={(key) => {
+            setPanelKey(key);
+          }}
+        >
           <Panel header="Change Password" key="1">
             <ChangePasswordForm
-              form={form}
+              form={changePassForm}
               loading={loading}
               changeError={changePassError}
               onFinish={onFinishPassChange}
@@ -160,7 +170,7 @@ const Account: React.FC = () => {
           </Panel>
           <Panel header="Change Email" key="2">
             <ChangeEmailForm
-              form={form}
+              form={changeEmailForm}
               loading={loading}
               changeError={changeEmailError}
               onFinish={onFinishEmailChange}
@@ -169,7 +179,6 @@ const Account: React.FC = () => {
           <Panel header="Delete Account" key="3">
             <DeleteForm
               loading={loading}
-              form={form}
               deleteError={deleteError}
               onFinish={onFinishDelete}
             />
