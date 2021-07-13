@@ -41,7 +41,6 @@ const CreateUrl: React.FC = () => {
         form.resetFields();
       });
   };
-  console.log(urls);
   return (
     <div style={{ marginTop: 45 }}>
       {!urls ? (

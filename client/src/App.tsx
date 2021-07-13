@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+
 import Axios from "./axios-url";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
@@ -50,7 +51,6 @@ const App: React.FC = () => {
             path="/user/password-reset/:token"
             component={ResetPassword}
           />
-          <Redirect to="/" />
         </>
       )}
     </Switch>
