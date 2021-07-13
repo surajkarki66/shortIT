@@ -6,7 +6,7 @@ import ChangePasswordForm from "../components/Forms/ChangePasswordForm";
 import ChangeEmailForm from "../components/Forms/ChangeEmailForm";
 import DeleteForm from "../components/Forms/DeleteForm";
 import { AuthContext } from "../context/AuthContext";
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
 
 const { Panel } = Collapse;
 
@@ -118,9 +118,11 @@ const Account: React.FC = () => {
     }
   };
   const logout = () => {
+    setLoading(true);
     Axios.get("/api/users/logout").then((res) => {
       const { data } = res;
       setToken(data);
+      setLoading(false);
       history.push("/");
     });
   };
