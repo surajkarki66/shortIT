@@ -14,22 +14,16 @@ const Account: React.FC = () => {
   const [changePassForm] = Form.useForm();
   const [changeEmailForm] = Form.useForm();
   const history = useHistory();
-  const [loading, setLoading1] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [panelKey, setPanelKey] = useState<string | string[]>();
   const [changeEmailError, setChangeEmailError] = useState("");
   const [changePassError, setChangePassError] = useState("");
   const [deleteError, setDeleteError] = useState("");
   const [successPassChange, setSuccessPassChange] = useState(false);
   const [successEmailChange, setSuccessEmailChange] = useState(false);
-  const {
-    userId,
-    token,
-    getToken,
-    setToken,
-    csrfToken,
-    urls,
-    setLoading,
-  } = useContext(AuthContext);
+  const { userId, token, getToken, setToken, csrfToken, urls } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
     if (successPassChange) {
@@ -57,7 +51,7 @@ const Account: React.FC = () => {
   };
 
   const changeEmail = (email: string, userId: string, token?: string) => {
-    setLoading1(true);
+    setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/changeEmail/${userId}`,
@@ -67,7 +61,7 @@ const Account: React.FC = () => {
       }
     )
       .then(async (res) => {
-        setLoading1(false);
+        setLoading(false);
         setChangeEmailError("");
         setSuccessEmailChange(true);
         changeEmailForm.resetFields();
@@ -75,7 +69,7 @@ const Account: React.FC = () => {
       })
       .catch((error) => {
         const { data } = error.response;
-        setLoading1(false);
+        setLoading(false);
         setSuccessEmailChange(false);
         setChangeEmailError(data.data.error);
       });
@@ -87,7 +81,7 @@ const Account: React.FC = () => {
     loggedIn: boolean,
     token?: string
   ) => {
-    setLoading1(true);
+    setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/changePassword/${userId}`,
@@ -100,7 +94,7 @@ const Account: React.FC = () => {
       }
     )
       .then((res) => {
-        setLoading1(false);
+        setLoading(false);
         setChangePassError("");
         if (!loggedIn) {
           setSuccessPassChange(true);
@@ -111,7 +105,7 @@ const Account: React.FC = () => {
       })
       .catch((error) => {
         const { data } = error.response;
-        setLoading1(false);
+        setLoading(false);
         setSuccessPassChange(false);
         setChangePassError(data.data.error);
       });
@@ -124,16 +118,14 @@ const Account: React.FC = () => {
     }
   };
   const logout = () => {
-    setLoading(true);
     Axios.get("/api/users/logout").then((res) => {
       const { data } = res;
       setToken(data);
-      setLoading(false);
       history.push("/");
     });
   };
   const deleteAccount = (password: string, userId: string, token?: string) => {
-    setLoading1(true);
+    setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
       `/api/users/deleteUser/${userId}`,
@@ -143,14 +135,14 @@ const Account: React.FC = () => {
       }
     )
       .then((res) => {
-        setLoading1(false);
+        setLoading(false);
         setDeleteError("");
         history.push("/");
         logout();
       })
       .catch((err) => {
         const { data } = err.response;
-        setLoading1(false);
+        setLoading(false);
         setDeleteError(data.data.error);
       });
   };

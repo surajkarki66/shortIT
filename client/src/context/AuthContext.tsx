@@ -41,7 +41,6 @@ type AuthContextType = {
   setUrls: React.Dispatch<React.SetStateAction<UrlType[] | undefined>>;
   setCsrfToken: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   getToken: () => Promise<void>;
 };
 
@@ -129,7 +128,6 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       setCsrfToken,
       getToken,
       loading,
-      setLoading,
     }),
     [
       token,
@@ -146,7 +144,6 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       csrfToken,
       getToken,
       loading,
-      setLoading,
     ]
   );
 
