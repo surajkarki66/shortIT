@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const { data } = await Axios.get("/csrf-token");
+      const { data } = await Axios.get("/api/users/csrf-token");
       setCsrfToken(data.csrfToken);
     };
     getCsrfToken();

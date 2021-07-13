@@ -10,9 +10,6 @@ export default class IndexRoutes {
   }
 
   public routes(): void {
-    this.router.get("/csrf-token", (req, res) => {
-      return res.json({ csrfToken: req.csrfToken() });
-    });
     this.router.get("/:code", CommonController.goToUrl);
   }
 }

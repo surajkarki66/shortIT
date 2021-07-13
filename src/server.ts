@@ -39,6 +39,8 @@ class Server {
     // General routes
     this.app.use("/api/users", new UserRoutes().router);
     this.app.use("/api/url", new UrlRoutes().router);
+    // Common routes
+    this.app.use("/u", new CommonRoutes().router);
 
     // Frontend production
     if (config.env === "production") {
@@ -49,8 +51,6 @@ class Server {
         );
       });
     }
-    // Common routes
-    this.app.use("/", new CommonRoutes().router);
 
     // Error handler route
     this.app.use(apiErrorHandler);

@@ -37,7 +37,7 @@ const SERVER = {
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_NUM = process.env.JWT_EXPIRES_NUM;
-const BASE_URL = process.env.BASE_URL || "http://localhost:5000";
+const BASE_URL = process.env.BASE_URL || "http://localhost:5000/u";
 
 const EMAIL = process.env.EMAIL;
 const EMAIL_PASS = process.env.EMAIL_PASS;
