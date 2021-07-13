@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Axios from "./axios-url";
 import "./App.css";
+import Axios from "./axios-url";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/UI/Navbar/Navbar";
 import LandingPage from "./pages/LandingPage";
