@@ -1,4 +1,4 @@
-import { notification, Form } from "antd";
+import { notification, Form, Spin } from "antd";
 import React, { useEffect, useState, useContext } from "react";
 
 import Axios from "../axios-url";
@@ -8,10 +8,10 @@ import ForgotPasswordForm from "../components/Forms/ForgotPasswordForm";
 const ForgotPassword: React.FC = () => {
   const [form] = Form.useForm();
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading] = useState(false);
   const [forgotError, setForgotError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const { csrfToken } = useContext(AuthContext);
+  const { csrfToken, loading } = useContext(AuthContext);
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,15 +52,23 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <div className="forgotPassword">
-      <h1>Enter your email:</h1>
-      <ForgotPasswordForm
-        form={form}
-        email={email}
-        loading={loading}
-        forgotError={forgotError}
-        onFinish={onFinish}
-        onChangeHandler={onChange}
-      />
+      {loading ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <>
+          <h1>Enter your email:</h1>
+          <ForgotPasswordForm
+            form={form}
+            email={email}
+            loading={loading1}
+            forgotError={forgotError}
+            onFinish={onFinish}
+            onChangeHandler={onChange}
+          />
+        </>
+      )}
     </div>
   );
 };

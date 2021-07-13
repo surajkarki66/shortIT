@@ -15,6 +15,7 @@ interface Props extends RouteComponentProps {
   mode?: MenuMode;
   authData: {
     token?: string;
+    loading: boolean;
   };
   fullName: string;
   logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -24,7 +25,7 @@ const RightMenu: React.FC<Props> = (props) => {
   const location = useLocation();
 
   const { logoutClickHandler, mode, authData, fullName } = props;
-  const { token } = authData;
+  const { token, loading } = authData;
 
   return (
     <React.Fragment>
@@ -60,7 +61,7 @@ const RightMenu: React.FC<Props> = (props) => {
           </SubMenu>
         </Menu>
       )}
-      {!token && (
+      {!token && !loading && (
         <Menu defaultSelectedKeys={[location.pathname]} mode={mode}>
           <Menu.Item key="register" style={{ borderBottom: "none" }}>
             <Link to="/register">Register</Link>

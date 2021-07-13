@@ -7,11 +7,9 @@ import Url from "../containers/Url/Url";
 import { AuthContext } from "../context/AuthContext";
 
 const LinksPage: React.FC = () => {
-  const { token, setStatus, urls, setUrls, csrfToken } = useContext(
-    AuthContext
-  );
+  const user = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-
+  const { token, setStatus, urls, setUrls, csrfToken } = user;
   const me = useCallback(async () => {
     setLoading(true);
     try {

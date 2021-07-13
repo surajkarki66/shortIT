@@ -4,6 +4,7 @@ import { withRouter, Redirect } from "react-router";
 import Axios from "../axios-url";
 import { AuthContext } from "../context/AuthContext";
 import RegisterForm from "../components/Forms/RegisterForm";
+import { Spin } from "antd";
 
 type UserRegisterInputType = {
   firstName: string;
@@ -19,10 +20,10 @@ const Register: React.FC = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading] = useState(false);
   const [successfulRegister, setSuccessfulRegister] = useState(false);
   const [registerError, setRegisterError] = useState("");
-  const { csrfToken } = useContext(AuthContext);
+  const { csrfToken, loading } = useContext(AuthContext);
 
   const onFinish = (values: any) => {
     if (values) {
@@ -59,13 +60,21 @@ const Register: React.FC = () => {
 
   return (
     <div className="register">
-      <h1>Register</h1>
-      <RegisterForm
-        loading={loading}
-        registerError={registerError}
-        onFinish={onFinish}
-        onChangeHandler={onChange}
-      />
+      {loading ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <>
+          <h1>Register</h1>
+          <RegisterForm
+            loading={loading1}
+            registerError={registerError}
+            onFinish={onFinish}
+            onChangeHandler={onChange}
+          />
+        </>
+      )}
     </div>
   );
 };

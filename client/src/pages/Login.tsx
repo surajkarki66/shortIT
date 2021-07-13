@@ -6,16 +6,17 @@ import { AuthContext } from "../context/AuthContext";
 import LoginForm from "../components/Forms/LoginForm";
 import { UserLoginInputType } from "../types/UserLoginInput";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import { Spin } from "antd";
 
 const Login: React.FC = () => {
-  const { csrfToken, getToken } = useContext(AuthContext);
+  const { csrfToken, getToken, loading } = useContext(AuthContext);
 
   const [userInputData, setUserInputData] = useState<UserLoginInputType>({
     email: "",
     password: "",
     rememberMe: false,
   });
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading] = useState(false);
   const [successfulLogin, setSuccessfulLogin] = useState(false);
   const [loginError, setLoginError] = useState("");
 
@@ -62,14 +63,22 @@ const Login: React.FC = () => {
 
   return (
     <div className="login">
-      <h1>Login</h1>
-      <LoginForm
-        loading={loading}
-        loginError={loginError}
-        onFinish={onFinish}
-        onChangeHandler={onChange}
-        onChangeCheckBoxHandler={onChangeCheckBox}
-      />
+      {loading ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <>
+          <h1>Login</h1>
+          <LoginForm
+            loading={loading1}
+            loginError={loginError}
+            onFinish={onFinish}
+            onChangeHandler={onChange}
+            onChangeCheckBoxHandler={onChangeCheckBox}
+          />
+        </>
+      )}
     </div>
   );
 };

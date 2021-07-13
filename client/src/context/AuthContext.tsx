@@ -40,6 +40,7 @@ type AuthContextType = {
   setUpdatedAt: React.Dispatch<React.SetStateAction<Date | undefined>>;
   setUrls: React.Dispatch<React.SetStateAction<UrlType[] | undefined>>;
   setCsrfToken: React.Dispatch<React.SetStateAction<string>>;
+  loading: boolean;
   getToken: () => Promise<void>;
 };
 
@@ -60,10 +61,13 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
   const [updatedAt, setUpdatedAt] = useState<Date>();
   const [urls, setUrls] = useState<UrlType[]>();
   const [csrfToken, setCsrfToken] = useState("");
+  const [loading, setLoading] = useState(false);
   const getToken = useCallback(async () => {
     try {
+      setLoading(true);
       const { data } = await Axios.get("/api/users/loggedIn");
       setToken(data);
+      setLoading(false);
       const user = await Axios.get("/api/users/me", {
         headers: { Authorization: `Bearer ${data}` },
       });
@@ -123,33 +127,23 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       csrfToken,
       setCsrfToken,
       getToken,
+      loading,
     }),
     [
       token,
-
       userId,
-
       status,
-
       fullName,
-
       firstName,
-
       lastName,
-
       email,
-
       role,
-
       createdAt,
-
       updatedAt,
-
       urls,
-
       csrfToken,
-
       getToken,
+      loading,
     ]
   );
 

@@ -1,4 +1,4 @@
-import { notification, Form } from "antd";
+import { notification, Form, Spin } from "antd";
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router";
 import { useParams } from "react-router-dom";
@@ -12,10 +12,10 @@ const ResetPassword: React.FC = () => {
 
   const [form] = Form.useForm();
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading] = useState(false);
   const [resetError, setResetError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const { csrfToken } = useContext(AuthContext);
+  const { csrfToken, loading } = useContext(AuthContext);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -56,15 +56,23 @@ const ResetPassword: React.FC = () => {
   }
   return (
     <div className="forgotPassword">
-      <h1>Reset Password</h1>
-      <ResetPasswordForm
-        password={password}
-        form={form}
-        loading={loading}
-        resetError={resetError}
-        onFinish={onFinish}
-        onChangeHandler={onChange}
-      />
+      {loading ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <>
+          <h1>Reset Password</h1>
+          <ResetPasswordForm
+            password={password}
+            form={form}
+            loading={loading1}
+            resetError={resetError}
+            onFinish={onFinish}
+            onChangeHandler={onChange}
+          />
+        </>
+      )}
     </div>
   );
 };
