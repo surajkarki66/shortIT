@@ -5,7 +5,6 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Axios from "../axios-url";
 import Url from "../containers/Url/Url";
 import { AuthContext } from "../context/AuthContext";
-import { Redirect } from "react-router";
 
 const LinksPage: React.FC = () => {
   const { token, setStatus, urls, setUrls, csrfToken } = useContext(
@@ -38,11 +37,11 @@ const LinksPage: React.FC = () => {
     })
       .then(async (res) => {
         setLoading(false);
-        return <Redirect to="/links" />;
+        await me();
       })
       .catch(async (err) => {
         setLoading(false);
-        return <Redirect to="/links" />;
+        await me();
       });
   };
 
