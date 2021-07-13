@@ -32,7 +32,7 @@ const ProfileCard: React.FC<Props> = (props) => {
   const { fullName, email } = user;
 
   return (
-    <div>
+    <div style={{ marginTop: 100 }}>
       <div className="card">
         <h1>{fullName}</h1>
         <p className="title">{email}</p>
@@ -54,7 +54,7 @@ const ProfileCard: React.FC<Props> = (props) => {
         width={250}
         onClose={onClose}
         visible={visible}
-        bodyStyle={{ paddingBottom: 80 }}
+        bodyStyle={{ paddingBottom: 80, overflowX: "hidden" }}
         footer={
           <div
             style={{

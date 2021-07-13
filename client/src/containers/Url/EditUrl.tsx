@@ -1,6 +1,6 @@
 import { Form } from "antd";
 import React, { useContext, useState } from "react";
-import { Redirect, useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 
 import Axios from "../../axios-url";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,6 +9,7 @@ import EditUrlForm from "../../components/Forms/EditUrlForm";
 const EditUrl = () => {
   const params = useParams<{ urlId: string }>();
   const { urlId } = params;
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [editError, setEditError] = useState("");
@@ -21,7 +22,7 @@ const EditUrl = () => {
     e.preventDefault();
     editUrl(title, urlId, token);
   };
-  const editUrl = (title: string, urlId: string, token: string) => {
+  const editUrl = (title: string, urlId: string, token?: string) => {
     setLoading(true);
 
     Axios.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
@@ -45,7 +46,7 @@ const EditUrl = () => {
       });
   };
   if (editSuccess) {
-    return <Redirect to="/links" />;
+    history.push("/links");
   }
   return (
     <div className="editUrl">

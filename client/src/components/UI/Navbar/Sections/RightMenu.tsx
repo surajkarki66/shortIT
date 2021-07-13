@@ -14,7 +14,7 @@ const { SubMenu } = Menu;
 interface Props extends RouteComponentProps {
   mode?: MenuMode;
   authData: {
-    token: string;
+    token?: string;
   };
   fullName: string;
   logoutClickHandler: (event: React.MouseEvent<HTMLAnchorElement>) => void;

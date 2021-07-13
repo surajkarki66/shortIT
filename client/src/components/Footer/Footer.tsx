@@ -4,8 +4,10 @@ import "./Footer.css";
 
 const Footer = () => {
   return (
-    <footer>
-      <p>Copyright © 2021 by ShortIT. All rights reserved.</p>
+    <footer style={{ backgroundColor: "black" }}>
+      <p style={{ color: "white", fontWeight: "bold" }}>
+        Copyright © 2021 by ShortIT. All rights reserved.
+      </p>
     </footer>
   );
 };

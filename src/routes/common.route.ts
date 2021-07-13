@@ -10,11 +10,11 @@ export default class IndexRoutes {
     this.router = Router();
     this.routes();
   }
+
   public routes(): void {
-    this.router.get(
-      "/:code",
-      urlValidation("checkCode"),
-      CommonController.goToUrl
-    );
+    this.router.get("/csrf-token", (req, res) => {
+      return res.json({ csrfToken: req.csrfToken() });
+    });
+    this.router.get("/:code", CommonController.goToUrl);
   }
 }

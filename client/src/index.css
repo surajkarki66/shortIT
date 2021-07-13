@@ -1,9 +1,6 @@
 * {
   -ms-overflow-style: none;
 }
-::-webkit-scrollbar {
-  display: none;
-}
 
 body {
   top: 0;
@@ -29,7 +26,8 @@ code {
 }
 
 .landingPage {
-  margin-top: 30px;
+  margin-top: 0px;
+  margin-bottom: 30px;
 }
 
 .urlResponse {
@@ -39,7 +37,6 @@ code {
   padding: 4rem;
   background-color: white;
   opacity: 0.6;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: space-between;
   flex-direction: column;

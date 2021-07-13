@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, FormInstance } from "antd";
+import { Form, Input, Button, FormInstance, Checkbox } from "antd";
 
 type Props = {
   form: FormInstance<any>;
@@ -81,7 +81,9 @@ const ChangePasswordForm: React.FC<Props> = (props) => {
       >
         <Input.Password placeholder="Enter Confirm Password" />
       </Form.Item>
-
+      <Form.Item name="loggedIn" valuePropName="checked">
+        <Checkbox name="loggedIn">Logged In</Checkbox>
+      </Form.Item>
       <Form.Item>
         <Button
           loading={loading}

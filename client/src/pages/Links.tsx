@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import Axios from "../axios-url";
 import Url from "../containers/Url/Url";
 import { AuthContext } from "../context/AuthContext";
+import { Redirect } from "react-router";
 
 const LinksPage: React.FC = () => {
   const { token, setStatus, urls, setUrls, csrfToken } = useContext(
@@ -35,13 +36,13 @@ const LinksPage: React.FC = () => {
     Axios.delete(`/api/url/deleteUrl/${_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((res) => {
+      .then(async (res) => {
         setLoading(false);
-        me();
+        return <Redirect to="/links" />;
       })
-      .catch((err) => {
+      .catch(async (err) => {
         setLoading(false);
-        me();
+        return <Redirect to="/links" />;
       });
   };
 
@@ -57,11 +58,16 @@ const LinksPage: React.FC = () => {
   };
   return (
     <div className="landingPage">
-      {urls && (
-        <Url urls={urls} deleteConfirm={deleteConfirm} loading={loading} />
+      {urls && !loading && <Url urls={urls} deleteConfirm={deleteConfirm} />}
+      {urls && urls.length === 0 && !loading && (
+        <p style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          No Links
+        </p>
       )}
-      {!loading && urls && urls.length === 0 && (
-        <p style={{ textAlign: "center", fontSize: "20px" }}>No Links</p>
+      {loading && (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
       )}
     </div>
   );

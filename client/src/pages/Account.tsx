@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Collapse, Form, notification } from "antd";
+import { Collapse, Form, notification, Spin } from "antd";
 
 import Axios from "../axios-url";
 import ChangePasswordForm from "../components/Forms/ChangePasswordForm";
@@ -18,7 +18,7 @@ const Account: React.FC = () => {
   const [deleteError, setDeleteError] = useState("");
   const [successPassChange, setSuccessPassChange] = useState(false);
   const [successEmailChange, setSuccessEmailChange] = useState(false);
-  const { userId, token, setStatus, setToken, csrfToken } = useContext(
+  const { userId, token, getToken, setToken, csrfToken, urls } = useContext(
     AuthContext
   );
 
@@ -35,8 +35,8 @@ const Account: React.FC = () => {
 
   const onFinishPassChange = (values: any) => {
     if (values) {
-      const { oldPassword, newPassword } = values;
-      changePassword(oldPassword, newPassword, userId, token);
+      const { oldPassword, newPassword, loggedIn } = values;
+      changePassword(oldPassword, newPassword, userId, loggedIn, token);
     }
   };
 
@@ -47,7 +47,7 @@ const Account: React.FC = () => {
     }
   };
 
-  const changeEmail = (email: string, userId: string, token: string) => {
+  const changeEmail = (email: string, userId: string, token?: string) => {
     setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
@@ -57,12 +57,12 @@ const Account: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       }
     )
-      .then((res) => {
+      .then(async (res) => {
         setLoading(false);
         setChangeEmailError("");
         setSuccessEmailChange(true);
-        setStatus("inactive");
         form.resetFields();
+        await getToken();
       })
       .catch((error) => {
         const { data } = error.response;
@@ -75,7 +75,8 @@ const Account: React.FC = () => {
     oldPassword: string,
     newPassword: string,
     userId: string,
-    token: string
+    loggedIn: boolean,
+    token?: string
   ) => {
     setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
@@ -92,6 +93,10 @@ const Account: React.FC = () => {
       .then((res) => {
         setLoading(false);
         setChangePassError("");
+        if (!loggedIn) {
+          setSuccessPassChange(true);
+          logout();
+        }
         setSuccessPassChange(true);
         form.resetFields();
       })
@@ -116,7 +121,7 @@ const Account: React.FC = () => {
       return <Redirect to="/" />;
     });
   };
-  const deleteAccount = (password: string, userId: string, token: string) => {
+  const deleteAccount = (password: string, userId: string, token?: string) => {
     setLoading(true);
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post(
@@ -138,32 +143,40 @@ const Account: React.FC = () => {
       });
   };
   return (
-    <Collapse>
-      <Panel header="Change Password" key="1">
-        <ChangePasswordForm
-          form={form}
-          loading={loading}
-          changeError={changePassError}
-          onFinish={onFinishPassChange}
-        />
-      </Panel>
-      <Panel header="Change Email" key="2">
-        <ChangeEmailForm
-          form={form}
-          loading={loading}
-          changeError={changeEmailError}
-          onFinish={onFinishEmailChange}
-        />
-      </Panel>
-      <Panel header="Delete Account" key="3">
-        <DeleteForm
-          loading={loading}
-          form={form}
-          deleteError={deleteError}
-          onFinish={onFinishDelete}
-        />
-      </Panel>
-    </Collapse>
+    <>
+      {!urls ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <Collapse>
+          <Panel header="Change Password" key="1">
+            <ChangePasswordForm
+              form={form}
+              loading={loading}
+              changeError={changePassError}
+              onFinish={onFinishPassChange}
+            />
+          </Panel>
+          <Panel header="Change Email" key="2">
+            <ChangeEmailForm
+              form={form}
+              loading={loading}
+              changeError={changeEmailError}
+              onFinish={onFinishEmailChange}
+            />
+          </Panel>
+          <Panel header="Delete Account" key="3">
+            <DeleteForm
+              loading={loading}
+              form={form}
+              deleteError={deleteError}
+              onFinish={onFinishDelete}
+            />
+          </Panel>
+        </Collapse>
+      )}
+    </>
   );
 };
 

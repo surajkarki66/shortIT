@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form } from "antd";
+import { Form, Spin } from "antd";
 
 import Axios from "../../axios-url";
 import { UrlType } from "../../types/Url";
@@ -8,7 +8,7 @@ import UrlForm from "../../components/Forms/UrlForm";
 import UrlResponse from "../../components/UI/Card/UrlResponse";
 
 const CreateUrl: React.FC = () => {
-  const { token, csrfToken } = useContext(AuthContext);
+  const { token, csrfToken, urls } = useContext(AuthContext);
   const [url, setUrl] = useState<UrlType>();
   const [loading, setLoading] = useState(false);
   const [urlError, setUrlError] = useState("");
@@ -41,15 +41,25 @@ const CreateUrl: React.FC = () => {
         form.resetFields();
       });
   };
+  console.log(urls);
   return (
     <div style={{ marginTop: 45 }}>
-      <UrlForm
-        form={form}
-        formSubmitHandler={formSubmitHandler}
-        loading={loading}
-        urlError={urlError}
-      />
-      {url && !loading && <UrlResponse url={url} />}
+      {!urls ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <>
+          <UrlForm
+            form={form}
+            formSubmitHandler={formSubmitHandler}
+            loading={loading}
+            urlError={urlError}
+          />
+
+          {url && !loading && <UrlResponse url={url} />}
+        </>
+      )}
     </div>
   );
 };

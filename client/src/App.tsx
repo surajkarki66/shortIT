@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import Axios from "./axios-url";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
@@ -19,43 +18,44 @@ import { AuthContext } from "./context/AuthContext";
 import CreateUrl from "./containers/Url/CreateUrl";
 
 const App: React.FC = () => {
-  const { token, setCsrfToken } = useContext(AuthContext);
+  const { setCsrfToken, token } = useContext(AuthContext);
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const { data } = await Axios.get("/api/users/csrf-token");
+      const { data } = await Axios.get("/csrf-token");
       setCsrfToken(data.csrfToken);
     };
     getCsrfToken();
   }, [setCsrfToken]);
-  let routes = (
+  const routes = (
     <Switch>
-      <Route exact path="/" component={LandingPage} />
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/forgotPassword" component={ForgotPassword} />
-      <Route
-        exact
-        path="/user/password-reset/:token"
-        component={ResetPassword}
-      />
-      <Route exact path="/user/activate/:token" component={Activate} />
-      <Redirect to="/" />
+      {token && (
+        <>
+          <Route exact path="/" component={CreateUrl} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/account-setting" component={Account} />
+          <Route exact path="/links" component={Links} />
+          <Route exact path="/user/activate/:token" component={Activate} />
+          <Route exact path="/link/edit/:urlId" component={EditUrl} />
+        </>
+      )}
+      {!token && (
+        <>
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/forgotPassword" component={ForgotPassword} />
+          <Route
+            exact
+            path="/user/password-reset/:token"
+            component={ResetPassword}
+          />
+          <Redirect to="/" />
+        </>
+      )}
     </Switch>
   );
-  if (token) {
-    routes = (
-      <Switch>
-        <Route exact path="/" component={CreateUrl} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/account-setting" component={Account} />
-        <Route exact path="/links" component={Links} />
-        <Route exact path="/user/activate/:token" component={Activate} />
-        <Route exact path="/link/edit/:urlId" component={EditUrl} />
-        <Redirect to="/" />
-      </Switch>
-    );
-  }
+
   return (
     <div
       style={{

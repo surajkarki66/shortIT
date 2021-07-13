@@ -8,7 +8,7 @@ import { UserLoginInputType } from "../types/UserLoginInput";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 const Login: React.FC = () => {
-  const { setToken, csrfToken } = useContext(AuthContext);
+  const { csrfToken, getToken } = useContext(AuthContext);
 
   const [userInputData, setUserInputData] = useState<UserLoginInputType>({
     email: "",
@@ -40,13 +40,13 @@ const Login: React.FC = () => {
   const login = (inputData: UserLoginInputType) => {
     Axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
     Axios.post("/api/users/login", inputData)
-      .then((res) => {
+      .then(async (res) => {
         const { data } = res;
         if (data) {
           setLoading(false);
           setLoginError("");
           setSuccessfulLogin(true);
-          setToken(data);
+          await getToken();
         }
       })
       .catch((error) => {

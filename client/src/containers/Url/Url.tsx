@@ -8,14 +8,13 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 interface PropsType extends RouteComponentProps {
   urls: UrlType[];
-  loading: boolean;
   deleteConfirm: (_id: string) => void;
 }
 
 const Url: React.FC<PropsType> = (props) => {
   const { fullName } = useContext(AuthContext);
 
-  const { urls, deleteConfirm, loading } = props;
+  const { urls, deleteConfirm } = props;
   return (
     <div>
       {urls &&
@@ -26,7 +25,6 @@ const Url: React.FC<PropsType> = (props) => {
                 key={url._id}
                 url={url}
                 fullName={fullName}
-                loading={loading}
                 deleteConfirm={deleteConfirm}
               />
             </Col>

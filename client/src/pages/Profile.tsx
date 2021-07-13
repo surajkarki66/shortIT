@@ -21,7 +21,6 @@ const Profile: React.FC = () => {
   const [sendLoading, setSendLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [editError, setEditError] = useState("");
-  const authState = useContext(AuthContext);
   const {
     status,
     token,
@@ -30,7 +29,8 @@ const Profile: React.FC = () => {
     fullName,
     email,
     csrfToken,
-  } = authState;
+    urls,
+  } = useContext(AuthContext);
   const user = { fullName, email };
   const [visible, setVisible] = useState(false);
 
@@ -125,7 +125,7 @@ const Profile: React.FC = () => {
         </h4>
       )}
 
-      {authState ? (
+      {urls ? (
         <ProfileCard
           form={form}
           user={user}
@@ -139,8 +139,8 @@ const Profile: React.FC = () => {
           onClose={onClose}
         />
       ) : (
-        <div className="spin">
-          <Spin tip="Loading..." size="large" />
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
         </div>
       )}
     </div>

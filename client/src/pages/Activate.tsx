@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router";
 import { useParams } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Axios from "../axios-url";
 import { AuthContext } from "../context/AuthContext";
 const Activate: React.FC = () => {
-  const { csrfToken } = useContext(AuthContext);
+  const { csrfToken, urls } = useContext(AuthContext);
   const params = useParams<{ token: string }>();
 
   const [loading, setLoading] = useState(false);
@@ -36,16 +36,25 @@ const Activate: React.FC = () => {
   };
 
   if (isSuccess) {
-    return <Redirect to="/" />;
+    return <Redirect to="/links" />;
   }
   return (
-    <div className="verifyEmail">
-      <h1>Activate your account</h1>
-      <Button onClick={onClickActiveBtn} loading={loading}>
-        {loading ? "" : "Activate"}
-      </Button>
-      {verificationError && <h4>{verificationError}</h4>}
-    </div>
+    <>
+      {!urls ? (
+        <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          <Spin size="large" tip="Loading..." />
+        </div>
+      ) : (
+        <div className="verifyEmail">
+          <h1>Activate your account</h1>
+          <Button onClick={onClickActiveBtn} loading={loading}>
+            {loading ? "" : "Activate"}
+          </Button>
+          {verificationError && <h4>{verificationError}</h4>}
+        </div>
+      )}
+      );
+    </>
   );
 };
 
