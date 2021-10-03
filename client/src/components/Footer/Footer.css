@@ -1,6 +1,5 @@
 footer {
-  height: 2.6rem;
-  padding: 1rem;
+  height: 1.5rem;
   background-color: white;
   position: fixed;
   bottom: 0;
@@ -9,6 +8,8 @@ footer {
 }
 
 footer p {
+  margin-top: 0.2rem;
   text-align: center;
   color: black;
+  font-size: 13px;
 }
