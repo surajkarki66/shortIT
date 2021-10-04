@@ -17,7 +17,7 @@
     "@types/react-router": "^5.1.13",
     "@types/react-router-dom": "^5.1.7",
     "antd": "^4.15.4",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
