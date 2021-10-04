@@ -14,7 +14,7 @@
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "private": false,
   "dependencies": {
     "bcrypt": "^5.0.1",
