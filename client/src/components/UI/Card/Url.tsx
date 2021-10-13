@@ -36,7 +36,8 @@ const UrlCard: React.FC<PropsType> = (props) => {
       <Row>
         <Col>
           <h4 style={{ color: "#666666" }}>
-            CREATED &nbsp;&nbsp;{moment(createdAt).format("LLL")}&nbsp; | &nbsp;{" "}
+            CREATED &nbsp;&nbsp;{moment(new Date(createdAt)).format("LLL")}
+            &nbsp; | &nbsp;{" "}
             <p style={{ display: "inline", color: "#5280e9" }}>{fullName}</p>{" "}
           </h4>
           <h2>{title ? title : longUrl}</h2>
@@ -53,7 +54,9 @@ const UrlCard: React.FC<PropsType> = (props) => {
             <BarChartOutlined />
             {accessedDates && accessedDates.length >= 1 ? (
               <p style={{ fontSize: 12 }}>
-                {moment(accessedDates[accessedDates.length - 1]).fromNow()}
+                {moment(
+                  new Date(accessedDates[accessedDates.length - 1])
+                ).fromNow()}
               </p>
             ) : (
               <p style={{ fontSize: 12 }}>Not Accessed</p>
