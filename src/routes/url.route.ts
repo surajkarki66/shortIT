@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import { authenticate, permit } from "../middlewares/auth";
-import { onlyActiveUserCanDoThis } from "../middlewares/permissions/userPermissions";
 import { onlyOwnerCanDoThis } from "../middlewares/permissions/urlPermissions";
 import urlValidation from "../middlewares/validations/urlValidation";
 import UrlController from "../controllers/url.controller";
@@ -18,7 +17,7 @@ export default class UrlRoutes {
     this.router.post(
       "/generateUrl",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       urlValidation("generateUrl"),
       UrlController.generateShortUrl
     );
@@ -30,7 +29,7 @@ export default class UrlRoutes {
     this.router.patch(
       "/updateUrl/:urlId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       urlValidation("updateUrl"),
       UrlController.updateUrl
@@ -38,7 +37,7 @@ export default class UrlRoutes {
     this.router.delete(
       "/deleteUrl/:urlId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       urlValidation("deleteUrl"),
       UrlController.deleteUrl

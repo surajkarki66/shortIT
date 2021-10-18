@@ -33,7 +33,7 @@ export default class UserRoutes {
     this.router.post(
       "/verifyEmail",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       userValidation("verifyEmail"),
       showDataValidationError,
@@ -47,7 +47,7 @@ export default class UserRoutes {
     this.router.post(
       "/changeEmail/:userId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       userValidation("changeEmail"),
       showDataValidationError,
@@ -56,7 +56,7 @@ export default class UserRoutes {
     this.router.post(
       "/changePassword/:userId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       userValidation("changePassword"),
       showDataValidationError,
@@ -65,7 +65,7 @@ export default class UserRoutes {
     this.router.post(
       "/changeUserDetails/:userId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       userValidation("changeUserDetails"),
       showDataValidationError,
@@ -74,7 +74,7 @@ export default class UserRoutes {
     this.router.post(
       "/deleteUser/:userId",
       authenticate,
-      permit(["user"]),
+      permit(["subscriber"]),
       onlyOwnerCanDoThis,
       userValidation("deleteUser"),
       showDataValidationError,
@@ -82,7 +82,12 @@ export default class UserRoutes {
     );
     this.router.get("/logout", UserController.logOut);
     this.router.get("/loggedIn", UserController.loggedIn);
-    this.router.get("/me", authenticate, permit(["user"]), UserController.me);
+    this.router.get(
+      "/me",
+      authenticate,
+      permit(["subscriber"]),
+      UserController.me
+    );
     this.router.get("/csrf-token", (req, res) => {
       return res.json({ csrfToken: req.csrfToken() });
     });

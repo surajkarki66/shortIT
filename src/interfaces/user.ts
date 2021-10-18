@@ -2,7 +2,7 @@ import { Document, Model, Schema } from "mongoose";
 
 export enum ROLE {
   admin = "admin",
-  user = "user",
+  subscriber = "subscriber",
 }
 
 export enum STATUS {
