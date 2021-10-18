@@ -9,12 +9,33 @@ import {
 
 const urlSchema = new Schema<IUrl>(
   {
-    title: { type: String, min: 1, max: 255 },
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    longUrl: { type: String, required: true },
-    shortUrl: { type: String, required: true },
-    code: { type: String, required: true, min: 6, max: 6 },
-    accessedDates: Array,
+    title: { type: String, min: 1, max: 255, trim: true },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "userId is required"],
+    },
+    longUrl: {
+      type: String,
+      trim: true,
+      required: [true, "longUrl is required"],
+    },
+    shortUrl: {
+      type: String,
+      trim: true,
+      required: [true, "shortUrl is required"],
+    },
+    code: {
+      type: String,
+      trim: true,
+      required: [true, "code is required"],
+      min: 6,
+      max: 6,
+    },
+    accessedDates: {
+      type: [Date],
+      default: [],
+    },
   },
   { timestamps: true }
 );

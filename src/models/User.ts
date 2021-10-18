@@ -14,31 +14,33 @@ export const userSchema = new Schema<IUser>(
   {
     firstName: {
       type: String,
+      trim: true,
       min: 2,
       max: 32,
-      required: true,
+      required: [true, "firstName is required"],
     },
     lastName: {
       type: String,
+      trim: true,
       min: 2,
       max: 32,
-      required: true,
+      required: [true, "lastName is required"],
     },
 
     email: {
       type: String,
       trim: true,
-      required: true,
+      required: [true, "email is required"],
       unique: true,
       lowercase: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "password is required"],
     },
     role: {
       type: String,
-      default: "user",
+      default: "subscriber",
       enum: ROLE,
     },
     status: {
