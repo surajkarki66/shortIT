@@ -34,11 +34,9 @@ const LinksPage: React.FC = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (res) => {
-        setLoading(false);
         await me();
       })
       .catch(async (err) => {
-        setLoading(false);
         await me();
       });
   };
@@ -56,11 +54,6 @@ const LinksPage: React.FC = () => {
   return (
     <div className="landingPage">
       {urls && !loading && <Url urls={urls} deleteConfirm={deleteConfirm} />}
-      {urls && urls.length === 0 && !loading && (
-        <p style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
-          No Links
-        </p>
-      )}
       {loading && (
         <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
           <Spin size="large" tip="Loading..." />

@@ -28,7 +28,7 @@ const Url: React.FC<PropsType> = (props) => {
 
   return (
     <div>
-      {urls &&
+      {urls.length !== 0 ? (
         _DATA.currentData().map((url: UrlType) => (
           <Row key={url._id}>
             <Col key={url._id} span={24}>
@@ -40,7 +40,12 @@ const Url: React.FC<PropsType> = (props) => {
               />
             </Col>
           </Row>
-        ))}
+        ))
+      ) : (
+        <p style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
+          No Links
+        </p>
+      )}
       <div
         style={{
           display: "flex",
@@ -48,13 +53,15 @@ const Url: React.FC<PropsType> = (props) => {
           marginBottom: "30px",
         }}
       >
-        <AppPagination
-          handleChange={handleChange}
-          page={page}
-          noOfPages={count}
-          itemsPerPage={itemsPerPage}
-          totalItems={urls.length}
-        />
+        {urls.length !== 0 && (
+          <AppPagination
+            handleChange={handleChange}
+            page={page}
+            noOfPages={count}
+            itemsPerPage={itemsPerPage}
+            totalItems={urls.length}
+          />
+        )}
       </div>
     </div>
   );
