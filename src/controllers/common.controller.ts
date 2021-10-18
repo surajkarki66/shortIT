@@ -26,7 +26,7 @@ const goToUrl: RequestHandler = async (
     } else {
       return res.status(404).json("No URL Found");
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }

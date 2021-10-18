@@ -56,7 +56,7 @@ const signup: RequestHandler = async (
     };
 
     return writeServerResponse(res, serverResponse);
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -113,7 +113,7 @@ const login: RequestHandler = async (
       next(ApiError.badRequest("Incorrect password."));
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -133,7 +133,7 @@ const me = async (req: Request, res: Response, next: NextFunction) => {
     }
     next(ApiError.notFound("User not found"));
     return;
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -242,7 +242,7 @@ const forgotPassword: RequestHandler = async (
       next(ApiError.notFound("User with that email does not exist"));
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -295,7 +295,7 @@ const resetPassword: RequestHandler = async (
     }
     next(ApiError.notFound(data.message));
     return;
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -378,7 +378,7 @@ const verifyEmail: RequestHandler = async (
       next(ApiError.notFound("User doesn't exist."));
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -429,7 +429,7 @@ const activation: RequestHandler = async (
       next(ApiError.notFound(data.message));
       return;
     }
-  } catch (err) {
+  } catch (err: any) {
     next(ApiError.internal(`Something went wrong. ${err.message}`));
     return;
   }
@@ -509,7 +509,7 @@ const changeEmail: RequestHandler = async (
       next(ApiError.notFound(data.message));
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong. ${error.message}`));
     return;
   }
@@ -559,7 +559,7 @@ const changePassword: RequestHandler = async (
     }
     next(ApiError.notFound("User doesn't exist."));
     return;
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong. ${error.message}`));
     return;
   }
@@ -595,7 +595,7 @@ const changeUserDetails: RequestHandler = async (
       next(ApiError.notFound(data.message));
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong. ${error.message}`));
     return;
   }
@@ -633,7 +633,7 @@ const deleteUser: RequestHandler = async (
     }
     next(ApiError.notFound("User doesn't exist."));
     return;
-  } catch (e) {
+  } catch (e: any) {
     next(ApiError.internal(`Something went wrong: ${e.message}`));
     return;
   }

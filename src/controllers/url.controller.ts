@@ -64,7 +64,7 @@ const generateShortUrl: RequestHandler = async (
     }
     next(ApiError.notFound("IP address not found"));
     return;
-  } catch (error) {
+  } catch (error: any) {
     const { code } = error;
     if (code === "ENOTFOUND" || "ERR_INVALID_URL") {
       next(
@@ -111,7 +111,7 @@ const updateUrl: RequestHandler = async (
     }
     next(ApiError.notFound(data.message));
     return;
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
@@ -145,7 +145,7 @@ const deleteUrl: RequestHandler = async (
     }
     next(ApiError.notFound(data.message));
     return;
-  } catch (error) {
+  } catch (error: any) {
     next(ApiError.internal(`Something went wrong: ${error.message}`));
     return;
   }
