@@ -6,7 +6,6 @@ import ProfileForm from "../components/Forms/ProfileForm";
 type Props = {
   user: { fullName: string; email: string };
   form: FormInstance<any>;
-  status: string;
   loading: boolean;
   editError: string;
   visible: boolean;
@@ -27,7 +26,6 @@ const ProfileCard: React.FC<Props> = (props) => {
     showDrawer,
     visible,
     onClose,
-    status,
   } = props;
   const { fullName, email } = user;
 
