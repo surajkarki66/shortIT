@@ -9,6 +9,7 @@ type Props = {
   loading: boolean;
   editError: string;
   visible: boolean;
+  status: string;
   showDrawer: () => void;
   onClose: () => void;
   onFinish: (values: any) => void;
@@ -26,6 +27,7 @@ const ProfileCard: React.FC<Props> = (props) => {
     showDrawer,
     visible,
     onClose,
+    status,
   } = props;
   const { fullName, email } = user;
 
@@ -37,6 +39,7 @@ const ProfileCard: React.FC<Props> = (props) => {
 
         <p>
           <Button
+            disabled={status === "active" ? false : true}
             size="small"
             style={{ marginBottom: "5px" }}
             type="primary"

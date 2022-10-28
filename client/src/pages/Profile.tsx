@@ -136,6 +136,7 @@ const Profile: React.FC = () => {
           visible={visible}
           showDrawer={showDrawer}
           onClose={onClose}
+          status={status}
         />
       ) : (
         <div style={{ textAlign: "center", fontSize: "20px", marginTop: 200 }}>
