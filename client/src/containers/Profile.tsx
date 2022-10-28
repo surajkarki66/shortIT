@@ -39,7 +39,6 @@ const ProfileCard: React.FC<Props> = (props) => {
 
         <p>
           <Button
-            disabled={status === "active" ? false : true}
             size="small"
             style={{ marginBottom: "5px" }}
             type="primary"
