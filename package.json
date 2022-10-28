@@ -26,7 +26,6 @@
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.2",
     "express-validator": "^6.10.0",
-    "googleapis": "^81.0.0",
     "helmet": "^4.4.1",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
