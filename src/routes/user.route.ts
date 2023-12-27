@@ -3,7 +3,10 @@ import { Router } from "express";
 import userValidation from "../middlewares/validations/userValidation";
 import UserController from "../controllers/user.controller";
 import { authenticate, permit } from "../middlewares/auth";
-import { onlyOwnerCanDoThis } from "../middlewares/permissions/userPermissions";
+import {
+  onlyOwnerCanDoThis,
+  onlyActiveUserCanDoThis,
+} from "../middlewares/permissions/userPermissions";
 import showDataValidationError from "../middlewares/showDataValidationError";
 
 export default class UserRoutes {
@@ -67,6 +70,7 @@ export default class UserRoutes {
       authenticate,
       permit(["subscriber"]),
       onlyOwnerCanDoThis,
+      onlyActiveUserCanDoThis,
       userValidation("changeUserDetails"),
       showDataValidationError,
       UserController.changeUserDetails
