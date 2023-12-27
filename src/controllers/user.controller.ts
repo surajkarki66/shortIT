@@ -1,4 +1,3 @@
-import { google } from "googleapis";
 import { ROLE } from "./../interfaces/user";
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction, RequestHandler } from "express";
@@ -193,18 +192,7 @@ const forgotPassword: RequestHandler = async (
     const { email }: IUserDocument = req.body;
     const user = await User.findByEmail(email);
     if (user) {
-      const oAuth2Client = new google.auth.OAuth2(
-        config.oauth.CLIENT_ID,
-        config.oauth.CLIENT_SECRET,
-        config.oauth.REDIRECT_URI
-      );
-
-      oAuth2Client.setCredentials({
-        refresh_token: config.oauth.REFRESH_TOKEN,
-      });
-
-      const accessToken = await oAuth2Client.getAccessToken();
-      const transporter = await nodeMailer(accessToken);
+      const transporter = await nodeMailer();
       const { _id, role } = user;
       const payload = { _id: _id.toString(), role };
       const token = signToken(payload, "5m");
@@ -315,18 +303,7 @@ const verifyEmail: RequestHandler = async (
       const { _id, status, email, role } = user;
 
       if (status === "inactive") {
-        const oAuth2Client = new google.auth.OAuth2(
-          config.oauth.CLIENT_ID,
-          config.oauth.CLIENT_SECRET,
-          config.oauth.REDIRECT_URI
-        );
-
-        oAuth2Client.setCredentials({
-          refresh_token: config.oauth.REFRESH_TOKEN,
-        });
-
-        const accessToken = await oAuth2Client.getAccessToken();
-        const transporter = await nodeMailer(accessToken);
+        const transporter = await nodeMailer();
         const payload = { _id: _id.toString(), role };
         const token = signToken(payload, "5m");
         const mailOptions = {
@@ -459,18 +436,7 @@ const changeEmail: RequestHandler = async (
       updateObject
     );
     if (success) {
-      const oAuth2Client = new google.auth.OAuth2(
-        config.oauth.CLIENT_ID,
-        config.oauth.CLIENT_SECRET,
-        config.oauth.REDIRECT_URI
-      );
-
-      oAuth2Client.setCredentials({
-        refresh_token: config.oauth.REFRESH_TOKEN,
-      });
-
-      const accessToken = await oAuth2Client.getAccessToken();
-      const transporter = await nodeMailer(accessToken);
+      const transporter = await nodeMailer();
       const newRole = <ROLE>role;
       const payload = { _id: id, role: newRole };
       const token = signToken(payload, "5m");

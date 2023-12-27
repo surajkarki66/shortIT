@@ -6,10 +6,10 @@ import ProfileForm from "../components/Forms/ProfileForm";
 type Props = {
   user: { fullName: string; email: string };
   form: FormInstance<any>;
-  status: string;
   loading: boolean;
   editError: string;
   visible: boolean;
+  status: string;
   showDrawer: () => void;
   onClose: () => void;
   onFinish: (values: any) => void;
