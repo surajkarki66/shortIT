@@ -36,6 +36,13 @@ class Server {
   }
 
   private routes(): void {
+    // Home route
+    this.app.use("/", (_, res) => {
+      return res.status(200).json({
+        status: "success",
+        message: "Welcome to the ShortIT API!!!",
+      });
+    });
     // General routes
     this.app.use("/api/users", new UserRoutes().router);
     this.app.use("/api/url", new UrlRoutes().router);
