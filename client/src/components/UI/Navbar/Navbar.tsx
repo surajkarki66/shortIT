@@ -11,7 +11,7 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {
   const [visible, setVisible] = useState(false);
-  const { token, setToken, fullName, loading } = useContext(AuthContext);
+  const { token, setToken, fullName, setFullName, loading } = useContext(AuthContext);
   const authData = { token, loading };
   const showDrawer = () => {
     setVisible(true);
@@ -24,6 +24,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
     Axios.get("/api/users/logout").then((res) => {
       const { data } = res;
       setToken(data);
+      setFullName("");
       props.history.push("/");
     });
   };
