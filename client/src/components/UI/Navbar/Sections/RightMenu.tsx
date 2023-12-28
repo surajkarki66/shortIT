@@ -45,6 +45,7 @@ const RightMenu: React.FC<Props> = (props) => {
           <SubMenu
             key="/"
             icon={loading ? <LoadingOutlined /> : <UserOutlined />}
+            title={fullName ? fullName : "Profile"}
             style={{ color: "#87ceeb" }}
           >
             <Menu.Item key="profile_settings">
