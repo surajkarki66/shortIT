@@ -8,8 +8,6 @@ dotenv_1.default.config();
 const MONGO_OPTIONS = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex: true,
-    keepAlive: true,
     socketTimeoutMS: 3000,
     connectTimeoutMS: 3000,
 };
