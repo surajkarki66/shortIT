@@ -6,4 +6,4 @@ If users registered in our site. They can also get more information about their 
 
 ![screenshot_20210502_202404](https://user-images.githubusercontent.com/50628520/116817195-ef138a00-ab84-11eb-888c-32bee1343665.png)
 
-Link to the website: https://web-production-1f15.up.railway.app/
+Link to the website: https://shortit-zme7.onrender.com/
