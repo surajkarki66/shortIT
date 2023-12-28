@@ -10,7 +10,7 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "snyk test",
     "install-client": "cd client && yarn install",
-    "render-postbuild": "yarn run build && yarn run install-client && cd client && yarn run build"
+    "render-postbuild": "yarn install && yarn run build && yarn run install-client && cd client && yarn run build"
   },
   "repository": "https://github.com/surajkarki66/shortIT.git",
   "author": "surajkarki66 <suraj.karki500@protonmail.com>",
