@@ -10,7 +10,7 @@ import { UserOutlined, LinkOutlined, LoadingOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 
-type MenuMode = "vertical"   | "horizontal" | "inline"
+type MenuMode = "vertical" | "horizontal" | "inline";
 
 interface Props extends RouteComponentProps {
   mode?: MenuMode;
@@ -44,8 +44,16 @@ const RightMenu: React.FC<Props> = (props) => {
           </Menu.Item>
           <SubMenu
             key="/"
-            icon={fullName ? <UserOutlined /> : <LoadingOutlined />}
-            title={fullName ? fullName : <UserOutlined />}
+            icon={
+              fullName && !loading ? (
+                <UserOutlined />
+              ) : loading ? (
+                <LoadingOutlined />
+              ) : (
+                <UserOutlined />
+              )
+            }
+            title={fullName ? fullName : ""}
             style={{ color: "#87ceeb" }}
           >
             <Menu.Item key="profile_settings">
