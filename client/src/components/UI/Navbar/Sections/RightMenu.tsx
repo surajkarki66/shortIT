@@ -44,15 +44,7 @@ const RightMenu: React.FC<Props> = (props) => {
           </Menu.Item>
           <SubMenu
             key="/"
-            icon={
-              fullName && !loading ? (
-                <UserOutlined />
-              ) : loading ? (
-                <LoadingOutlined />
-              ) : (
-                <UserOutlined />
-              )
-            }
+            icon={loading ? <LoadingOutlined /> : <UserOutlined />}
             title={fullName ? fullName : ""}
             style={{ color: "#87ceeb" }}
           >
