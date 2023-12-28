@@ -27,7 +27,8 @@ const RightMenu: React.FC<Props> = (props) => {
 
   const { logoutClickHandler, mode, authData, fullName } = props;
   const { token, loading } = authData;
-
+  console.log(fullName);
+  console.log(loading);
   return (
     <React.Fragment>
       {token && (
@@ -44,21 +45,33 @@ const RightMenu: React.FC<Props> = (props) => {
           </Menu.Item>
           <SubMenu
             key="/"
-            icon={loading ? <LoadingOutlined /> : <UserOutlined />}
-            title={fullName ? fullName : "Profile"}
-            style={{ color: "#87ceeb" }}
+            icon={
+              loading && fullName === "" ? (
+                <LoadingOutlined />
+              ) : (
+                <>
+                  <UserOutlined title="User" /> {fullName}
+                </>
+              )
+            }
+            style={{ color: "#87ceeb", borderBottom: "none", border: "none" }}
           >
-            <Menu.Item key="profile_settings">
-              <Link to="/profile">Profile Settings</Link>
-            </Menu.Item>
-            <Menu.Item key="account_settings">
-              <Link to="/account-setting">Account Settings</Link>
-            </Menu.Item>
-            <Menu.Item key="logout">
-              <Link to="/" onClick={logoutClickHandler}>
-                Log Out
-              </Link>
-            </Menu.Item>
+            {fullName && (
+              <>
+                {" "}
+                <Menu.Item key="profile_settings">
+                  <Link to="/profile">Profile Settings</Link>
+                </Menu.Item>
+                <Menu.Item key="account_settings">
+                  <Link to="/account-setting">Account Settings</Link>
+                </Menu.Item>
+                <Menu.Item key="logout">
+                  <Link to="/" onClick={logoutClickHandler}>
+                    Log Out
+                  </Link>
+                </Menu.Item>
+              </>
+            )}
           </SubMenu>
         </Menu>
       )}
