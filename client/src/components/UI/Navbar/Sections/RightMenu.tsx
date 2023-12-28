@@ -7,9 +7,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import { UserOutlined, LinkOutlined, LoadingOutlined } from "@ant-design/icons";
-import { MenuMode } from "antd/lib/menu";
 
 const { SubMenu } = Menu;
+
+type MenuMode = "vertical"   | "horizontal" | "inline"
 
 interface Props extends RouteComponentProps {
   mode?: MenuMode;
