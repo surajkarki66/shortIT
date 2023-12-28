@@ -45,13 +45,6 @@ class Server {
         this.database();
     }
     routes() {
-        // Home route
-        this.app.use("/", (_, res) => {
-            return res.status(200).json({
-                status: "success",
-                message: "Welcome to the ShortIT API!!!",
-            });
-        });
         // General routes
         this.app.use("/api/users", new user_route_1.default().router);
         this.app.use("/api/url", new url_route_1.default().router);
