@@ -53,7 +53,7 @@
     ]
   },
   "engine": {
-    "node": "14.x",
+    "node": "18.x",
     "npm": "7.x"
   },
   "devDependencies": {}
