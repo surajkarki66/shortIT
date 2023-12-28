@@ -99,9 +99,9 @@ urlSchema.static(
       this.updateOne({ _id: urlId }, { $set: data })
         .then((res: any) => {
           {
-            const { nModified } = res;
+            const { modifiedCount } = res;
             let result: IUrlDaoResponse;
-            if (nModified === 1) {
+            if (modifiedCount === 1) {
               result = {
                 success: true,
                 data: { message: "Url is updated successfully" },

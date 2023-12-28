@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const MONGO_OPTIONS = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
     socketTimeoutMS: 3000,
     connectTimeoutMS: 3000,
 };

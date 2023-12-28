@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const MONGO_OPTIONS = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
   socketTimeoutMS: 3000,
   connectTimeoutMS: 3000,
 };

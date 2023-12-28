@@ -107,13 +107,12 @@ exports.userSchema.static("findMe", function (id) {
 exports.userSchema.static("updateById", function (id, data) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
-            const userId = new mongoose_1.Types.ObjectId(id);
-            this.updateOne({ _id: userId }, { $set: data })
+            this.updateOne({ _id: id }, { $set: data })
                 .then((res) => {
                 {
-                    const { nModified } = res;
+                    const { modifiedCount } = res;
                     let result;
-                    if (nModified === 1) {
+                    if (modifiedCount === 1) {
                         result = {
                             success: true,
                             data: { message: "User is updated successfully" },
@@ -138,8 +137,7 @@ exports.userSchema.static("updateById", function (id, data) {
 exports.userSchema.static("deleteById", function (id) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
-            const userId = new mongoose_1.Types.ObjectId(id);
-            this.deleteOne({ _id: userId })
+            this.deleteOne({ _id: id })
                 .then((res) => {
                 const { deletedCount } = res;
                 let result;

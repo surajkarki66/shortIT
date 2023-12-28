@@ -106,13 +106,12 @@ userSchema.static(
   "updateById",
   async function (id: string, data: any): Promise<IUserDaoResponse> {
     return new Promise((resolve, reject) => {
-      const userId = new Types.ObjectId(id);
-      this.updateOne({ _id: userId }, { $set: data })
+      this.updateOne({ _id: id }, { $set: data })
         .then((res: any) => {
           {
-            const { nModified } = res;
+            const { modifiedCount } = res;
             let result: IUserDaoResponse;
-            if (nModified === 1) {
+            if (modifiedCount === 1) {
               result = {
                 success: true,
                 data: { message: "User is updated successfully" },
@@ -139,8 +138,7 @@ userSchema.static(
   "deleteById",
   async function (id: string): Promise<IUserDaoResponse> {
     return new Promise((resolve, reject) => {
-      const userId = new Types.ObjectId(id);
-      this.deleteOne({ _id: userId })
+      this.deleteOne({ _id: id })
         .then((res: any) => {
           const { deletedCount } = res;
           let result: IUserDaoResponse;

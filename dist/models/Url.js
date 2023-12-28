@@ -89,9 +89,9 @@ urlSchema.static("updateById", function (id, data) {
             this.updateOne({ _id: urlId }, { $set: data })
                 .then((res) => {
                 {
-                    const { nModified } = res;
+                    const { modifiedCount } = res;
                     let result;
-                    if (nModified === 1) {
+                    if (modifiedCount === 1) {
                         result = {
                             success: true,
                             data: { message: "Url is updated successfully" },

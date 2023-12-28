@@ -43,7 +43,7 @@ class Server {
     this.app.use("/u", new CommonRoutes().router);
 
     // Frontend production
-    if (config.env === "production") {
+    if (config.env === "development") {
       this.app.use(
         express.static(path.resolve(__dirname, "../client", "build"))
       );

@@ -51,7 +51,7 @@ class Server {
         // Common routes
         this.app.use("/u", new common_route_1.default().router);
         // Frontend production
-        if (config_1.default.env === "production") {
+        if (config_1.default.env === "development") {
             this.app.use(express_1.default.static(path_1.default.resolve(__dirname, "../client", "build")));
             this.app.get("*", (req, res) => {
                 res.sendFile(path_1.default.resolve(__dirname, "../client", "build", "index.html"));
