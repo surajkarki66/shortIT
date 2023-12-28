@@ -83,7 +83,7 @@ const login: RequestHandler = async (
     if (await newUser.comparePassword(password)) {
       const payload = {
         _id: newUser._id.toString(),
-        role: newUser.role,
+        role: newUser.role as ROLE,
       };
 
       const accessToken = signToken(payload, config.jwtExpiresNum);
@@ -194,7 +194,7 @@ const forgotPassword: RequestHandler = async (
     if (user) {
       const transporter = await nodeMailer();
       const { _id, role } = user;
-      const payload = { _id: _id.toString(), role };
+      const payload = { _id: _id.toString(), role: role as ROLE };
       const token = signToken(payload, "5m");
       const mailOptions = {
         from: config.nodeMailer.email,
@@ -304,7 +304,7 @@ const verifyEmail: RequestHandler = async (
 
       if (status === "inactive") {
         const transporter = await nodeMailer();
-        const payload = { _id: _id.toString(), role };
+        const payload = { _id: _id.toString(), role: role as ROLE };
         const token = signToken(payload, "5m");
         const mailOptions = {
           from: config.nodeMailer.email,

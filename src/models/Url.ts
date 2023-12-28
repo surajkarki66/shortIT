@@ -43,7 +43,7 @@ const urlSchema = new Schema<IUrl>(
 urlSchema.static(
   "findByLongUrlAndUserId",
   async function (longUrl: string, id: string): Promise<IUrlDocument> {
-    const userId = Types.ObjectId(id);
+    const userId = new Types.ObjectId(id);
     return await this.findOne({ longUrl, userId });
   }
 );
@@ -66,7 +66,7 @@ urlSchema.static(
   "deleteById",
   async function (id: string): Promise<IUrlDaoResponse> {
     return new Promise((resolve, reject) => {
-      const urlId = Types.ObjectId(id);
+      const urlId = new Types.ObjectId(id);
       this.deleteOne({ _id: urlId })
         .then((res: any) => {
           const { deletedCount } = res;
@@ -95,7 +95,7 @@ urlSchema.static(
   "updateById",
   async function (id: string, data: any): Promise<IUrlDaoResponse> {
     return new Promise((resolve, reject) => {
-      const urlId = Types.ObjectId(id);
+      const urlId = new Types.ObjectId(id);
       this.updateOne({ _id: urlId }, { $set: data })
         .then((res: any) => {
           {
@@ -125,7 +125,7 @@ urlSchema.static(
 );
 
 urlSchema.static("deleteByUserId", async function (userId: string) {
-  return await this.deleteMany({ userId: Types.ObjectId(userId) });
+  return await this.deleteMany({ userId: new Types.ObjectId(userId) });
 });
 const UrlModel: IUrlModel = model<IUrl, IUrlModel>("Url", urlSchema);
 

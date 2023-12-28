@@ -16,8 +16,8 @@ export interface IUserDocument extends Document {
   lastName: string;
   email: string;
   password: string;
-  status: STATUS;
-  readonly role: ROLE;
+  status: STATUS | string;
+  readonly role: ROLE | string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }

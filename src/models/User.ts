@@ -82,7 +82,7 @@ userSchema.static(
 userSchema.static("findMe", async function (id: string): Promise<
   IUserDocument[]
 > {
-  const userId = Types.ObjectId(id);
+  const userId = new Types.ObjectId(id);
   const pipeline = [
     {
       $match: {
@@ -106,7 +106,7 @@ userSchema.static(
   "updateById",
   async function (id: string, data: any): Promise<IUserDaoResponse> {
     return new Promise((resolve, reject) => {
-      const userId = Types.ObjectId(id);
+      const userId = new Types.ObjectId(id);
       this.updateOne({ _id: userId }, { $set: data })
         .then((res: any) => {
           {
@@ -139,7 +139,7 @@ userSchema.static(
   "deleteById",
   async function (id: string): Promise<IUserDaoResponse> {
     return new Promise((resolve, reject) => {
-      const userId = Types.ObjectId(id);
+      const userId = new Types.ObjectId(id);
       this.deleteOne({ _id: userId })
         .then((res: any) => {
           const { deletedCount } = res;
