@@ -145,7 +145,7 @@ const logOut: RequestHandler = (
 ) => {
   res.clearCookie("token");
   res.clearCookie("rememberMe");
-  res.send();
+  return res.send();
 };
 
 const loggedIn: RequestHandler = async (
@@ -161,19 +161,19 @@ const loggedIn: RequestHandler = async (
 
       await verifyToken({ token, secretKey: String(config.jwtSecret) });
 
-      res.send(token);
+      return res.send(token);
     }
     if (rememberMe) {
       if (!token) {
         token = rememberMe;
         await verifyToken({ token, secretKey: String(config.jwtSecret) });
-        res.send(token);
+        return res.send(token);
       }
       await verifyToken({ token, secretKey: String(config.jwtSecret) });
-      res.send(token);
+      return res.send(token);
     }
   } catch (err) {
-    res.send("");
+    return res.send("");
   }
 };
 
