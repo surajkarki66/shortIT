@@ -130,7 +130,7 @@ const me = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
 const logOut = (_req, res, _next) => {
     res.clearCookie("token");
     res.clearCookie("rememberMe");
-    res.send();
+    return res.send();
 };
 const loggedIn = (req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -140,20 +140,20 @@ const loggedIn = (req, res, _next) => __awaiter(void 0, void 0, void 0, function
             if (!token)
                 return res.send("");
             yield jwtHelper_1.verifyToken({ token, secretKey: String(config_1.default.jwtSecret) });
-            res.send(token);
+            return res.send(token);
         }
         if (rememberMe) {
             if (!token) {
                 token = rememberMe;
                 yield jwtHelper_1.verifyToken({ token, secretKey: String(config_1.default.jwtSecret) });
-                res.send(token);
+                return res.send(token);
             }
             yield jwtHelper_1.verifyToken({ token, secretKey: String(config_1.default.jwtSecret) });
-            res.send(token);
+            return res.send(token);
         }
     }
     catch (err) {
-        res.send("");
+        return res.send("");
     }
 });
 const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
