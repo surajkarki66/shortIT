@@ -1,0 +1,1 @@
+export const baseURL = "https://shortit-zme7.onrender.com"
