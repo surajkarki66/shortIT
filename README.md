@@ -10,6 +10,10 @@ If users registered in our site. They can also get more information about their 
 [Click Here](https://shortit-zme7.onrender.com/)
 
 ## Local Preview
+Clone this repository
+```bash
+   git clone https://github.com/surajkarki66/shortIT
+```
 
 ### a. Backend
 1. Make sure you have Node.js installed on your local machine.
